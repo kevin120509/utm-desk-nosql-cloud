@@ -53,8 +53,8 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [ ] **R06 [R] Recorrido E2E por rol.** UI ↔ API ↔ Atlas con los 4 roles. *Hecho cuando:* informe final del revisor (qué probó, qué falló, qué se corrigió).
 
 ## Hito 7 — Despliegue
-- [ ] **B16 [B] API en Vercel.** `api/index.js`, `vercel.json`, variables de entorno. *Hecho cuando:* `/api/health` y un login real responden en la URL pública.
-- [ ] **F09 [F] Web en Vercel.** *Hecho cuando:* la URL pública entra, inicia sesión y lista incidencias del Atlas real.
+- [ ] **B16 [B] API en Vercel.** (desplegada en https://utm-desk-api.vercel.app; BLOQUEADA: Atlas rechaza a Vercel por Network Access; falta que Kevin agregue 0.0.0.0/0 y repetir health, login y `test:api` con `API_URL`) `api/index.js`, `vercel.json`, variables de entorno. *Hecho cuando:* `/api/health` y un login real responden en la URL pública.
+- [ ] **F09 [F] Web en Vercel.** (desplegada en https://utm-desk-web.vercel.app, el bundle apunta a la API de producción y las rutas de la SPA funcionan; falta comprobar login real cuando la API conecte a Atlas) *Hecho cuando:* la URL pública entra, inicia sesión y lista incidencias del Atlas real.
 
 ## Hito 8 — Documentos finales
 - [ ] **D03 [D] Capturas.** Atlas (documentos, índices, validador), UI por pantalla, Postman (URL, método, cabeceras, status y payload). *Hecho cuando:* imágenes nítidas en `docs/capturas/`.
