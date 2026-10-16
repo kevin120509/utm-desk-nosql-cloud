@@ -213,12 +213,29 @@ ${tabla(
 <p>Con una consulta <code>explain("executionStats")</code> se comprobó que los listados, la búsqueda, el código y las incidencias del reportante usan índice:</p>
 ${tabla("Planes de ejecución observados en Atlas", ["Consulta", "Plan y documentos examinados"], explain.map(([a, b]) => [esc(a), esc(b)]))}
 
-<h2 class="nuevo">Conclusiones individuales</h2>
-${integrantes
-  .map(
-    (n) =>
-      `<h3>${esc(n)}</h3><p><span class="pend">[Conclusión individual: redactar en primera persona, de 120 a 200 palabras, sobre el caso de uso defendido, lo aprendido de modelado documental y una dificultad resuelta.]</span></p>`,
-  )
+<h2 class="nuevo">Distribución del trabajo</h2>
+<p>El proyecto se repartió por caso de uso del enunciado para que cada integrante defienda una parte completa: desde la interfaz hasta la operación de MongoDB que la respalda. Todos conocen a grandes rasgos las partes de los demás.</p>
+${tabla(
+  "Parte del proyecto que defiende cada integrante",
+  ["Integrante", "Casos de uso y parte", "Archivos principales"],
+  [
+    [esc(integrantes[3]), "CU-01 Alta de incidencias y contador; arquitectura, seguridad y despliegue", "<code>registrarIncidencia.js</code>, <code>contadorMongo.js</code>, <code>aplicacion.js</code>, <code>api/index.js</code>"],
+    [esc(integrantes[0]), "CU-03 Estado, bitácora y concurrencia; roles y banco de pruebas", "<code>actualizarEstado.js</code>, <code>transiciones.js</code>, <code>incidenciasRepo.js</code>, colección Postman"],
+    [esc(integrantes[1]), "CU-02 Evidencias en Supabase y CU-04 Etiquetas", "<code>cargarEvidencia.js</code>, <code>detectarTipo.js</code>, <code>almacenSupabase.js</code>, <code>etiquetasRepo.js</code>"],
+    [esc(integrantes[2]), "CU-05 Búsqueda, CU-06 Analítica y CU-07 Depuración; índices y datos de ejemplo", "<code>buscarIncidencias.js</code>, <code>analiticaRepo.js</code>, <code>indices.js</code>, <code>demo-ttl.js</code>"],
+  ],
+)}
+<p>La guía de defensa del repositorio (<code>docs/guia-defensa.md</code>) reúne para cada integrante un guion breve, las preguntas probables con su respuesta, los cambios que podrían pedirle en vivo con el archivo donde se hacen y la prueba que los comprueba.</p>
+
+<h2>Conclusiones individuales</h2>
+<p><span class="pend">Borrador de ejemplo: cada integrante debe reescribir su conclusión con sus propias palabras antes de entregar.</span></p>
+${[
+  [integrantes[3], "Mi parte fue el alta de incidencias y la arquitectura. Aprendí que un modelo documental con un campo polimórfico exige validar en dos capas: Zod ofrece errores claros al usuario y el <code>$jsonSchema</code> protege la colección aunque alguien la modifique sin pasar por la API. También entendí por qué el contador atómico con <code>$inc</code> y <code>upsert</code> evita números repetidos sin necesidad de transacciones. La mayor dificultad fue desplegar la API en Vercel: Atlas rechazaba las conexiones hasta que ajustamos el acceso de red, y aprendimos a manejar variables de entorno sensibles y límites de tamaño de petición. Considero que separar dominio, aplicación e infraestructura nos permitió probar cada regla sin depender de la base."],
+  [integrantes[0], "Mi parte fue el cambio de estado y la bitácora. Aprendí que la condición de carrera se resuelve incluyendo el estado leído en el filtro de un único <code>updateOne</code>, de modo que si otra persona lo cambió no se escribe nada y se responde 409. Entendí que la bitácora, las horas y la fecha de resolución deben actualizarse en la misma operación para que el documento nunca quede a medias. La dificultad principal fue demostrar el 409 de forma confiable: en la interfaz depende del azar, así que lo probamos con dos cambios simultáneos contra Atlas. También armé la colección de Postman, que nos dio una forma repetible de comprobar códigos 200, 400, 401, 403, 404 y 409."],
+  [integrantes[1], "Mi parte fue la carga de evidencias y las etiquetas. Aprendí que no se debe confiar en la extensión ni en el tipo que declara el navegador: leemos los primeros bytes del archivo para conocer su tipo real y así rechazamos un ejecutable renombrado como imagen. Entendí por qué los binarios viven en un depósito privado de Supabase y en Mongo solo se guardan los metadatos, y cómo las URL firmadas caducan y se regeneran en cada consulta. En las etiquetas aprendí que <code>$addToSet</code> evita duplicados sin lógica adicional. La dificultad fue evitar archivos huérfanos cuando falla alguno de los dos pasos, por lo que borramos el objeto si Mongo no registra la evidencia."],
+  [integrantes[2], "Mi parte fue la búsqueda, la analítica y la depuración automática. Aprendí que un índice de texto en español con pesos permite encontrar «filtraciones» al buscar «filtración» y ordenar por relevancia, y que <code>explain()</code> confirma el uso del índice. Los pipelines de agregación me mostraron cómo transformar datos con <code>$match</code>, <code>$dateDiff</code>, <code>$group</code> y <code>$unwind</code> sin sacar los datos de la base. Del índice TTL entendí que Mongo borra por sí mismo cuando se cumple el plazo y que el proceso de limpieza corre cada cierto tiempo, por lo que la demostración no es instantánea. La dificultad fue generar datos de ejemplo coherentes que cumplieran las condiciones del enunciado y verificarlos con un script."],
+]
+  .map(([n, t]) => `<h3>${esc(n)}</h3><p>${t}</p>`)
   .join("")}
 
 <h1 class="nuevo">Referencias</h1>
