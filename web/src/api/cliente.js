@@ -15,12 +15,12 @@ export class ErrorApi extends Error {
   }
 }
 
-async function peticion(metodo, ruta, cuerpo) {
+async function peticion(metodo, ruta, cuerpo, signal) {
   const cabeceras = {};
   const sesion = leerSesion();
   if (sesion?.token) cabeceras.Authorization = `Bearer ${sesion.token}`;
 
-  const opciones = { method: metodo, headers: cabeceras };
+  const opciones = { method: metodo, headers: cabeceras, signal };
   if (cuerpo instanceof FormData) {
     opciones.body = cuerpo; // el navegador pone el boundary multipart
   } else if (cuerpo !== undefined) {
@@ -31,7 +31,9 @@ async function peticion(metodo, ruta, cuerpo) {
   let respuesta;
   try {
     respuesta = await fetch(`${BASE}${ruta}`, opciones);
-  } catch {
+  } catch (e) {
+    // Una petición cancelada con AbortController no es un error de red.
+    if (e?.name === "AbortError") throw e;
     throw new ErrorApi({
       codigo: "RED",
       mensaje: "No se pudo conectar con el servidor. Revisa tu conexión.",
@@ -66,7 +68,8 @@ async function peticion(metodo, ruta, cuerpo) {
 }
 
 export const api = {
-  get: (ruta) => peticion("GET", ruta),
+  // `signal` (opcional) permite cancelar la petición con AbortController.
+  get: (ruta, signal) => peticion("GET", ruta, undefined, signal),
   post: (ruta, cuerpo) => peticion("POST", ruta, cuerpo),
   patch: (ruta, cuerpo) => peticion("PATCH", ruta, cuerpo),
   delete: (ruta) => peticion("DELETE", ruta),

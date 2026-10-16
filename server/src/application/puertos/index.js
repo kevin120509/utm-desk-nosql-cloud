@@ -33,4 +33,11 @@
  * @property {(token: string) => {sub: string, rol: string, nombre: string}} verificar  Lanza si es inválido o expiró.
  */
 
+/**
+ * Puerto del contador de incidencias (atómico; el adaptador usa `$inc` en MongoDB).
+ * @typedef {Object} Contador
+ * @property {(categoria: string, fecha: Date) => Promise<number>} siguienteDiario  Consecutivo del día (zona America/Merida) por categoría, desde 1.
+ * @property {(anio: number) => Promise<number>} siguienteAnual                     Consecutivo anual para el código INC-AAAA-NNNN, desde 1.
+ */
+
 export {};
