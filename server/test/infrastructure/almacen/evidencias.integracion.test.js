@@ -147,13 +147,21 @@ describe.skipIf(!hayEntorno)("evidencias (Supabase + Atlas reales)", () => {
     const ev = await cargar(sesion, codigo, { originalname: "diagnostico.pdf", buffer: PDF, size: PDF.length });
     rutasSubidas.push(ev.storage_path);
     expect(ev.tipo_mime).toBe("application/pdf");
-    expect((await listarObjetos(codigo)).length).toBe(2);
+
+    // El bucket es compartido con el seed real (que también usa carpetas INC-AAAA-NNNN):
+    // solo se comprueban los objetos de ESTA prueba, nunca los ajenos.
+    const nombreDe = (ruta) => ruta.split("/").pop();
+    const propios = (await colInc.findOne({ codigo })).evidencias_adjuntas.map((e) => nombreDe(e.storage_path));
+    expect(propios).toHaveLength(2);
+    const antes = await listarObjetos(codigo);
+    for (const n of propios) expect(antes).toContain(n);
 
     const eliminar = eliminarIncidencia({ incidenciasRepo: new IncidenciasRepoMongo(colInc), almacen });
     await eliminar({ id: sesion.id, rol: "coordinador" }, codigo);
 
     expect(await colInc.findOne({ codigo })).toBeNull();
-    expect(await listarObjetos(codigo)).toEqual([]);
+    const despues = await listarObjetos(codigo);
+    for (const n of propios) expect(despues).not.toContain(n);
     rutasSubidas = []; // ya no quedan objetos que limpiar
   }, 90000);
 });

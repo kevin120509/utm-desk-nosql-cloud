@@ -31,7 +31,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **R01 [R] Revisión del bloque de casos de uso.** (hecho 2026-10-15: `docs/revision-R01.md`; 322 tests; 1 hallazgo corregido, 2 pendientes para R05/B16) Pruebas de integración de B05–B12 contra Atlas (base de pruebas). *Hecho cuando:* `npm test` verde y lista de hallazgos entregada al backend.
 
 ## Hito 4 — Datos y TTL [B]
-- [ ] **B13 Seed.** (script `db:seed` y `db:verify` escritos y probados con `--dry-run` y contra el `$jsonSchema` real; FALTA ejecutar `npm run db:seed -- --yes` con "aprobado" de Kevin) `db-seed.js` con usuarios, archivos de muestra en el bucket y 24 incidencias (plan §9). *Hecho cuando:* conteos por categoría, estado, prioridad, edificios, resueltas (≥8) y con evidencias (≥15) cumplen el enunciado (script de verificación incluido).
+- [x] **B13 Seed.** (hecho 2026-10-15 con "aprobado" de Kevin: `npm run db:seed -- --yes` en `utmdesk`; `db:verify` 16/16 OK; prueba de humo del API con datos reales) `db-seed.js` con usuarios, archivos de muestra en el bucket y 24 incidencias (plan §9). *Hecho cuando:* conteos por categoría, estado, prioridad, edificios, resueltas (≥8) y con evidencias (≥15) cumplen el enunciado (script de verificación incluido).
 - [ ] **B14 RF-11 TTL.** `demo-ttl.js` (61 días vs 59 días). *Hecho cuando:* el de 61 días desaparece en ≤ 2 min y el de 59 permanece.
 - [ ] **B15 Entregables de BD.** `db-export.js` genera `entregables/incidencias_campus.json` y `entregables/script-maestro.js` (mongosh: validador, índices, inserts). *Hecho cuando:* el script maestro corre en una base vacía y reproduce lo mismo.
 
