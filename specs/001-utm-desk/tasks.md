@@ -28,10 +28,10 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **B10 RF-09 Búsqueda.** (hecho 2026-10-15: "filtración" encuentra "filtraciones"; explain con TEXT_MATCH) `GET /incidencias/buscar`. *Hecho cuando:* "filtración" encuentra "filtraciones", ordenado por `score`, `explain()` con etapa `TEXT`.
 - [x] **B11 RF-10 Analítica.** (hecho 2026-10-15: pipelines contra números calculados a mano en Atlas; la comparación con el seed queda en B13) Los dos pipelines y sus rutas. *Hecho cuando:* los números coinciden con el cálculo a mano del seed.
 - [x] **B12 RF-12 Editar y borrar.** (hecho 2026-10-15: 267 tests; el borrado de archivos del bucket usa `AlmacenNulo` hasta B09) `PATCH /:codigo` y `DELETE /:codigo` (borra también los archivos del bucket). *Hecho cuando:* 200 en ambos y 403 para técnico.
-- [ ] **R01 [R] Revisión del bloque de casos de uso.** Pruebas de integración de B05–B12 contra Atlas (base de pruebas). *Hecho cuando:* `npm test` verde y lista de hallazgos entregada al backend.
+- [x] **R01 [R] Revisión del bloque de casos de uso.** (hecho 2026-10-15: `docs/revision-R01.md`; 322 tests; 1 hallazgo corregido, 2 pendientes para R05/B16) Pruebas de integración de B05–B12 contra Atlas (base de pruebas). *Hecho cuando:* `npm test` verde y lista de hallazgos entregada al backend.
 
 ## Hito 4 — Datos y TTL [B]
-- [ ] **B13 Seed.** `db-seed.js` con usuarios, archivos de muestra en el bucket y 24 incidencias (plan §9). *Hecho cuando:* conteos por categoría, estado, prioridad, edificios, resueltas (≥8) y con evidencias (≥15) cumplen el enunciado (script de verificación incluido).
+- [ ] **B13 Seed.** (script `db:seed` y `db:verify` escritos y probados con `--dry-run` y contra el `$jsonSchema` real; FALTA ejecutar `npm run db:seed -- --yes` con "aprobado" de Kevin) `db-seed.js` con usuarios, archivos de muestra en el bucket y 24 incidencias (plan §9). *Hecho cuando:* conteos por categoría, estado, prioridad, edificios, resueltas (≥8) y con evidencias (≥15) cumplen el enunciado (script de verificación incluido).
 - [ ] **B14 RF-11 TTL.** `demo-ttl.js` (61 días vs 59 días). *Hecho cuando:* el de 61 días desaparece en ≤ 2 min y el de 59 permanece.
 - [ ] **B15 Entregables de BD.** `db-export.js` genera `entregables/incidencias_campus.json` y `entregables/script-maestro.js` (mongosh: validador, índices, inserts). *Hecho cuando:* el script maestro corre en una base vacía y reproduce lo mismo.
 

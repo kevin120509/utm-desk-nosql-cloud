@@ -67,6 +67,16 @@ describe("login", () => {
     expect(e1.message).toBe(e2.message);
     expect(e2.message).toBe(e3.message);
   });
+
+  it("siempre hace una comparación bcrypt, incluso si el correo no existe (sin filtrar tiempos)", async () => {
+    const llamadas = [];
+    const espia = { comparar: async (plano, hash) => (llamadas.push(hash), false) };
+    const repo = { buscarPorCorreo: async () => null, buscarPorId: async () => null };
+    const sinUsuario = autenticar({ usuariosRepo: repo, hasher: espia, tokens: { firmar: () => "t", verificar: () => ({}) } });
+    await error(sinUsuario.login("nadie@utm.mx", "lo-que-sea"));
+    expect(llamadas).toHaveLength(1);
+    expect(llamadas[0]).toMatch(/^\$2[aby]\$10\$/); // un hash bcrypt válido de relleno
+  });
 });
 
 describe("usuarioDesdeToken", () => {
