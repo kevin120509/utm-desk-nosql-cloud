@@ -151,7 +151,7 @@ describe("GET /api/incidencias/:codigo", () => {
     const a = await get("/api/incidencias/INC-2026-9999", tokenTec);
     expect(a.status).toBe(404);
     expect(a.body.error.codigo).toBe("NO_ENCONTRADO");
-    const b = await get("/api/incidencias/buscar", tokenTec);
+    const b = await get("/api/incidencias/no-es-codigo", tokenTec);
     expect(b.status).toBe(404);
   });
 

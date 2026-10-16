@@ -15,3 +15,13 @@ export const consultaListaSchema = z.strictObject({
 
 // Forma del código público: INC-AAAA-NNNN (ver codigo.js).
 export const PATRON_CODIGO = /^INC-\d{4}-\d{4,}$/;
+
+// Búsqueda textual (RF-09, CU-05): `q` obligatorio, 1..100 caracteres tras recortar espacios.
+// strictObject: cualquier otro parámetro es un error 400.
+export const consultaBusquedaSchema = z.strictObject({
+  q: z
+    .string({ error: 'El texto de búsqueda es obligatorio' })
+    .trim()
+    .min(1, 'El texto de búsqueda no puede estar vacío')
+    .max(100, 'El texto de búsqueda admite máximo 100 caracteres'),
+});

@@ -4,15 +4,16 @@ import helmet from "helmet";
 import cors from "cors";
 import { rutasAuth } from "./rutas/auth.js";
 import { rutasIncidencias } from "./rutas/incidencias.js";
+import { rutasEtiquetas } from "./rutas/etiquetas.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 
 /**
  * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
- *          incidencias?: {registrar: Function, listar: Function, obtener: Function, actualizarEstado: Function}}} [dependencias]
+ *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function}}} [dependencias]
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */
-export function crearApp({ auth, incidencias } = {}) {
+export function crearApp({ auth, incidencias, etiquetas } = {}) {
   const app = express();
 
   app.use(helmet());
@@ -29,6 +30,11 @@ export function crearApp({ auth, incidencias } = {}) {
   // Las rutas de incidencias necesitan autenticación y los casos de uso inyectados.
   if (auth && incidencias) {
     app.use("/api/incidencias", rutasIncidencias({ auth, incidencias }));
+  }
+
+  // Etiquetas (POST/DELETE /:codigo/tags): router propio montado bajo el mismo prefijo.
+  if (auth && etiquetas) {
+    app.use("/api/incidencias", rutasEtiquetas({ auth, etiquetas }));
   }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.

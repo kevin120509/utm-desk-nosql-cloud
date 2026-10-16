@@ -59,6 +59,22 @@ export class IncidenciasRepoMongo {
     return { datos, total };
   }
 
+  /**
+   * Búsqueda textual (RF-09) con el índice `idx_texto_es` (español, raíces; título pesa más).
+   * Devuelve los documentos con `score`, de mayor a menor relevancia.
+   * @param {{q: string, propietarioId?: string, limite: number}} opciones
+   * @returns {Promise<object[]>}
+   */
+  async buscarTexto({ q, propietarioId, limite }) {
+    const filtro = { $text: { $search: q } };
+    if (propietarioId) filtro["reportante.usuario_id"] = new ObjectId(propietarioId);
+    return this.coleccion
+      .find(filtro, { projection: { score: { $meta: "textScore" }, ...PROYECCION_LISTA } })
+      .sort({ score: { $meta: "textScore" } })
+      .limit(limite)
+      .toArray();
+  }
+
   /** Expediente completo por código público, o null si no existe. */
   async buscarPorCodigo(codigo) {
     return this.coleccion.findOne({ codigo });

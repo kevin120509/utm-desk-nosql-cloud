@@ -8,7 +8,10 @@ import { UsuariosRepoMongo } from "./infrastructure/mongo/usuariosRepo.js";
 import { registrarIncidencia } from "./application/registrarIncidencia.js";
 import { actualizarEstado } from "./application/actualizarEstado.js";
 import { listarIncidencias, obtenerIncidencia } from "./application/consultarIncidencias.js";
+import { buscarIncidencias } from "./application/buscarIncidencias.js";
 import { IncidenciasRepoMongo } from "./infrastructure/mongo/incidenciasRepo.js";
+import { EtiquetasRepoMongo } from "./infrastructure/mongo/etiquetasRepo.js";
+import { gestionarEtiquetas } from "./application/gestionarEtiquetas.js";
 import { ContadorMongo } from "./infrastructure/mongo/contadorMongo.js";
 import { hasherBcrypt } from "./infrastructure/seguridad/bcrypt.js";
 import { crearTokens } from "./infrastructure/seguridad/jwt.js";
@@ -35,9 +38,14 @@ const incidencias = {
   }),
   listar: listarIncidencias({ incidenciasRepo }),
   obtener: obtenerIncidencia({ incidenciasRepo }),
+  buscar: buscarIncidencias({ incidenciasRepo }),
   actualizarEstado: actualizarEstado({ incidenciasRepo, usuariosRepo }),
 };
 
-crearApp({ auth, incidencias }).listen(puerto, () => {
+const etiquetas = gestionarEtiquetas({
+  etiquetasRepo: new EtiquetasRepoMongo(db.collection("incidencias_campus")),
+});
+
+crearApp({ auth, incidencias, etiquetas }).listen(puerto, () => {
   console.log(`UTM Desk API escuchando en http://localhost:${puerto}/api`);
 });

@@ -5,7 +5,7 @@ import { requiereRol } from "../middlewares/roles.js";
 
 /**
  * @param {{auth: object,
- *          incidencias: {registrar: Function, listar: Function, obtener: Function, actualizarEstado: Function}}} deps
+ *          incidencias: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function}}} deps
  *   Casos de uso inyectados (la capa HTTP no conoce Mongo).
  */
 export function rutasIncidencias({ auth, incidencias }) {
@@ -26,6 +26,10 @@ export function rutasIncidencias({ auth, incidencias }) {
 
   // B10 (búsqueda): `GET /buscar` DEBE registrarse AQUÍ, antes de `/:codigo`,
   // o Express tomaría la palabra "buscar" como si fuera un código.
+  // Búsqueda textual (RF-09): cualquier rol autenticado; el reportante solo ve las suyas.
+  router.get("/buscar", autenticacion, async (req, res) => {
+    res.status(200).json(await incidencias.buscar(req.usuario, req.query));
+  });
 
   // Expediente completo en una sola lectura.
   router.get("/:codigo", autenticacion, async (req, res) => {
