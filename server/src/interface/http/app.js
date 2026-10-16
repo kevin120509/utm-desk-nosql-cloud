@@ -8,7 +8,7 @@ import { manejadorErrores } from "./middlewares/errores.js";
 
 /**
  * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
- *          incidencias?: {registrar: Function, listar: Function, obtener: Function}}} [dependencias]
+ *          incidencias?: {registrar: Function, listar: Function, obtener: Function, actualizarEstado: Function}}} [dependencias]
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */

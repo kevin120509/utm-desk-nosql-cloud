@@ -1,11 +1,11 @@
-// Rutas de incidencias: alta (RF-01), lista (RF-06) y expediente (RF-05).
+// Rutas de incidencias: alta (RF-01), lista (RF-06), expediente (RF-05) y cambio de estado (RF-07).
 import { Router } from "express";
 import { crearAutenticacion } from "../middlewares/autenticacion.js";
 import { requiereRol } from "../middlewares/roles.js";
 
 /**
  * @param {{auth: object,
- *          incidencias: {registrar: Function, listar: Function, obtener: Function}}} deps
+ *          incidencias: {registrar: Function, listar: Function, obtener: Function, actualizarEstado: Function}}} deps
  *   Casos de uso inyectados (la capa HTTP no conoce Mongo).
  */
 export function rutasIncidencias({ auth, incidencias }) {
@@ -30,6 +30,12 @@ export function rutasIncidencias({ auth, incidencias }) {
   // Expediente completo en una sola lectura.
   router.get("/:codigo", autenticacion, async (req, res) => {
     res.status(200).json(await incidencias.obtener(req.usuario, req.params.codigo));
+  });
+
+  // Cambio de estado + bitácora. Solo técnico y coordinador (reportante/directivo -> 403).
+  // Es PATCH con sufijo /estado: no choca con GET /:codigo ni con GET /buscar.
+  router.patch("/:codigo/estado", autenticacion, requiereRol("tecnico", "coordinador"), async (req, res) => {
+    res.status(200).json(await incidencias.actualizarEstado(req.usuario, req.params.codigo, req.body ?? {}));
   });
 
   return router;

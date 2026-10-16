@@ -8,6 +8,9 @@ import EstadoVacio from "../components/EstadoVacio.jsx";
 import DetalleEspecifico from "../components/DetalleEspecifico.jsx";
 import Evidencias from "../components/Evidencias.jsx";
 import Bitacora from "../components/Bitacora.jsx";
+import PanelEstado from "../components/PanelEstado.jsx";
+import PanelEtiquetas from "../components/PanelEtiquetas.jsx";
+import SubirEvidencia from "../components/SubirEvidencia.jsx";
 import { formatearFecha, formatearHoras } from "../formato.js";
 
 const enlaceVolver =
@@ -91,9 +94,10 @@ export default function Detalle() {
         </dl>
       </header>
 
-      {/* F06: aquí va el panel "Actualizar estado" del personal (técnico+).
-          Debe llamar a `recargar()` tras un cambio exitoso para refrescar el expediente. */}
-      <div id="panel-acciones-personal" />
+      {/* F06: panel "Actualizar estado" (solo técnico/coordinador; se oculta solo si no aplica). */}
+      <div id="panel-acciones-personal">
+        <PanelEstado codigo={inc.codigo} estadoActual={inc.estado} onActualizado={recargar} />
+      </div>
 
       <Seccion titulo="Descripción">
         <p className="whitespace-pre-line break-words text-slate-900">{inc.descripcion}</p>
@@ -122,15 +126,8 @@ export default function Detalle() {
         </Seccion>
       )}
 
-      {inc.tags?.length > 0 && (
-        <Seccion titulo="Etiquetas">
-          <ul className="flex flex-wrap gap-2">
-            {inc.tags.map((t) => (
-              <li key={t} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-900">{t}</li>
-            ))}
-          </ul>
-        </Seccion>
-      )}
+      {/* F06: lista de etiquetas; el personal puede agregar/quitar. */}
+      <PanelEtiquetas codigo={inc.codigo} tags={inc.tags || []} />
 
       {typeof inc.horas_invertidas === "number" && (
         <Seccion titulo="Horas invertidas">
@@ -144,6 +141,7 @@ export default function Detalle() {
         ) : (
           <p className="text-slate-700">Esta incidencia no tiene evidencias adjuntas.</p>
         )}
+        <SubirEvidencia codigo={inc.codigo} reportante={inc.reportante} onSubida={recargar} />
       </Seccion>
 
       <Seccion titulo="Bitácora de seguimiento">

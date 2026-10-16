@@ -44,6 +44,9 @@
  * Puerto de escritura de incidencias.
  * @typedef {Object} IncidenciasRepo
  * @property {(doc: object) => Promise<object>} insertar  Inserta el documento y lo devuelve con `_id`.
+ * @property {(codigo: string) => Promise<object|null>} buscarPorCodigo  Expediente completo o null.
+ * @property {(datos: {codigo: string, estadoLeido: string, cambios: {$set: object, $push: object, $inc: object}}) => Promise<boolean>} actualizarEstado
+ *   UN solo updateOne con filtro { codigo, estado: estadoLeido }. true si se aplicó; false si otra persona cambió el estado antes (conflicto).
  */
 
 export {};

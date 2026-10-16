@@ -63,4 +63,16 @@ export class IncidenciasRepoMongo {
   async buscarPorCodigo(codigo) {
     return this.coleccion.findOne({ codigo });
   }
+
+  /**
+   * Cambio de estado atómico (RF-07): UN solo updateOne con el estado leído en el filtro.
+   * Si otra persona cambió el estado antes, nada coincide (matchedCount 0) y no se modifica nada.
+   * @param {{codigo: string, estadoLeido: string,
+   *          cambios: {$set: object, $push: object, $inc: object}}} datos
+   * @returns {Promise<boolean>} true si se aplicó; false si hubo conflicto.
+   */
+  async actualizarEstado({ codigo, estadoLeido, cambios }) {
+    const { matchedCount } = await this.coleccion.updateOne({ codigo, estado: estadoLeido }, cambios);
+    return matchedCount === 1;
+  }
 }

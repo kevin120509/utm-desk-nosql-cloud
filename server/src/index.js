@@ -6,6 +6,7 @@ import { crearApp } from "./interface/http/app.js";
 import { autenticar } from "./application/autenticar.js";
 import { UsuariosRepoMongo } from "./infrastructure/mongo/usuariosRepo.js";
 import { registrarIncidencia } from "./application/registrarIncidencia.js";
+import { actualizarEstado } from "./application/actualizarEstado.js";
 import { listarIncidencias, obtenerIncidencia } from "./application/consultarIncidencias.js";
 import { IncidenciasRepoMongo } from "./infrastructure/mongo/incidenciasRepo.js";
 import { ContadorMongo } from "./infrastructure/mongo/contadorMongo.js";
@@ -34,6 +35,7 @@ const incidencias = {
   }),
   listar: listarIncidencias({ incidenciasRepo }),
   obtener: obtenerIncidencia({ incidenciasRepo }),
+  actualizarEstado: actualizarEstado({ incidenciasRepo, usuariosRepo }),
 };
 
 crearApp({ auth, incidencias }).listen(puerto, () => {
