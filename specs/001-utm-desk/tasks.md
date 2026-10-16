@@ -15,8 +15,8 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 
 ## Hito 2 — Base de datos y dominio [B]
 - [x] **B01 Dominio.** (hecho 2026-10-15: 48 tests verdes) Enums, transiciones de estado, esquemas Zod por categoría, `generarCodigo`. *Hecho cuando:* tests unitarios de los 3 `detalle_especifico` (válido e inválido) y de las transiciones pasan.
-- [ ] **B02 Validador e índices.** `db-setup.js` con `$jsonSchema` completo y los índices del plan §4.5; cliente Mongo cacheado. *Hecho cuando:* insertar un documento válido pasa y uno con `detalle_especifico` de otra categoría falla; `getIndexes()` lista los 5.
-- [ ] **B03 Usuarios y auth.** Colección `usuarios`, login, JWT, middleware de roles, `GET /auth/me`. *Hecho cuando:* 200 con credenciales buenas, 401 sin/mal token, 403 con rol sin permiso.
+- [x] **B02 Validador e índices.** (hecho 2026-10-15: 18 tests contra Atlas; `db:setup` ejecutado en `utmdesk`) `db-setup.js` con `$jsonSchema` completo y los índices del plan §4.5; cliente Mongo cacheado. *Hecho cuando:* insertar un documento válido pasa y uno con `detalle_especifico` de otra categoría falla; `getIndexes()` lista los 5.
+- [x] **B03 Usuarios y auth.** (hecho 2026-10-15; sin usuarios reales hasta B13 seed) Colección `usuarios`, login, JWT, middleware de roles, `GET /auth/me`. *Hecho cuando:* 200 con credenciales buenas, 401 sin/mal token, 403 con rol sin permiso.
 - [ ] **B04 Contador.** Puerto + adaptador Mongo (`$inc` atómico con `upsert`). *Hecho cuando:* 20 llamadas en paralelo devuelven 20 números distintos.
 
 ## Hito 3 — Casos de uso [B] (en este orden)

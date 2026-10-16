@@ -2,8 +2,14 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import { rutasAuth } from "./rutas/auth.js";
+import { manejadorErrores } from "./middlewares/errores.js";
 
-export function crearApp() {
+/**
+ * @param {{auth?: {login: Function, usuarioDesdeToken: Function}}} [dependencias]
+ *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación.
+ */
+export function crearApp({ auth } = {}) {
   const app = express();
 
   app.use(helmet());
@@ -15,12 +21,17 @@ export function crearApp() {
     res.status(200).json({ ok: true });
   });
 
+  if (auth) app.use("/api/auth", rutasAuth(auth));
+
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.
   app.use((_req, res) => {
     res.status(404).json({
       error: { codigo: "NO_ENCONTRADO", mensaje: "La ruta solicitada no existe" },
     });
   });
+
+  // Siempre al final: convierte cualquier error en { error: { codigo, mensaje } }.
+  app.use(manejadorErrores);
 
   return app;
 }
