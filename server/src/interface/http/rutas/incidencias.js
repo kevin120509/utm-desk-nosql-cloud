@@ -5,7 +5,7 @@ import { requiereRol } from "../middlewares/roles.js";
 
 /**
  * @param {{auth: object,
- *          incidencias: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function}}} deps
+ *          incidencias: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, editar: Function, eliminar: Function}}} deps
  *   Casos de uso inyectados (la capa HTTP no conoce Mongo).
  */
 export function rutasIncidencias({ auth, incidencias }) {
@@ -40,6 +40,16 @@ export function rutasIncidencias({ auth, incidencias }) {
   // Es PATCH con sufijo /estado: no choca con GET /:codigo ni con GET /buscar.
   router.patch("/:codigo/estado", autenticacion, requiereRol("tecnico", "coordinador"), async (req, res) => {
     res.status(200).json(await incidencias.actualizarEstado(req.usuario, req.params.codigo, req.body ?? {}));
+  });
+
+  // RF-12: editar y borrar, solo coordinador. PATCH/DELETE /:codigo no chocan con
+  // PATCH /:codigo/estado ni con /:codigo/tags (distinta cantidad de segmentos).
+  router.patch("/:codigo", autenticacion, requiereRol("coordinador"), async (req, res) => {
+    res.status(200).json(await incidencias.editar(req.usuario, req.params.codigo, req.body ?? {}));
+  });
+
+  router.delete("/:codigo", autenticacion, requiereRol("coordinador"), async (req, res) => {
+    res.status(200).json(await incidencias.eliminar(req.usuario, req.params.codigo));
   });
 
   return router;

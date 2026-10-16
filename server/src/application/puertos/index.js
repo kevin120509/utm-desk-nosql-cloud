@@ -49,6 +49,15 @@
  *   Búsqueda `$text` (idx_texto_es) ordenada por relevancia; cada documento trae `score`. Sin bitácora, evidencias ni detalle.
  * @property {(datos: {codigo: string, estadoLeido: string, cambios: {$set: object, $push: object, $inc: object}}) => Promise<boolean>} actualizarEstado
  *   UN solo updateOne con filtro { codigo, estado: estadoLeido }. true si se aplicó; false si otra persona cambió el estado antes (conflicto).
+ * @property {(datos: {codigo: string, cambios: {$set: object}}) => Promise<boolean>} editar
+ *   UN solo updateOne con filtro { codigo } (RF-12). true si la incidencia existe; false si no.
+ * @property {(codigo: string) => Promise<boolean>} eliminar  deleteOne por código. true si borró un documento.
+ */
+
+/**
+ * Puerto del almacén de archivos (bucket de evidencias).
+ * @typedef {Object} Almacen
+ * @property {(paths: string[]) => Promise<void>} eliminarArchivos  Borra por `storage_path`; lanza si falla.
  */
 
 export {};

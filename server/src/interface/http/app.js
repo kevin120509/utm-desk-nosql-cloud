@@ -5,15 +5,16 @@ import cors from "cors";
 import { rutasAuth } from "./rutas/auth.js";
 import { rutasIncidencias } from "./rutas/incidencias.js";
 import { rutasEtiquetas } from "./rutas/etiquetas.js";
+import { rutasAnalitica } from "./rutas/analitica.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 
 /**
  * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
- *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function}}} [dependencias]
+ *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, editar: Function, eliminar: Function}}} [dependencias]
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */
-export function crearApp({ auth, incidencias, etiquetas } = {}) {
+export function crearApp({ auth, incidencias, etiquetas, analitica } = {}) {
   const app = express();
 
   app.use(helmet());
@@ -35,6 +36,11 @@ export function crearApp({ auth, incidencias, etiquetas } = {}) {
   // Etiquetas (POST/DELETE /:codigo/tags): router propio montado bajo el mismo prefijo.
   if (auth && etiquetas) {
     app.use("/api/incidencias", rutasEtiquetas({ auth, etiquetas }));
+  }
+
+  // Analítica (RF-10): solo coordinador y directivo, bajo /api/analitica.
+  if (auth && analitica) {
+    app.use("/api/analitica", rutasAnalitica({ auth, analitica }));
   }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.

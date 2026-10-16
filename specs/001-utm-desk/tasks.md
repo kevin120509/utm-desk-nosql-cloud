@@ -26,8 +26,8 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **B08 RF-08 Etiquetas.** (hecho 2026-10-15: 24 tests; Switch/switch no duplica) `$addToSet` y `$pull`. *Hecho cuando:* repetir la misma etiqueta (con otro formato) no duplica; DELETE la quita.
 - [ ] **B09 RF-04 Evidencias.** Subida a Supabase, validación de mime real y tamaño, URL firmada, `$push`. *Hecho cuando:* archivo válido → 201 y visible en el bucket; `.exe` renombrado o > 4 MB → 400 sin subir.
 - [x] **B10 RF-09 Búsqueda.** (hecho 2026-10-15: "filtración" encuentra "filtraciones"; explain con TEXT_MATCH) `GET /incidencias/buscar`. *Hecho cuando:* "filtración" encuentra "filtraciones", ordenado por `score`, `explain()` con etapa `TEXT`.
-- [ ] **B11 RF-10 Analítica.** Los dos pipelines y sus rutas. *Hecho cuando:* los números coinciden con el cálculo a mano del seed.
-- [ ] **B12 RF-12 Editar y borrar.** `PATCH /:codigo` y `DELETE /:codigo` (borra también los archivos del bucket). *Hecho cuando:* 200 en ambos y 403 para técnico.
+- [x] **B11 RF-10 Analítica.** (hecho 2026-10-15: pipelines contra números calculados a mano en Atlas; la comparación con el seed queda en B13) Los dos pipelines y sus rutas. *Hecho cuando:* los números coinciden con el cálculo a mano del seed.
+- [x] **B12 RF-12 Editar y borrar.** (hecho 2026-10-15: 267 tests; el borrado de archivos del bucket usa `AlmacenNulo` hasta B09) `PATCH /:codigo` y `DELETE /:codigo` (borra también los archivos del bucket). *Hecho cuando:* 200 en ambos y 403 para técnico.
 - [ ] **R01 [R] Revisión del bloque de casos de uso.** Pruebas de integración de B05–B12 contra Atlas (base de pruebas). *Hecho cuando:* `npm test` verde y lista de hallazgos entregada al backend.
 
 ## Hito 4 — Datos y TTL [B]

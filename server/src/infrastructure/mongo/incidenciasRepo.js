@@ -91,4 +91,20 @@ export class IncidenciasRepoMongo {
     const { matchedCount } = await this.coleccion.updateOne({ codigo, estado: estadoLeido }, cambios);
     return matchedCount === 1;
   }
+
+  /**
+   * Edición de campos universales (RF-12): UN solo updateOne por código.
+   * @param {{codigo: string, cambios: {$set: object}}} datos
+   * @returns {Promise<boolean>} false si no existe.
+   */
+  async editar({ codigo, cambios }) {
+    const { matchedCount } = await this.coleccion.updateOne({ codigo }, cambios);
+    return matchedCount === 1;
+  }
+
+  /** Elimina el documento por código. true si se borró uno. */
+  async eliminar(codigo) {
+    const { deletedCount } = await this.coleccion.deleteOne({ codigo });
+    return deletedCount === 1;
+  }
 }
