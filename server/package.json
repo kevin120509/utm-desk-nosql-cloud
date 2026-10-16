@@ -1,0 +1,28 @@
+{
+  "name": "utm-desk-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "API REST de UTM Desk NoSQL Cloud (Express + MongoDB Atlas)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "test": "vitest run",
+    "db:ping": "node scripts/db-ping.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "mongodb": "^7.7.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.1",
+    "vitest": "^5.0.5"
+  }
+}

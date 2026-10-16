@@ -6,8 +6,8 @@ Carriles: **[K]** Kevin/equipo (manual) · **[B]** backend · **[F]** frontend �
 Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en `plan.md` §6). El **[R]** entra al final de cada bloque. **D01 va primero**: la Fase 1 es la primera entrega.
 
 ## Hito 0 — Preparación
-- [ ] **T00 [K] Cuentas y servicios.** Crear cluster Atlas M0 + usuario de BD (`readWrite` en `utmdesk`) + Network Access; bucket privado `evidencias` en Supabase; repo en GitHub. Llenar `server/.env`. (Sin Redis: el contador va en Mongo.) *Hecho cuando:* `npm run db:ping` conecta a Atlas y Supabase (se crea en T01).
-- [ ] **T01 [B] Esqueleto.** `git init`, estructura de carpetas, `package.json` de `server` y `web`, Express con `GET /api/health`, Vite arrancando, script `db:ping`. *Hecho cuando:* `/api/health` responde 200, la web abre y `db:ping` imprime OK en los tres servicios.
+- [x] **T00 [K] Cuentas y servicios.** (hecho 2026-10-15; falta solo que Kevin pegue `SUPABASE_SERVICE_ROLE_KEY` en `server/.env`; `db:ping` se prueba en T01) Crear cluster Atlas M0 + usuario de BD (`readWrite` en `utmdesk`) + Network Access; bucket privado `evidencias` en Supabase; repo en GitHub. Llenar `server/.env`. (Sin Redis: el contador va en Mongo.) *Hecho cuando:* `npm run db:ping` conecta a Atlas y Supabase (se crea en T01).
+- [x] **T01 [B] Esqueleto.** (hecho 2026-10-15: health 200 por Supertest, web compila, `db:ping` OK en Atlas; Supabase queda OK al pegar la service key) `git init`, estructura de carpetas, `package.json` de `server` y `web`, Express con `GET /api/health`, Vite arrancando, script `db:ping`. *Hecho cuando:* `/api/health` responde 200, la web abre y `db:ping` imprime OK en los tres servicios.
 
 ## Hito 1 — Documento Fase 1 (puede empezar ya)
 - [x] **D01 [D] PDF Fase 1 (APA 7).** (hecho 2026-10-15: `entregables/Fase1_UTM-Desk-NoSQL-Cloud.pdf`, pendiente revisión de Kevin) Portada UTM con nombre completo, selección justificada de tecnologías, RF/RNF (de la spec), modelo JSON/BSON con un ejemplo por categoría y el `$jsonSchema`, referencias. *Hecho cuando:* PDF generado, revisado y guardado en `entregables/`.
