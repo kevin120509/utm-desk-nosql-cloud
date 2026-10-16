@@ -42,7 +42,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **F04 Nueva incidencia.** (hecho 2026-10-15: build OK; se prueba E2E con usuarios del seed B13) Formulario con bloque dinámico por categoría y errores del 400 junto a cada campo. *Hecho cuando:* se crea una incidencia de cada categoría desde la UI.
 - [x] **F05 Detalle.** (hecho 2026-10-15: build OK; contenedor `panel-acciones-personal` listo para F06) Datos, `detalle_especifico`, bitácora en línea de tiempo. *Hecho cuando:* se ve el expediente completo en una sola carga.
 - [x] **F06 Acciones de staff.** (hecho 2026-10-15: build OK; etiquetas y evidencia dependen de B08/B09) Actualizar estado/horas/comentario, etiquetas, subir evidencia con vista previa; manejo del 409. *Hecho cuando:* una actualización se refleja en la bitácora sin recargar.
-- [ ] **F07 Analítica.** Barras por edificio, tabla de horas, top 10 tags. *Hecho cuando:* coincide con `GET /analitica/*`.
+- [x] **F07 Analítica.** (hecho 2026-10-15: build OK, página cargada bajo demanda; verificación visual con datos tras B13) Barras por edificio, tabla de horas, top 10 tags. *Hecho cuando:* coincide con `GET /analitica/*`.
 - [ ] **F08 Pulido.** Estados vacíos, cargando, errores, responsivo, foco y contraste. *Hecho cuando:* recorrido en móvil sin scroll horizontal.
 
 ## Hito 6 — Integración y calidad [R]
