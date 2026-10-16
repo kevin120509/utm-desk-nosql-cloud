@@ -3,13 +3,15 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { rutasAuth } from "./rutas/auth.js";
+import { rutasIncidencias } from "./rutas/incidencias.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 
 /**
- * @param {{auth?: {login: Function, usuarioDesdeToken: Function}}} [dependencias]
- *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación.
+ * @param {{auth?: {login: Function, usuarioDesdeToken: Function}, incidencias?: Function}} [dependencias]
+ *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
+ *   `incidencias` es la función `(sesion, entrada)` de registrarIncidencia.
  */
-export function crearApp({ auth } = {}) {
+export function crearApp({ auth, incidencias } = {}) {
   const app = express();
 
   app.use(helmet());
@@ -22,6 +24,11 @@ export function crearApp({ auth } = {}) {
   });
 
   if (auth) app.use("/api/auth", rutasAuth(auth));
+
+  // Las rutas de incidencias necesitan autenticación y el caso de uso de alta.
+  if (auth && incidencias) {
+    app.use("/api/incidencias", rutasIncidencias({ auth, registrarIncidencia: incidencias }));
+  }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.
   app.use((_req, res) => {

@@ -40,4 +40,10 @@
  * @property {(anio: number) => Promise<number>} siguienteAnual                     Consecutivo anual para el código INC-AAAA-NNNN, desde 1.
  */
 
+/**
+ * Puerto de escritura de incidencias.
+ * @typedef {Object} IncidenciasRepo
+ * @property {(doc: object) => Promise<object>} insertar  Inserta el documento y lo devuelve con `_id`.
+ */
+
 export {};

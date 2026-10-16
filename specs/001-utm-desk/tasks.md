@@ -20,7 +20,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **B04 Contador.** (hecho 2026-10-15: 100 tests; 20 paralelos distintos) Puerto + adaptador Mongo (`$inc` atómico con `upsert`). *Hecho cuando:* 20 llamadas en paralelo devuelven 20 números distintos.
 
 ## Hito 3 — Casos de uso [B] (en este orden)
-- [ ] **B05 RF-01/02/03 Alta.** `POST /incidencias`. *Hecho cuando:* 201 con `codigo` y `consecutivo_diario`; 400 con `detalle_especifico` cruzado; el documento se ve en Atlas.
+- [x] **B05 RF-01/02/03 Alta.** (hecho 2026-10-15: 115 tests; una incidencia por categoría pasa el `$jsonSchema` real) `POST /incidencias`. *Hecho cuando:* 201 con `codigo` y `consecutivo_diario`; 400 con `detalle_especifico` cruzado; el documento se ve en Atlas.
 - [ ] **B06 RF-05/06 Lectura.** `GET /incidencias` con filtros y paginación, `GET /incidencias/:codigo`. *Hecho cuando:* filtros funcionan, reportante solo ve las suyas, `explain()` muestra `IXSCAN`.
 - [ ] **B07 RF-07 Estado atómico.** `PATCH /:codigo/estado` con filtro por estado leído y 409. *Hecho cuando:* test con dos PATCH simultáneos da 200 y 409; horas y bitácora quedan correctas; `fecha_resolucion` solo en resuelta.
 - [ ] **B08 RF-08 Etiquetas.** `$addToSet` y `$pull`. *Hecho cuando:* repetir la misma etiqueta (con otro formato) no duplica; DELETE la quita.
@@ -39,7 +39,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **F01 Base.** (hecho 2026-10-15: build OK; guarda por rol sin probar hasta B03) Tailwind, router, cliente `api`, contexto de sesión, layout con menú por rol. *Hecho cuando:* navega entre páginas vacías.
 - [ ] **F02 Login y guardas.** Pantalla de login y rutas protegidas por rol. *Hecho cuando:* cada rol ve solo su menú; 401 lleva al login.
 - [x] **F03 Lista.** (hecho 2026-10-15: build OK; se prueba con datos reales tras B06 y B13) Tabla/tarjetas, filtros, paginación, buscador con relevancia. *Hecho cuando:* filtrar y buscar cambia resultados reales.
-- [ ] **F04 Nueva incidencia.** Formulario con bloque dinámico por categoría y errores del 400 junto a cada campo. *Hecho cuando:* se crea una incidencia de cada categoría desde la UI.
+- [x] **F04 Nueva incidencia.** (hecho 2026-10-15: build OK; se prueba E2E con usuarios del seed B13) Formulario con bloque dinámico por categoría y errores del 400 junto a cada campo. *Hecho cuando:* se crea una incidencia de cada categoría desde la UI.
 - [ ] **F05 Detalle.** Datos, `detalle_especifico`, bitácora en línea de tiempo. *Hecho cuando:* se ve el expediente completo en una sola carga.
 - [ ] **F06 Acciones de staff.** Actualizar estado/horas/comentario, etiquetas, subir evidencia con vista previa; manejo del 409. *Hecho cuando:* una actualización se refleja en la bitácora sin recargar.
 - [ ] **F07 Analítica.** Barras por edificio, tabla de horas, top 10 tags. *Hecho cuando:* coincide con `GET /analitica/*`.

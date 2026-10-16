@@ -161,7 +161,7 @@ abierta ─▶ en proceso ◀─▶ en espera
 | Analítica | ❌ | ❌ | ✅ | ✅ |
 
 ## 6. Contrato de la API (prefijo `/api`)
-Errores siempre `{ "error": { "codigo": "VALIDACION", "mensaje": "...", "detalles": [...] } }`.
+Errores siempre `{ "error": { "codigo": "VALIDACION", "mensaje": "...", "detalles": { "campo.anidado": "mensaje" } } }` (`detalles` es un objeto campo → mensaje, solo en errores de validación).
 
 | Método y ruta | Rol mínimo | Entrada | Éxito | Errores |
 |---|---|---|---|---|

@@ -11,6 +11,7 @@ const STATUS = {
   NO_ENCONTRADO: 404,
   CONFLICTO: 409,
   VALIDACION: 400,
+  ERROR_INTERNO: 500,
 };
 
 // Convierte los issues de Zod en { campo: mensaje }.
