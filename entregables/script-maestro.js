@@ -1,6 +1,6 @@
 // =============================================================================
 // UTM Desk NoSQL Cloud — Script maestro de MongoDB (mongosh)
-// Generado: 2026-10-16T01:25:52.418Z
+// Generado: 2026-10-16T06:39:55.051Z
 //
 // Uso (en una base VACÍA):
 //   mongosh "<cadena de conexión de Atlas>" --file script-maestro.js
@@ -403,7 +403,7 @@ bd.usuarios.createIndex({
 // --- 4. Datos de demostración: 24 incidencias de 3 categorías ---
 bd.incidencias_campus.insertMany([
   {
-    _id: ObjectId("6ad17a37159cc5b8876c525b"),
+    _id: ObjectId("6ad1c6a46e02164f43308dcb"),
     codigo: "INC-2026-0001",
     consecutivo_diario: 1,
     titulo: "Filtración en el techo del aula A-203",
@@ -412,7 +412,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "resuelta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -432,9 +432,9 @@ bd.incidencias_campus.insertMany([
     tags: ["filtracion", "techo", "recurrente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-14T01:13:19.287Z"),
+        fecha: ISODate("2026-09-14T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -442,9 +442,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-14T05:13:19.287Z"),
+        fecha: ISODate("2026-09-14T10:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -453,9 +453,9 @@ bd.incidencias_campus.insertMany([
         horas: 1.5
       },
       {
-        fecha: ISODate("2026-09-16T05:13:19.287Z"),
+        fecha: ISODate("2026-09-16T10:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -464,9 +464,9 @@ bd.incidencias_campus.insertMany([
         horas: 0.5
       },
       {
-        fecha: ISODate("2026-09-19T01:13:19.287Z"),
+        fecha: ISODate("2026-09-19T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en espera",
@@ -475,9 +475,9 @@ bd.incidencias_campus.insertMany([
         horas: 2
       },
       {
-        fecha: ISODate("2026-09-20T01:13:19.287Z"),
+        fecha: ISODate("2026-09-20T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -491,32 +491,32 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "foto-techo-a203.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0001/76655582-b407-443d-9710-95b55f30b418-foto-techo-a203.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0001/76655582-b407-443d-9710-95b55f30b418-foto-techo-a203.png",
-        url_expira: ISODate("2026-10-16T02:13:21.590Z"),
-        fecha_carga: ISODate("2026-09-14T01:43:19.287Z")
+        storage_path: "INC-2026-0001/bbf360f9-4cd2-4d51-9815-6990855fb73c-foto-techo-a203.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0001/bbf360f9-4cd2-4d51-9815-6990855fb73c-foto-techo-a203.png",
+        url_expira: ISODate("2026-10-16T07:39:24.746Z"),
+        fecha_carga: ISODate("2026-09-14T07:09:21.675Z")
       },
       {
         nombre_archivo: "diagnostico-filtracion.pdf",
         tipo_mime: "application/pdf",
         peso_kb: 0.6,
-        storage_path: "INC-2026-0001/ec793bc5-2bc0-43b3-be1d-5f06d27dcd2c-diagnostico-filtracion.pdf",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0001/ec793bc5-2bc0-43b3-be1d-5f06d27dcd2c-diagnostico-filtracion.pdf",
-        url_expira: ISODate("2026-10-16T02:13:21.890Z"),
-        fecha_carga: ISODate("2026-09-14T02:13:19.287Z")
+        storage_path: "INC-2026-0001/f48cf981-9a46-4d9e-99ab-ad7d951660e1-diagnostico-filtracion.pdf",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0001/f48cf981-9a46-4d9e-99ab-ad7d951660e1-diagnostico-filtracion.pdf",
+        url_expira: ISODate("2026-10-16T07:39:25.087Z"),
+        fecha_carga: ISODate("2026-09-14T07:39:21.675Z")
       }
     ],
     horas_invertidas: 5,
-    fecha_creacion: ISODate("2026-09-14T01:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-20T01:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-14T06:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-20T06:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     },
-    fecha_resolucion: ISODate("2026-09-20T01:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-20T06:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c525c"),
+    _id: ObjectId("6ad1c6a46e02164f43308dcc"),
     codigo: "INC-2026-0002",
     consecutivo_diario: 1,
     titulo: "Cuentas de correo institucional bloqueadas (periodo 2026-2)",
@@ -525,7 +525,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "resuelta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
       nombre: "Pedro Canul",
       tipo: "administrativo",
       correo: "pedro.canul@utmetropolitana.edu.mx"
@@ -543,9 +543,9 @@ bd.incidencias_campus.insertMany([
     tags: ["correo", "acceso", "recurrente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-14T23:13:19.287Z"),
+        fecha: ISODate("2026-09-15T04:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
           nombre: "Pedro Canul"
         },
         estado_nuevo: "abierta",
@@ -553,9 +553,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-15T01:13:19.287Z"),
+        fecha: ISODate("2026-09-15T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -564,9 +564,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-15T19:13:19.287Z"),
+        fecha: ISODate("2026-09-16T00:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -580,23 +580,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "bloqueos-correo.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0002/81b00c28-3fa6-4163-82cb-7cf4da08e032-bloqueos-correo.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0002/81b00c28-3fa6-4163-82cb-7cf4da08e032-bloqueos-correo.png",
-        url_expira: ISODate("2026-10-16T02:13:22.172Z"),
-        fecha_carga: ISODate("2026-09-14T23:43:19.287Z")
+        storage_path: "INC-2026-0002/49f3f798-c93a-4c2c-9617-15360692a5a8-bloqueos-correo.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0002/49f3f798-c93a-4c2c-9617-15360692a5a8-bloqueos-correo.png",
+        url_expira: ISODate("2026-10-16T07:39:25.422Z"),
+        fecha_carga: ISODate("2026-09-15T05:09:21.675Z")
       }
     ],
     horas_invertidas: 3,
-    fecha_creacion: ISODate("2026-09-14T23:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-15T19:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-15T04:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-16T00:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     },
-    fecha_resolucion: ISODate("2026-09-15T19:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-16T00:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c525d"),
+    _id: ObjectId("6ad1c6a46e02164f43308dcd"),
     codigo: "INC-2026-0003",
     consecutivo_diario: 1,
     titulo: "Switch del laboratorio LC-2 sin respuesta",
@@ -605,7 +605,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "resuelta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -625,9 +625,9 @@ bd.incidencias_campus.insertMany([
     tags: ["switch", "sin-red", "laboratorio", "recurrente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-15T00:13:19.287Z"),
+        fecha: ISODate("2026-09-15T05:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -635,9 +635,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-15T01:13:19.287Z"),
+        fecha: ISODate("2026-09-15T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -646,9 +646,9 @@ bd.incidencias_campus.insertMany([
         horas: 1.5
       },
       {
-        fecha: ISODate("2026-09-15T05:13:19.287Z"),
+        fecha: ISODate("2026-09-15T10:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -662,23 +662,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "switch-lc2.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0003/108d8e1c-69b2-43ab-9d69-e813479618fc-switch-lc2.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0003/108d8e1c-69b2-43ab-9d69-e813479618fc-switch-lc2.png",
-        url_expira: ISODate("2026-10-16T02:13:22.443Z"),
-        fecha_carga: ISODate("2026-09-15T00:43:19.287Z")
+        storage_path: "INC-2026-0003/3cd1a900-1691-4933-8e3e-04859f75ad3a-switch-lc2.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0003/3cd1a900-1691-4933-8e3e-04859f75ad3a-switch-lc2.png",
+        url_expira: ISODate("2026-10-16T07:39:25.806Z"),
+        fecha_carga: ISODate("2026-09-15T06:09:21.675Z")
       }
     ],
     horas_invertidas: 3.5,
-    fecha_creacion: ISODate("2026-09-15T00:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-15T05:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-15T05:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-15T10:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     },
-    fecha_resolucion: ISODate("2026-09-15T05:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-15T10:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c525e"),
+    _id: ObjectId("6ad1c6a46e02164f43308dce"),
     codigo: "INC-2026-0004",
     consecutivo_diario: 1,
     titulo: "Luminarias del aula B-101 parpadean",
@@ -687,7 +687,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "baja",
     estado: "cerrada",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -705,9 +705,9 @@ bd.incidencias_campus.insertMany([
     tags: ["luminaria"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-15T19:13:19.287Z"),
+        fecha: ISODate("2026-09-16T00:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -715,9 +715,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-16T03:13:19.287Z"),
+        fecha: ISODate("2026-09-16T08:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -726,9 +726,9 @@ bd.incidencias_campus.insertMany([
         horas: 0.5
       },
       {
-        fecha: ISODate("2026-09-16T21:13:19.287Z"),
+        fecha: ISODate("2026-09-17T02:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -737,9 +737,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-17T11:13:19.287Z"),
+        fecha: ISODate("2026-09-17T16:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "resuelta",
@@ -753,23 +753,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "luminarias-b101.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0004/35d32566-a80b-4306-be68-ed43d8d5708e-luminarias-b101.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0004/35d32566-a80b-4306-be68-ed43d8d5708e-luminarias-b101.png",
-        url_expira: ISODate("2026-10-16T02:13:22.794Z"),
-        fecha_carga: ISODate("2026-09-15T19:43:19.287Z")
+        storage_path: "INC-2026-0004/94714812-0867-4c5c-b494-5c09334d34e7-luminarias-b101.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0004/94714812-0867-4c5c-b494-5c09334d34e7-luminarias-b101.png",
+        url_expira: ISODate("2026-10-16T07:39:26.269Z"),
+        fecha_carga: ISODate("2026-09-16T01:09:21.675Z")
       }
     ],
     horas_invertidas: 1.5,
-    fecha_creacion: ISODate("2026-09-15T19:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-17T11:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-16T00:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-17T16:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     },
-    fecha_resolucion: ISODate("2026-09-16T21:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-17T02:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c525f"),
+    _id: ObjectId("6ad1c6a46e02164f43308dcf"),
     codigo: "INC-2026-0005",
     consecutivo_diario: 1,
     titulo: "Error al asentar actas en el portal de calificaciones",
@@ -778,7 +778,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "critica",
     estado: "resuelta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -797,9 +797,9 @@ bd.incidencias_campus.insertMany([
     tags: ["portal", "calificaciones", "urgente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-15T20:13:19.287Z"),
+        fecha: ISODate("2026-09-16T01:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -807,9 +807,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-15T21:13:19.287Z"),
+        fecha: ISODate("2026-09-16T02:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -818,9 +818,9 @@ bd.incidencias_campus.insertMany([
         horas: 2
       },
       {
-        fecha: ISODate("2026-09-16T03:13:19.287Z"),
+        fecha: ISODate("2026-09-16T08:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -834,32 +834,32 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "error-500.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0005/1ab60dfc-b41d-4cbf-b20c-58787ed6da0c-error-500.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0005/1ab60dfc-b41d-4cbf-b20c-58787ed6da0c-error-500.png",
-        url_expira: ISODate("2026-10-16T02:13:23.140Z"),
-        fecha_carga: ISODate("2026-09-15T20:43:19.287Z")
+        storage_path: "INC-2026-0005/80845945-51e9-4b34-b665-6caa89150440-error-500.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0005/80845945-51e9-4b34-b665-6caa89150440-error-500.png",
+        url_expira: ISODate("2026-10-16T07:39:26.630Z"),
+        fecha_carga: ISODate("2026-09-16T02:09:21.675Z")
       },
       {
         nombre_archivo: "reporte-incidente-portal.pdf",
         tipo_mime: "application/pdf",
         peso_kb: 0.6,
-        storage_path: "INC-2026-0005/16312bb6-1cc4-4714-b21c-bbef62c92701-reporte-incidente-portal.pdf",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0005/16312bb6-1cc4-4714-b21c-bbef62c92701-reporte-incidente-portal.pdf",
-        url_expira: ISODate("2026-10-16T02:13:23.413Z"),
-        fecha_carga: ISODate("2026-09-15T21:13:19.287Z")
+        storage_path: "INC-2026-0005/b1ac5af1-6fb4-4440-abdf-6c796b557b50-reporte-incidente-portal.pdf",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0005/b1ac5af1-6fb4-4440-abdf-6c796b557b50-reporte-incidente-portal.pdf",
+        url_expira: ISODate("2026-10-16T07:39:27.003Z"),
+        fecha_carga: ISODate("2026-09-16T02:39:21.675Z")
       }
     ],
     horas_invertidas: 6,
-    fecha_creacion: ISODate("2026-09-15T20:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-16T03:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-16T01:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-16T08:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     },
-    fecha_resolucion: ISODate("2026-09-16T03:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-16T08:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5260"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd0"),
     codigo: "INC-2026-0006",
     consecutivo_diario: 1,
     titulo: "Sin red en la planta alta del Edificio B",
@@ -868,7 +868,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "cerrada",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -888,9 +888,9 @@ bd.incidencias_campus.insertMany([
     tags: ["switch", "sin-red"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-18T01:13:19.287Z"),
+        fecha: ISODate("2026-09-18T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -898,9 +898,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-18T04:13:19.287Z"),
+        fecha: ISODate("2026-09-18T09:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -909,9 +909,9 @@ bd.incidencias_campus.insertMany([
         horas: 2
       },
       {
-        fecha: ISODate("2026-09-18T15:13:19.287Z"),
+        fecha: ISODate("2026-09-18T20:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -920,9 +920,9 @@ bd.incidencias_campus.insertMany([
         horas: 3
       },
       {
-        fecha: ISODate("2026-09-19T13:13:19.287Z"),
+        fecha: ISODate("2026-09-19T18:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "resuelta",
@@ -936,23 +936,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "fibra-danada.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0006/7ad39672-1e7a-4a6e-a393-ec8c19193159-fibra-danada.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0006/7ad39672-1e7a-4a6e-a393-ec8c19193159-fibra-danada.png",
-        url_expira: ISODate("2026-10-16T02:13:23.688Z"),
-        fecha_carga: ISODate("2026-09-18T01:43:19.287Z")
+        storage_path: "INC-2026-0006/012f83c8-1a8c-4ea1-bb1c-a6b3114bb7ce-fibra-danada.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0006/012f83c8-1a8c-4ea1-bb1c-a6b3114bb7ce-fibra-danada.png",
+        url_expira: ISODate("2026-10-16T07:39:27.407Z"),
+        fecha_carga: ISODate("2026-09-18T07:09:21.675Z")
       }
     ],
     horas_invertidas: 5,
-    fecha_creacion: ISODate("2026-09-18T01:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-19T13:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-18T06:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-19T18:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     },
-    fecha_resolucion: ISODate("2026-09-18T15:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-18T20:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5261"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd1"),
     codigo: "INC-2026-0007",
     consecutivo_diario: 1,
     titulo: "El correo institucional no recibe mensajes externos",
@@ -961,7 +961,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "cerrada",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -979,9 +979,9 @@ bd.incidencias_campus.insertMany([
     tags: ["correo"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-19T00:13:19.287Z"),
+        fecha: ISODate("2026-09-19T05:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -989,9 +989,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-19T04:13:19.287Z"),
+        fecha: ISODate("2026-09-19T09:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -1000,9 +1000,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-19T18:13:19.287Z"),
+        fecha: ISODate("2026-09-19T23:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -1011,9 +1011,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-20T16:13:19.287Z"),
+        fecha: ISODate("2026-09-20T21:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "resuelta",
@@ -1024,16 +1024,16 @@ bd.incidencias_campus.insertMany([
     ],
     evidencias_adjuntas: [],
     horas_invertidas: 2,
-    fecha_creacion: ISODate("2026-09-19T00:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-20T16:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-19T05:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-20T21:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     },
-    fecha_resolucion: ISODate("2026-09-19T18:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-19T23:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5262"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd2"),
     codigo: "INC-2026-0008",
     consecutivo_diario: 1,
     titulo: "Vuelve la filtración en el aula A-203",
@@ -1042,7 +1042,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "cerrada",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -1062,9 +1062,9 @@ bd.incidencias_campus.insertMany([
     tags: ["filtracion", "techo", "recurrente", "urgente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-21T00:13:19.287Z"),
+        fecha: ISODate("2026-09-21T05:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -1072,9 +1072,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-21T02:13:19.287Z"),
+        fecha: ISODate("2026-09-21T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -1083,9 +1083,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-22T06:13:19.287Z"),
+        fecha: ISODate("2026-09-22T11:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -1094,9 +1094,9 @@ bd.incidencias_campus.insertMany([
         horas: 3
       },
       {
-        fecha: ISODate("2026-09-23T02:13:19.287Z"),
+        fecha: ISODate("2026-09-23T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "resuelta",
@@ -1110,23 +1110,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "humedad-muro-a203.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0008/82394266-ba31-46ef-be85-8a8f5c472892-humedad-muro-a203.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0008/82394266-ba31-46ef-be85-8a8f5c472892-humedad-muro-a203.png",
-        url_expira: ISODate("2026-10-16T02:13:24.129Z"),
-        fecha_carga: ISODate("2026-09-21T00:43:19.287Z")
+        storage_path: "INC-2026-0008/a62407c5-5da4-43fc-8bb1-a96b1171e09c-humedad-muro-a203.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0008/a62407c5-5da4-43fc-8bb1-a96b1171e09c-humedad-muro-a203.png",
+        url_expira: ISODate("2026-10-16T07:39:27.737Z"),
+        fecha_carga: ISODate("2026-09-21T06:09:21.675Z")
       }
     ],
     horas_invertidas: 4,
-    fecha_creacion: ISODate("2026-09-21T00:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-23T02:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-21T05:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-23T07:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     },
-    fecha_resolucion: ISODate("2026-09-22T06:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-22T11:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5263"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd3"),
     codigo: "INC-2026-0009",
     consecutivo_diario: 1,
     titulo: "No carga el aula virtual en Matemáticas",
@@ -1135,7 +1135,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "cerrada",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -1154,9 +1154,9 @@ bd.incidencias_campus.insertMany([
     tags: ["lms", "aula-virtual"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-23T21:13:19.287Z"),
+        fecha: ISODate("2026-09-24T02:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -1164,9 +1164,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-24T00:13:19.287Z"),
+        fecha: ISODate("2026-09-24T05:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -1175,9 +1175,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-24T22:13:19.287Z"),
+        fecha: ISODate("2026-09-25T03:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -1186,9 +1186,9 @@ bd.incidencias_campus.insertMany([
         horas: 1.5
       },
       {
-        fecha: ISODate("2026-09-25T18:13:19.287Z"),
+        fecha: ISODate("2026-09-25T23:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "resuelta",
@@ -1202,23 +1202,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "pantalla-en-blanco.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0009/3d09b9e4-a06e-4332-9c68-d6425e794fec-pantalla-en-blanco.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0009/3d09b9e4-a06e-4332-9c68-d6425e794fec-pantalla-en-blanco.png",
-        url_expira: ISODate("2026-10-16T02:13:24.413Z"),
-        fecha_carga: ISODate("2026-09-23T21:43:19.287Z")
+        storage_path: "INC-2026-0009/43e213e5-f2ef-42fb-bcad-dc49f4acecc1-pantalla-en-blanco.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0009/43e213e5-f2ef-42fb-bcad-dc49f4acecc1-pantalla-en-blanco.png",
+        url_expira: ISODate("2026-10-16T07:39:28.063Z"),
+        fecha_carga: ISODate("2026-09-24T03:09:21.675Z")
       }
     ],
     horas_invertidas: 2.5,
-    fecha_creacion: ISODate("2026-09-23T21:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-25T18:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-24T02:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-25T23:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     },
-    fecha_resolucion: ISODate("2026-09-24T22:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-25T03:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5264"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd4"),
     codigo: "INC-2026-0010",
     consecutivo_diario: 1,
     titulo: "El switch del LC-2 vuelve a fallar",
@@ -1227,7 +1227,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "cerrada",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -1247,9 +1247,9 @@ bd.incidencias_campus.insertMany([
     tags: ["switch", "laboratorio", "recurrente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-25T23:13:19.287Z"),
+        fecha: ISODate("2026-09-26T04:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -1257,9 +1257,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-26T01:13:19.287Z"),
+        fecha: ISODate("2026-09-26T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -1268,9 +1268,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-09-26T09:13:19.287Z"),
+        fecha: ISODate("2026-09-26T14:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -1279,9 +1279,9 @@ bd.incidencias_campus.insertMany([
         horas: 2.5
       },
       {
-        fecha: ISODate("2026-09-27T05:13:19.287Z"),
+        fecha: ISODate("2026-09-27T10:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "resuelta",
@@ -1295,23 +1295,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "gabinete-lc2.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0010/6a258a69-8021-4f86-8e36-a72a23e8664b-gabinete-lc2.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0010/6a258a69-8021-4f86-8e36-a72a23e8664b-gabinete-lc2.png",
-        url_expira: ISODate("2026-10-16T02:13:24.689Z"),
-        fecha_carga: ISODate("2026-09-25T23:43:19.287Z")
+        storage_path: "INC-2026-0010/3d94847b-3bfa-49ae-a509-3f74e10721bf-gabinete-lc2.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0010/3d94847b-3bfa-49ae-a509-3f74e10721bf-gabinete-lc2.png",
+        url_expira: ISODate("2026-10-16T07:39:28.409Z"),
+        fecha_carga: ISODate("2026-09-26T05:09:21.675Z")
       }
     ],
     horas_invertidas: 3.5,
-    fecha_creacion: ISODate("2026-09-25T23:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-27T05:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-26T04:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-27T10:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     },
-    fecha_resolucion: ISODate("2026-09-26T09:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-26T14:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5265"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd5"),
     codigo: "INC-2026-0011",
     consecutivo_diario: 1,
     titulo: "Servidor de archivos local caído",
@@ -1320,7 +1320,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "critica",
     estado: "resuelta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
       nombre: "Pedro Canul",
       tipo: "administrativo",
       correo: "pedro.canul@utmetropolitana.edu.mx"
@@ -1340,9 +1340,9 @@ bd.incidencias_campus.insertMany([
     tags: ["servidor", "urgente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-09-27T21:13:19.287Z"),
+        fecha: ISODate("2026-09-28T02:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
           nombre: "Pedro Canul"
         },
         estado_nuevo: "abierta",
@@ -1350,9 +1350,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-09-27T22:13:19.287Z"),
+        fecha: ISODate("2026-09-28T03:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -1361,9 +1361,9 @@ bd.incidencias_campus.insertMany([
         horas: 3
       },
       {
-        fecha: ISODate("2026-09-28T06:13:19.287Z"),
+        fecha: ISODate("2026-09-28T11:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5259"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc9"),
           nombre: "Roberto Mena"
         },
         estado_anterior: "en proceso",
@@ -1377,32 +1377,32 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "raid-degradado.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0011/9588d896-0cef-488f-836a-64af7ae765f1-raid-degradado.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0011/9588d896-0cef-488f-836a-64af7ae765f1-raid-degradado.png",
-        url_expira: ISODate("2026-10-16T02:13:24.991Z"),
-        fecha_carga: ISODate("2026-09-27T21:43:19.287Z")
+        storage_path: "INC-2026-0011/d82acd38-312a-41db-8931-acdde87845c6-raid-degradado.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0011/d82acd38-312a-41db-8931-acdde87845c6-raid-degradado.png",
+        url_expira: ISODate("2026-10-16T07:39:28.923Z"),
+        fecha_carga: ISODate("2026-09-28T03:09:21.675Z")
       },
       {
         nombre_archivo: "informe-servidor.pdf",
         tipo_mime: "application/pdf",
         peso_kb: 0.6,
-        storage_path: "INC-2026-0011/2cbb1be7-863b-4e44-bdb2-311df67c4b7f-informe-servidor.pdf",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0011/2cbb1be7-863b-4e44-bdb2-311df67c4b7f-informe-servidor.pdf",
-        url_expira: ISODate("2026-10-16T02:13:25.359Z"),
-        fecha_carga: ISODate("2026-09-27T22:13:19.287Z")
+        storage_path: "INC-2026-0011/bcedb999-e9bf-43cb-91b8-b74a058bf1a3-informe-servidor.pdf",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0011/bcedb999-e9bf-43cb-91b8-b74a058bf1a3-informe-servidor.pdf",
+        url_expira: ISODate("2026-10-16T07:39:29.259Z"),
+        fecha_carga: ISODate("2026-09-28T03:39:21.675Z")
       }
     ],
     horas_invertidas: 9,
-    fecha_creacion: ISODate("2026-09-27T21:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-09-28T06:13:19.287Z"),
+    fecha_creacion: ISODate("2026-09-28T02:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-09-28T11:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     },
-    fecha_resolucion: ISODate("2026-09-28T06:13:19.287Z")
+    fecha_resolucion: ISODate("2026-09-28T11:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5266"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd6"),
     codigo: "INC-2026-0012",
     consecutivo_diario: 1,
     titulo: "Portal de calificaciones muy lento en horas pico",
@@ -1411,7 +1411,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "baja",
     estado: "en espera",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
       nombre: "Pedro Canul",
       tipo: "administrativo",
       correo: "pedro.canul@utmetropolitana.edu.mx"
@@ -1429,9 +1429,9 @@ bd.incidencias_campus.insertMany([
     tags: ["portal", "rendimiento"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-01T01:13:19.287Z"),
+        fecha: ISODate("2026-10-01T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
           nombre: "Pedro Canul"
         },
         estado_nuevo: "abierta",
@@ -1439,9 +1439,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-01T06:13:19.287Z"),
+        fecha: ISODate("2026-10-01T11:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -1450,9 +1450,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-10-03T13:13:19.287Z"),
+        fecha: ISODate("2026-10-03T18:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -1466,22 +1466,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "tiempos-respuesta.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0012/f1d76398-b55b-45cf-9d00-f4b8e4881287-tiempos-respuesta.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0012/f1d76398-b55b-45cf-9d00-f4b8e4881287-tiempos-respuesta.png",
-        url_expira: ISODate("2026-10-16T02:13:25.635Z"),
-        fecha_carga: ISODate("2026-10-01T01:43:19.287Z")
+        storage_path: "INC-2026-0012/5b8f7492-31b0-4dbb-bbcb-92d03e59d4e6-tiempos-respuesta.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0012/5b8f7492-31b0-4dbb-bbcb-92d03e59d4e6-tiempos-respuesta.png",
+        url_expira: ISODate("2026-10-16T07:39:29.828Z"),
+        fecha_carga: ISODate("2026-10-01T07:09:21.675Z")
       }
     ],
     horas_invertidas: 1.5,
-    fecha_creacion: ISODate("2026-10-01T01:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-03T13:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-01T06:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-03T18:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5267"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd7"),
     codigo: "INC-2026-0013",
     consecutivo_diario: 1,
     titulo: "Cerradura dañada en la puerta del laboratorio LC-1",
@@ -1490,7 +1490,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "resuelta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -1509,9 +1509,9 @@ bd.incidencias_campus.insertMany([
     tags: ["cerradura", "seguridad"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-01T20:13:19.287Z"),
+        fecha: ISODate("2026-10-02T01:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -1519,9 +1519,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-02T02:13:19.287Z"),
+        fecha: ISODate("2026-10-02T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -1530,9 +1530,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-10-02T18:13:19.287Z"),
+        fecha: ISODate("2026-10-02T23:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "en proceso",
@@ -1546,23 +1546,23 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "cerradura-lc1.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0013/5fb00a23-b979-4e3c-8488-b1112947e8d1-cerradura-lc1.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0013/5fb00a23-b979-4e3c-8488-b1112947e8d1-cerradura-lc1.png",
-        url_expira: ISODate("2026-10-16T02:13:25.937Z"),
-        fecha_carga: ISODate("2026-10-01T20:43:19.287Z")
+        storage_path: "INC-2026-0013/5f264b20-a8fd-41d6-944d-602a6a39a11a-cerradura-lc1.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0013/5f264b20-a8fd-41d6-944d-602a6a39a11a-cerradura-lc1.png",
+        url_expira: ISODate("2026-10-16T07:39:30.398Z"),
+        fecha_carga: ISODate("2026-10-02T02:09:21.675Z")
       }
     ],
     horas_invertidas: 2.5,
-    fecha_creacion: ISODate("2026-10-01T20:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-02T18:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-02T01:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-02T23:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     },
-    fecha_resolucion: ISODate("2026-10-02T18:13:19.287Z")
+    fecha_resolucion: ISODate("2026-10-02T23:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5268"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd8"),
     codigo: "INC-2026-0014",
     consecutivo_diario: 1,
     titulo: "Wi-Fi intermitente en la Biblioteca",
@@ -1571,7 +1571,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "en espera",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -1591,9 +1591,9 @@ bd.incidencias_campus.insertMany([
     tags: ["wifi", "access-point", "biblioteca"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-03T20:13:19.287Z"),
+        fecha: ISODate("2026-10-04T01:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -1601,9 +1601,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-04T02:13:19.287Z"),
+        fecha: ISODate("2026-10-04T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -1612,9 +1612,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-10-05T20:13:19.287Z"),
+        fecha: ISODate("2026-10-06T01:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -1628,22 +1628,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "mapa-senal-biblioteca.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0014/8aa42f90-6719-4e9a-9e65-6c184358c791-mapa-senal-biblioteca.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0014/8aa42f90-6719-4e9a-9e65-6c184358c791-mapa-senal-biblioteca.png",
-        url_expira: ISODate("2026-10-16T02:13:26.198Z"),
-        fecha_carga: ISODate("2026-10-03T20:43:19.287Z")
+        storage_path: "INC-2026-0014/484fa8c5-5bcb-43ab-ae20-703ea96b484c-mapa-senal-biblioteca.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0014/484fa8c5-5bcb-43ab-ae20-703ea96b484c-mapa-senal-biblioteca.png",
+        url_expira: ISODate("2026-10-16T07:39:30.718Z"),
+        fecha_carga: ISODate("2026-10-04T02:09:21.675Z")
       }
     ],
     horas_invertidas: 1.5,
-    fecha_creacion: ISODate("2026-10-03T20:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-05T20:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-04T01:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-06T01:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5269"),
+    _id: ObjectId("6ad1c6a46e02164f43308dd9"),
     codigo: "INC-2026-0015",
     consecutivo_diario: 1,
     titulo: "Aire acondicionado sin enfriar en la sala de juntas",
@@ -1652,7 +1652,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "en espera",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
       nombre: "Pedro Canul",
       tipo: "administrativo",
       correo: "pedro.canul@utmetropolitana.edu.mx"
@@ -1672,9 +1672,9 @@ bd.incidencias_campus.insertMany([
     tags: ["climatizacion", "sin-refaccion"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-06T21:13:19.287Z"),
+        fecha: ISODate("2026-10-07T02:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
           nombre: "Pedro Canul"
         },
         estado_nuevo: "abierta",
@@ -1682,9 +1682,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-07T02:13:19.287Z"),
+        fecha: ISODate("2026-10-07T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -1693,9 +1693,9 @@ bd.incidencias_campus.insertMany([
         horas: 1
       },
       {
-        fecha: ISODate("2026-10-08T03:13:19.287Z"),
+        fecha: ISODate("2026-10-08T08:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "en proceso",
@@ -1709,22 +1709,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "unidad-exterior.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0015/cad84da4-5b5b-4c02-9e2e-a57f0f54ade9-unidad-exterior.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0015/cad84da4-5b5b-4c02-9e2e-a57f0f54ade9-unidad-exterior.png",
-        url_expira: ISODate("2026-10-16T02:13:26.520Z"),
-        fecha_carga: ISODate("2026-10-06T21:43:19.287Z")
+        storage_path: "INC-2026-0015/c3318e72-ae1d-424a-82e8-9904df20cfd6-unidad-exterior.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0015/c3318e72-ae1d-424a-82e8-9904df20cfd6-unidad-exterior.png",
+        url_expira: ISODate("2026-10-16T07:39:31.058Z"),
+        fecha_carga: ISODate("2026-10-07T03:09:21.675Z")
       }
     ],
     horas_invertidas: 1.5,
-    fecha_creacion: ISODate("2026-10-06T21:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-08T03:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-07T02:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-08T08:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c526a"),
+    _id: ObjectId("6ad1c6a46e02164f43308dda"),
     codigo: "INC-2026-0016",
     consecutivo_diario: 1,
     titulo: "Access point del Edificio A sin señal",
@@ -1733,7 +1733,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "en proceso",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
       nombre: "Pedro Canul",
       tipo: "administrativo",
       correo: "pedro.canul@utmetropolitana.edu.mx"
@@ -1753,9 +1753,9 @@ bd.incidencias_campus.insertMany([
     tags: ["wifi", "access-point"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-09T00:13:19.287Z"),
+        fecha: ISODate("2026-10-09T05:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
           nombre: "Pedro Canul"
         },
         estado_nuevo: "abierta",
@@ -1763,9 +1763,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-09T03:13:19.287Z"),
+        fecha: ISODate("2026-10-09T08:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
           nombre: "Marisol Be"
         },
         estado_anterior: "abierta",
@@ -1779,22 +1779,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "controlador-wifi.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0016/25f31d0f-0338-4c96-a3b3-383273d671e9-controlador-wifi.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0016/25f31d0f-0338-4c96-a3b3-383273d671e9-controlador-wifi.png",
-        url_expira: ISODate("2026-10-16T02:13:26.871Z"),
-        fecha_carga: ISODate("2026-10-09T00:43:19.287Z")
+        storage_path: "INC-2026-0016/ab089ed6-e666-4619-8c33-cb019d3020d4-controlador-wifi.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0016/ab089ed6-e666-4619-8c33-cb019d3020d4-controlador-wifi.png",
+        url_expira: ISODate("2026-10-16T07:39:31.484Z"),
+        fecha_carga: ISODate("2026-10-09T06:09:21.675Z")
       }
     ],
     horas_invertidas: 1.5,
-    fecha_creacion: ISODate("2026-10-09T00:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-09T03:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-09T05:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-09T08:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5258"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc8"),
       nombre: "Marisol Be"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c526b"),
+    _id: ObjectId("6ad1c6a46e02164f43308ddb"),
     codigo: "INC-2026-0017",
     consecutivo_diario: 1,
     titulo: "Cuentas de correo institucional bloqueadas (periodo 2026-3)",
@@ -1803,7 +1803,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "en proceso",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -1821,9 +1821,9 @@ bd.incidencias_campus.insertMany([
     tags: ["correo", "acceso", "recurrente", "urgente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-09T22:13:19.287Z"),
+        fecha: ISODate("2026-10-10T03:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -1831,9 +1831,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-10T01:13:19.287Z"),
+        fecha: ISODate("2026-10-10T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -1847,22 +1847,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "alta-masiva.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0017/39dba258-b0cb-4120-beb0-f0009ce45983-alta-masiva.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0017/39dba258-b0cb-4120-beb0-f0009ce45983-alta-masiva.png",
-        url_expira: ISODate("2026-10-16T02:13:27.149Z"),
-        fecha_carga: ISODate("2026-10-09T22:43:19.287Z")
+        storage_path: "INC-2026-0017/b138aa63-6a36-4134-83f3-4538d8c87f5d-alta-masiva.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0017/b138aa63-6a36-4134-83f3-4538d8c87f5d-alta-masiva.png",
+        url_expira: ISODate("2026-10-16T07:39:31.819Z"),
+        fecha_carga: ISODate("2026-10-10T04:09:21.675Z")
       }
     ],
     horas_invertidas: 1.5,
-    fecha_creacion: ISODate("2026-10-09T22:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-10T01:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-10T03:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-10T06:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c526c"),
+    _id: ObjectId("6ad1c6a46e02164f43308ddc"),
     codigo: "INC-2026-0018",
     consecutivo_diario: 1,
     titulo: "Access point del LC-2 desconectado",
@@ -1871,7 +1871,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "en proceso",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -1891,9 +1891,9 @@ bd.incidencias_campus.insertMany([
     tags: ["access-point", "wifi", "laboratorio", "recurrente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-10T22:13:19.287Z"),
+        fecha: ISODate("2026-10-11T03:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -1901,9 +1901,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-11T02:13:19.287Z"),
+        fecha: ISODate("2026-10-11T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -1917,22 +1917,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "ap-lc2.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0018/f843e353-8b7a-44ef-8b9e-e9b8b82c9293-ap-lc2.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0018/f843e353-8b7a-44ef-8b9e-e9b8b82c9293-ap-lc2.png",
-        url_expira: ISODate("2026-10-16T02:13:27.424Z"),
-        fecha_carga: ISODate("2026-10-10T22:43:19.287Z")
+        storage_path: "INC-2026-0018/f62b74a4-7cfb-4c92-9069-4aca3fc35308-ap-lc2.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0018/f62b74a4-7cfb-4c92-9069-4aca3fc35308-ap-lc2.png",
+        url_expira: ISODate("2026-10-16T07:39:32.132Z"),
+        fecha_carga: ISODate("2026-10-11T04:09:21.675Z")
       }
     ],
     horas_invertidas: 1,
-    fecha_creacion: ISODate("2026-10-10T22:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-11T02:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-11T03:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-11T07:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c526d"),
+    _id: ObjectId("6ad1c6a46e02164f43308ddd"),
     codigo: "INC-2026-0019",
     consecutivo_diario: 1,
     titulo: "Equipo del laboratorio LC-3 no enciende",
@@ -1941,7 +1941,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "baja",
     estado: "abierta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -1961,9 +1961,9 @@ bd.incidencias_campus.insertMany([
     tags: ["equipo-laboratorio"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-11T19:13:19.287Z"),
+        fecha: ISODate("2026-10-12T00:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -1973,11 +1973,11 @@ bd.incidencias_campus.insertMany([
     ],
     evidencias_adjuntas: [],
     horas_invertidas: 0,
-    fecha_creacion: ISODate("2026-10-11T19:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-11T19:13:19.287Z")
+    fecha_creacion: ISODate("2026-10-12T00:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-12T00:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c526e"),
+    _id: ObjectId("6ad1c6a46e02164f43308dde"),
     codigo: "INC-2026-0020",
     consecutivo_diario: 1,
     titulo: "Luminaria fundida en el pasillo de la Biblioteca",
@@ -1986,7 +1986,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "baja",
     estado: "abierta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
       nombre: "Pedro Canul",
       tipo: "administrativo",
       correo: "pedro.canul@utmetropolitana.edu.mx"
@@ -2005,9 +2005,9 @@ bd.incidencias_campus.insertMany([
     tags: ["luminaria", "biblioteca"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-12T22:13:19.287Z"),
+        fecha: ISODate("2026-10-13T03:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5256"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc6"),
           nombre: "Pedro Canul"
         },
         estado_nuevo: "abierta",
@@ -2017,11 +2017,11 @@ bd.incidencias_campus.insertMany([
     ],
     evidencias_adjuntas: [],
     horas_invertidas: 0,
-    fecha_creacion: ISODate("2026-10-12T22:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-12T22:13:19.287Z")
+    fecha_creacion: ISODate("2026-10-13T03:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-13T03:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c526f"),
+    _id: ObjectId("6ad1c6a46e02164f43308ddf"),
     codigo: "INC-2026-0021",
     consecutivo_diario: 1,
     titulo: "El aula virtual no muestra las tareas de Bases de Datos",
@@ -2030,7 +2030,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "media",
     estado: "abierta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -2049,9 +2049,9 @@ bd.incidencias_campus.insertMany([
     tags: ["lms", "aula-virtual"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-13T19:13:19.287Z"),
+        fecha: ISODate("2026-10-14T00:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -2061,11 +2061,11 @@ bd.incidencias_campus.insertMany([
     ],
     evidencias_adjuntas: [],
     horas_invertidas: 0,
-    fecha_creacion: ISODate("2026-10-13T19:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-13T19:13:19.287Z")
+    fecha_creacion: ISODate("2026-10-14T00:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-14T00:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5270"),
+    _id: ObjectId("6ad1c6a46e02164f43308de0"),
     codigo: "INC-2026-0022",
     consecutivo_diario: 1,
     titulo: "Nueva filtración en el aula A-203 tras la tormenta",
@@ -2074,7 +2074,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "critica",
     estado: "en proceso",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
       nombre: "Mtra. Ana Pech",
       tipo: "docente",
       correo: "ana.pech@utmetropolitana.edu.mx"
@@ -2094,9 +2094,9 @@ bd.incidencias_campus.insertMany([
     tags: ["filtracion", "techo", "recurrente", "urgente"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-13T23:13:19.287Z"),
+        fecha: ISODate("2026-10-14T04:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5254"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc4"),
           nombre: "Mtra. Ana Pech"
         },
         estado_nuevo: "abierta",
@@ -2104,9 +2104,9 @@ bd.incidencias_campus.insertMany([
         horas: 0
       },
       {
-        fecha: ISODate("2026-10-14T02:13:19.287Z"),
+        fecha: ISODate("2026-10-14T07:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
           nombre: "Luis Cauich"
         },
         estado_anterior: "abierta",
@@ -2120,22 +2120,22 @@ bd.incidencias_campus.insertMany([
         nombre_archivo: "luminaria-mojada.png",
         tipo_mime: "image/png",
         peso_kb: 1.02,
-        storage_path: "INC-2026-0022/fa2e5358-134d-4e80-93c5-73964a7c3118-luminaria-mojada.png",
-        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0022/fa2e5358-134d-4e80-93c5-73964a7c3118-luminaria-mojada.png",
-        url_expira: ISODate("2026-10-16T02:13:27.714Z"),
-        fecha_carga: ISODate("2026-10-13T23:43:19.287Z")
+        storage_path: "INC-2026-0022/c5058fc2-455e-4e4b-9ecb-aba8662ca23d-luminaria-mojada.png",
+        url_storage: "https://cyqotsdyewybylwucduu.supabase.co/storage/v1/object/sign/evidencias/INC-2026-0022/c5058fc2-455e-4e4b-9ecb-aba8662ca23d-luminaria-mojada.png",
+        url_expira: ISODate("2026-10-16T07:39:32.739Z"),
+        fecha_carga: ISODate("2026-10-14T05:09:21.675Z")
       }
     ],
     horas_invertidas: 2,
-    fecha_creacion: ISODate("2026-10-13T23:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-14T02:13:19.287Z"),
+    fecha_creacion: ISODate("2026-10-14T04:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-14T07:39:21.675Z"),
     asignado_a: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5257"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc7"),
       nombre: "Luis Cauich"
     }
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5271"),
+    _id: ObjectId("6ad1c6a46e02164f43308de1"),
     codigo: "INC-2026-0023",
     consecutivo_diario: 1,
     titulo: "Los videos del aula virtual no se reproducen",
@@ -2144,7 +2144,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "baja",
     estado: "abierta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -2163,9 +2163,9 @@ bd.incidencias_campus.insertMany([
     tags: ["lms", "video"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-14T23:13:19.287Z"),
+        fecha: ISODate("2026-10-15T04:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -2175,11 +2175,11 @@ bd.incidencias_campus.insertMany([
     ],
     evidencias_adjuntas: [],
     horas_invertidas: 0,
-    fecha_creacion: ISODate("2026-10-14T23:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-14T23:13:19.287Z")
+    fecha_creacion: ISODate("2026-10-15T04:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-15T04:39:21.675Z")
   },
   {
-    _id: ObjectId("6ad17a37159cc5b8876c5272"),
+    _id: ObjectId("6ad1c6a46e02164f43308de2"),
     codigo: "INC-2026-0024",
     consecutivo_diario: 1,
     titulo: "La puerta del aula B-204 no cierra",
@@ -2188,7 +2188,7 @@ bd.incidencias_campus.insertMany([
     prioridad: "alta",
     estado: "abierta",
     reportante: {
-      usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+      usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
       nombre: "Daniela Chan",
       tipo: "estudiante",
       correo: "daniela.chan@utmetropolitana.edu.mx"
@@ -2206,9 +2206,9 @@ bd.incidencias_campus.insertMany([
     tags: ["puerta", "seguridad"],
     historial_seguimiento: [
       {
-        fecha: ISODate("2026-10-15T01:13:19.287Z"),
+        fecha: ISODate("2026-10-15T06:39:21.675Z"),
         autor: {
-          usuario_id: ObjectId("6ad17a30159cc5b8876c5255"),
+          usuario_id: ObjectId("6ad1c69c6e02164f43308dc5"),
           nombre: "Daniela Chan"
         },
         estado_nuevo: "abierta",
@@ -2218,8 +2218,8 @@ bd.incidencias_campus.insertMany([
     ],
     evidencias_adjuntas: [],
     horas_invertidas: 0,
-    fecha_creacion: ISODate("2026-10-15T01:13:19.287Z"),
-    fecha_actualizacion: ISODate("2026-10-15T01:13:19.287Z")
+    fecha_creacion: ISODate("2026-10-15T06:39:21.675Z"),
+    fecha_actualizacion: ISODate("2026-10-15T06:39:21.675Z")
   }
 ]);
 

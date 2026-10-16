@@ -21,7 +21,7 @@ Leyenda: ✅ verificado con evidencia · ⏳ falta verificar · ➖ fuera de alc
 | RF-12 Editar/borrar | PATCH y DELETE coordinador, 403 técnico | Integración + Newman; UI `PanelAdministrar` construido | ✅ API · ⏳ UI coordinador |
 | RF-13 Sesión/permisos | 200 / 401 / 403 | Newman; límite de intentos de login probado en producción | ✅ |
 | RF-14 Datos demo | Seed 24 incidencias; export JSON y script maestro | `db:seed`, `db:verify` 16/16, `db:export`; script maestro corrido en base vacía de Atlas | ✅ (mongosh real ⏳: no instalado) |
-| RF-15 Interfaz | Login, formulario dinámico, lista, expediente, estado, analítica | Recorrido como reportante hecho; técnico, coordinador y directivo ⏳ | ⏳ parcial |
+| RF-15 Interfaz | Login, formulario dinámico, lista, expediente, estado, analítica | Recorrido UI con los 4 roles hecho el 2026-10-16 | ✅ |
 
 ## No funcionales
 
