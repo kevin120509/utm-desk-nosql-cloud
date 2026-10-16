@@ -14,7 +14,9 @@
     "db:ping": "node scripts/db-ping.js",
     "db:setup": "node scripts/db-setup.js",
     "db:seed": "node scripts/db-seed.js",
-    "db:verify": "node scripts/db-verify.js"
+    "db:verify": "node scripts/db-verify.js",
+    "db:export": "node scripts/db-export.js",
+    "demo:ttl": "node scripts/demo-ttl.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
