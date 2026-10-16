@@ -8,6 +8,7 @@ import { rutasEtiquetas } from "./rutas/etiquetas.js";
 import { rutasEvidencias } from "./rutas/evidencias.js";
 import { rutasAnalitica } from "./rutas/analitica.js";
 import { manejadorErrores } from "./middlewares/errores.js";
+import { limiteGeneral, limiteLogin } from "./middlewares/limites.js";
 
 /**
  * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
@@ -15,8 +16,12 @@ import { manejadorErrores } from "./middlewares/errores.js";
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */
-export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica } = {}) {
+export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, limites = {} } = {}) {
   const app = express();
+
+  // Detrás del proxy de Vercel la IP real del cliente viene en X-Forwarded-For (1 salto de confianza).
+  // Sin esto, el límite de peticiones vería la IP del proxy y bloquearía a todos juntos.
+  app.set("trust proxy", 1);
 
   app.use(helmet());
   app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:5173" }));
@@ -27,7 +32,14 @@ export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica }
     res.status(200).json({ ok: true });
   });
 
-  if (auth) app.use("/api/auth", rutasAuth(auth));
+  // Límite general de peticiones (después de /health, que debe responder siempre).
+  app.use("/api", limiteGeneral(limites.general));
+
+  if (auth) {
+    // Límite estricto solo para el login: frena la fuerza bruta de contraseñas.
+    app.use("/api/auth/login", limiteLogin(limites.login));
+    app.use("/api/auth", rutasAuth(auth));
+  }
 
   // Las rutas de incidencias necesitan autenticación y los casos de uso inyectados.
   if (auth && incidencias) {
