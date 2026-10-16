@@ -41,7 +41,7 @@ beforeAll(async () => {
     contador: { siguienteDiario: async () => ++n, siguienteAnual: async () => n },
     usuariosRepo,
   });
-  app = crearApp({ auth, incidencias });
+  app = crearApp({ auth, incidencias: { registrar: incidencias } });
   tokenAna = tokens.firmar({ sub: String(idAna), rol: "reportante", nombre: "Ana" });
   tokenDir = tokens.firmar({ sub: String(idDir), rol: "directivo", nombre: "Dir" });
 });

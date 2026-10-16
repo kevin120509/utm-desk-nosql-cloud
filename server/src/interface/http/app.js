@@ -7,9 +7,10 @@ import { rutasIncidencias } from "./rutas/incidencias.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 
 /**
- * @param {{auth?: {login: Function, usuarioDesdeToken: Function}, incidencias?: Function}} [dependencias]
+ * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
+ *          incidencias?: {registrar: Function, listar: Function, obtener: Function}}} [dependencias]
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
- *   `incidencias` es la función `(sesion, entrada)` de registrarIncidencia.
+ *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */
 export function crearApp({ auth, incidencias } = {}) {
   const app = express();
@@ -25,9 +26,9 @@ export function crearApp({ auth, incidencias } = {}) {
 
   if (auth) app.use("/api/auth", rutasAuth(auth));
 
-  // Las rutas de incidencias necesitan autenticación y el caso de uso de alta.
+  // Las rutas de incidencias necesitan autenticación y los casos de uso inyectados.
   if (auth && incidencias) {
-    app.use("/api/incidencias", rutasIncidencias({ auth, registrarIncidencia: incidencias }));
+    app.use("/api/incidencias", rutasIncidencias({ auth, incidencias }));
   }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.

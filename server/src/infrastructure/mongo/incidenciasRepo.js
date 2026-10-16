@@ -1,8 +1,12 @@
 // Implementación del puerto IncidenciasRepo sobre la colección `incidencias_campus`.
+import { ObjectId } from "mongodb";
 import { ErrorApp } from "../../application/errores.js";
 
 // Mensaje genérico: nunca se expone el detalle de Atlas al cliente.
 const ERROR_GENERICO = "Error interno del servidor";
+
+// En el listado no se envía lo pesado (bitácora, evidencias, detalle): eso va en el expediente.
+const PROYECCION_LISTA = { historial_seguimiento: 0, evidencias_adjuntas: 0, detalle_especifico: 0 };
 
 export class IncidenciasRepoMongo {
   /** @param {import("mongodb").Collection} coleccion */
@@ -24,5 +28,39 @@ export class IncidenciasRepoMongo {
       }
       throw e;
     }
+  }
+
+  /**
+   * Lista paginada, más reciente primero. Los filtros exactos (categoria, estado,
+   * ubicacion.edificio) aprovechan el índice compuesto `idx_cat_estado_edificio`.
+   * @param {{filtros?: {categoria?: string, estado?: string, prioridad?: string, edificio?: string},
+   *          propietarioId?: string, pagina: number, limite: number}} opciones
+   * @returns {Promise<{datos: object[], total: number}>}
+   */
+  async listar({ filtros = {}, propietarioId, pagina, limite }) {
+    const { categoria, estado, prioridad, edificio } = filtros;
+    const filtro = {};
+    if (categoria) filtro.categoria = categoria;
+    if (estado) filtro.estado = estado;
+    if (prioridad) filtro.prioridad = prioridad;
+    if (edificio) filtro["ubicacion.edificio"] = edificio;
+    if (propietarioId) filtro["reportante.usuario_id"] = new ObjectId(propietarioId);
+
+    const [datos, total] = await Promise.all([
+      this.coleccion
+        .find(filtro, { projection: PROYECCION_LISTA })
+        // _id como desempate para que la paginación sea estable.
+        .sort({ fecha_creacion: -1, _id: -1 })
+        .skip((pagina - 1) * limite)
+        .limit(limite)
+        .toArray(),
+      this.coleccion.countDocuments(filtro),
+    ]);
+    return { datos, total };
+  }
+
+  /** Expediente completo por código público, o null si no existe. */
+  async buscarPorCodigo(codigo) {
+    return this.coleccion.findOne({ codigo });
   }
 }

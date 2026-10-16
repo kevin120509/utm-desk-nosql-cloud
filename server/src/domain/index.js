@@ -3,3 +3,4 @@ export * from './enumeraciones.js';
 export * from './transiciones.js';
 export * from './esquemas.js';
 export * from './codigo.js';
+export * from './consulta.js';
