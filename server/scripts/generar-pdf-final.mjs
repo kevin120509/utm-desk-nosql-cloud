@@ -76,11 +76,11 @@ code{font-family:Consolas,"Courier New",monospace;font-size:10pt}
 
 <section class="portada">
 <p><b>Universidad Tecnológica Metropolitana</b></p>
+<p>Desarrollo de Software Multiplataforma · Grupo 7A</p>
 <p>Bases de Datos en la Nube · Unidad II</p>
 <p style="margin-top:.6in" class="titulo"><b>UTM Desk NoSQL Cloud: gestión de incidencias del campus con MongoDB Atlas</b></p>
 <p style="margin-top:.4in">${integrantes.join("<br>")}</p>
-<p style="margin-top:.4in"><span class="pend">[Carrera, grupo y cuatrimestre: completar]</span></p>
-<p><span class="pend">[Nombre del docente: completar]</span></p>
+<p style="margin-top:.4in">Docente: Lizandro Israel Reyes Carrillo</p>
 <p style="margin-top:.3in">16 de octubre de 2026</p>
 </section>
 
