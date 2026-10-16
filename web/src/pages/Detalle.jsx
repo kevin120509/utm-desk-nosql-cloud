@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useIncidencia } from "../hooks/useIncidencia.js";
-import { CATEGORIAS } from "../catalogo.js";
+import { CATEGORIAS, ICONO_CATEGORIA } from "../catalogo.js";
 import { EtiquetaEstado, EtiquetaPrioridad, BORDE_PRIORIDAD } from "../components/Etiquetas.jsx";
 import Cargando from "../components/Cargando.jsx";
 import ErrorMensaje from "../components/ErrorMensaje.jsx";
@@ -10,6 +10,7 @@ import Evidencias from "../components/Evidencias.jsx";
 import Bitacora from "../components/Bitacora.jsx";
 import PanelEstado from "../components/PanelEstado.jsx";
 import PanelEtiquetas from "../components/PanelEtiquetas.jsx";
+import PanelAdministrar from "../components/PanelAdministrar.jsx";
 import SubirEvidencia from "../components/SubirEvidencia.jsx";
 import Icono from "../components/Iconos.jsx";
 import { formatearFecha, formatearHoras } from "../formato.js";
@@ -104,7 +105,10 @@ export default function Detalle() {
         <p className="mt-3 flex flex-wrap items-center gap-2">
           <EtiquetaEstado estado={inc.estado} />
           <EtiquetaPrioridad prioridad={inc.prioridad} />
-          <span className="insignia border-slate-300 bg-white text-slate-700">{CATEGORIAS[inc.categoria] || inc.categoria}</span>
+          <span className="insignia border-slate-300 bg-white text-slate-700">
+            <Icono nombre={ICONO_CATEGORIA[inc.categoria] || "herramienta"} tamano={14} className="text-marca-600" />
+            {CATEGORIAS[inc.categoria] || inc.categoria}
+          </span>
         </p>
         <dl className="mt-5 grid gap-x-8 gap-y-4 border-t border-slate-100 pt-5 sm:grid-cols-2 xl:grid-cols-4">
           <Dato icono="lugar" etiqueta="Ubicación">{lugar}</Dato>
@@ -155,6 +159,9 @@ export default function Detalle() {
           <div id="panel-acciones-personal">
             <PanelEstado codigo={inc.codigo} estadoActual={inc.estado} onActualizado={recargar} />
           </div>
+
+          {/* RF-12: editar y eliminar (solo coordinador; el panel se oculta solo si no aplica). */}
+          <PanelAdministrar incidencia={inc} onActualizado={recargar} />
 
           <Seccion titulo="Reportante" icono="usuario">
             <p className="break-words font-semibold text-slate-900">{inc.reportante?.nombre}</p>

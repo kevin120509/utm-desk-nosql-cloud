@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CATEGORIAS } from "../catalogo.js";
+import { CATEGORIAS, ICONO_CATEGORIA } from "../catalogo.js";
 import { EtiquetaEstado, EtiquetaPrioridad, BORDE_PRIORIDAD } from "./Etiquetas.jsx";
 import Icono from "./Iconos.jsx";
 
@@ -17,7 +17,7 @@ const Score = ({ score }) =>
 const Meta = ({ i }) => (
   <p className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-600">
     <span className="inline-flex items-center gap-1.5">
-      <Icono nombre="herramienta" tamano={15} className="text-slate-400" />
+      <Icono nombre={ICONO_CATEGORIA[i.categoria] || "herramienta"} tamano={15} className="text-marca-600" />
       {CATEGORIAS[i.categoria] || i.categoria}
     </span>
     <span className="inline-flex items-center gap-1.5">

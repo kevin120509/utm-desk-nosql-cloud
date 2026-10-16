@@ -3,6 +3,7 @@ import { api, ErrorApi } from "../api/cliente.js";
 import { useSesion } from "../auth/SesionContext.jsx";
 import { ESTADOS } from "../catalogo.js";
 import Campo from "./Campo.jsx";
+import Icono from "./Iconos.jsx";
 
 // Destinos válidos por estado (espejo de server/src/domain/transiciones.js, plan §5).
 // El servidor sigue siendo la autoridad: aquí solo se evita ofrecer opciones inútiles.
@@ -116,7 +117,8 @@ export default function PanelEstado({ codigo, estadoActual, onActualizado }) {
 
   return (
     <section aria-labelledby="titulo-panel-estado" className="tarjeta border-marca-300 p-5 ring-4 ring-marca-50">
-      <h2 id="titulo-panel-estado" className="mb-3 text-lg font-semibold text-slate-900">
+      <h2 id="titulo-panel-estado" className="mb-4 flex items-center gap-2.5 text-lg font-semibold text-slate-900">
+        <span className="grid size-8 place-items-center rounded-lg bg-marca-50 text-marca-700"><Icono nombre="herramienta" tamano={18} /></span>
         Actualizar estado
       </h2>
 
@@ -135,6 +137,12 @@ export default function PanelEstado({ codigo, estadoActual, onActualizado }) {
             <div role="alert" className="rounded-md border border-red-300 bg-red-50 p-3 text-sm font-medium text-red-900">
               {resumen}
             </div>
+          )}
+
+          {opciones.length === 0 && (
+            <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-700">
+              Esta incidencia está resuelta. Solo el coordinador puede cerrarla.
+            </p>
           )}
 
           <Campo id="estado-nuevo" etiqueta="Nuevo estado" requerido error={errores.estado_nuevo}>
@@ -188,6 +196,7 @@ export default function PanelEstado({ codigo, estadoActual, onActualizado }) {
             disabled={enviando || opciones.length === 0}
             className="btn btn-primario"
           >
+            <Icono nombre="guardar" tamano={18} />
             {enviando ? "Guardando…" : "Guardar cambio"}
           </button>
         </form>

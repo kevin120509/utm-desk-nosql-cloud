@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useSesion } from "../auth/SesionContext.jsx";
 import { ROLES_CREAR } from "../auth/permisos.js";
 import { useListaIncidencias } from "../hooks/useListaIncidencias.js";
@@ -18,6 +18,7 @@ const CLAVES_FILTRO = ["categoria", "estado", "prioridad", "edificio"];
 export default function Incidencias() {
   const { usuario } = useSesion();
   const [params, setParams] = useSearchParams();
+  const eliminada = useLocation().state?.eliminada; // viene de borrar una incidencia en el detalle
 
   // Todo el estado de la consulta vive en el query string (compartible/recargable).
   const filtros = Object.fromEntries(CLAVES_FILTRO.map((k) => [k, params.get(k) || ""]));
@@ -81,6 +82,13 @@ export default function Incidencias() {
         )}
       </header>
 
+      {eliminada && (
+        <p role="status" className="mt-4 flex items-center gap-2 rounded-xl border border-marca-200 bg-marca-50 p-3 text-marca-900">
+          <Icono nombre="check" tamano={18} />
+          La incidencia <strong className="font-mono">{eliminada}</strong> se eliminó correctamente.
+        </p>
+      )}
+
       <form onSubmit={enviarBusqueda} role="search" className="mt-6 flex flex-wrap gap-2">
         <div className="relative min-w-0 flex-1 basis-64">
           <label htmlFor="buscar" className="sr-only">Buscar incidencias</label>
@@ -94,7 +102,10 @@ export default function Incidencias() {
             className="campo pl-11"
           />
         </div>
-        <button type="submit" className="btn btn-primario">Buscar</button>
+        <button type="submit" className="btn btn-primario">
+          <Icono nombre="buscar" tamano={18} />
+          Buscar
+        </button>
       </form>
 
       {/* En búsqueda los filtros no aplican: /buscar solo recibe q. */}

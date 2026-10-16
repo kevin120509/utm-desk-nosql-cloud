@@ -129,6 +129,7 @@ export default function Login() {
             {error && <ErrorMensaje error={error} />}
 
             <button type="submit" disabled={enviando || !correo || !password} className="btn btn-primario w-full min-h-12! text-base!">
+              <Icono nombre="entrar" />
               {enviando ? "Entrando…" : "Entrar"}
             </button>
           </form>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { api, ErrorApi } from "../api/cliente.js";
 import { useSesion } from "../auth/SesionContext.jsx";
 import { formatearPeso } from "../formato.js";
+import Icono from "./Iconos.jsx";
 
 const TIPOS = ["image/jpeg", "image/png", "application/pdf"];
 const MAX_BYTES = 4 * 1024 * 1024; // 4 MB
@@ -117,6 +118,7 @@ export default function SubirEvidencia({ codigo, reportante, onSubida }) {
         disabled={!archivo || subiendo}
         className="btn btn-primario mt-3"
       >
+        <Icono nombre="subir" tamano={18} />
         {subiendo ? "Subiendo…" : "Subir evidencia"}
       </button>
       <p role="status" aria-live="polite" className={aviso ? "mt-2 text-sm text-emerald-900" : "sr-only"}>

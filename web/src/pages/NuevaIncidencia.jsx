@@ -2,8 +2,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { api, ErrorApi } from "../api/cliente.js";
-import { CATEGORIAS, PRIORIDADES, EDIFICIOS } from "../catalogo.js";
+import { CATEGORIAS, PRIORIDADES, EDIFICIOS, ICONO_CATEGORIA, DESCRIPCION_CATEGORIA, DESCRIPCION_PRIORIDAD } from "../catalogo.js";
 import Campo from "../components/Campo.jsx";
+import GrupoTarjetas from "../components/GrupoTarjetas.jsx";
+import Icono from "../components/Iconos.jsx";
 import ErrorMensaje from "../components/ErrorMensaje.jsx";
 import BloqueDetalle, { detalleInicial, validarDetalle, construirDetalle } from "../components/BloqueDetalle.jsx";
 
@@ -53,14 +55,28 @@ export default function NuevaIncidencia() {
   const [errorApi, setErrorApi] = useState(null); // 401/403/red/otros
   const [enviando, setEnviando] = useState(false);
 
-  const set = (campo) => (ev) => setF((s) => ({ ...s, [campo]: ev.target.value }));
+  // Nombre del campo del formulario -> clave de su error (igual que en el cuerpo de la petición).
+  const CLAVE_ERROR = { edificio: "ubicacion.edificio", piso: "ubicacion.piso", espacio: "ubicacion.espacio" };
+  // Al corregir un campo se quita su error: no debe seguir en rojo algo que ya está bien.
+  const quitarError = (clave) =>
+    setErrores((e) => {
+      if (!(clave in e)) return e;
+      const { [clave]: _quitado, ...resto } = e;
+      return resto;
+    });
+
+  const set = (campo) => (ev) => {
+    const valor = ev.target.value;
+    setF((s) => ({ ...s, [campo]: valor }));
+    quitarError(CLAVE_ERROR[campo] || campo);
+  };
 
   // Al cambiar de categoría se descarta el estado del bloque anterior.
   function cambiarCategoria(ev) {
     const cat = ev.target.value;
     setF((s) => ({ ...s, categoria: cat }));
     setDetalle(detalleInicial(cat));
-    setErrores((e) => Object.fromEntries(Object.entries(e).filter(([k]) => !k.startsWith("detalle_especifico."))));
+    setErrores((e) => Object.fromEntries(Object.entries(e).filter(([k]) => k !== "categoria" && !k.startsWith("detalle_especifico."))));
   }
 
   async function enviar(ev) {
@@ -72,7 +88,9 @@ export default function NuevaIncidencia() {
     setErrores(e);
     const primero = Object.keys(e)[0];
     if (primero) {
-      document.getElementById(idDe(primero))?.focus(); // foco al primer error
+      // Foco al primer error. Categoría y prioridad son grupos de radios: se enfoca la primera opción.
+      const destino = document.getElementById(idDe(primero)) || document.querySelector(`input[name="${primero}"]`);
+      destino?.focus();
       return;
     }
 
@@ -140,24 +158,31 @@ export default function NuevaIncidencia() {
           {(p) => <textarea {...p} rows={5} maxLength={MAX_DESC} value={f.descripcion} onChange={set("descripcion")} />}
         </Campo>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Campo id="categoria" etiqueta="Categoría" requerido error={errores.categoria}>
-            {(p) => (
-              <select {...p} value={f.categoria} onChange={cambiarCategoria}>
-                <option value="">Selecciona…</option>
-                {Object.entries(CATEGORIAS).map(([v, t]) => <option key={v} value={v}>{t}</option>)}
-              </select>
-            )}
-          </Campo>
-          <Campo id="prioridad" etiqueta="Prioridad" requerido error={errores.prioridad}>
-            {(p) => (
-              <select {...p} value={f.prioridad} onChange={set("prioridad")}>
-                <option value="">Selecciona…</option>
-                {Object.entries(PRIORIDADES).map(([v, t]) => <option key={v} value={v}>{t}</option>)}
-              </select>
-            )}
-          </Campo>
-        </div>
+        <GrupoTarjetas
+          nombre="categoria"
+          etiqueta="Categoría"
+          requerido
+          valor={f.categoria}
+          onChange={cambiarCategoria}
+          error={errores.categoria}
+          opciones={Object.entries(CATEGORIAS).map(([v, t]) => ({ valor: v, titulo: t, descripcion: DESCRIPCION_CATEGORIA[v], icono: ICONO_CATEGORIA[v] }))}
+        />
+
+        <GrupoTarjetas
+          nombre="prioridad"
+          etiqueta="Prioridad"
+          requerido
+          valor={f.prioridad}
+          onChange={set("prioridad")}
+          error={errores.prioridad}
+          columnas="sm:grid-cols-2 lg:grid-cols-4"
+          opciones={Object.entries(PRIORIDADES).map(([v, t]) => ({
+            valor: v,
+            titulo: t,
+            descripcion: DESCRIPCION_PRIORIDAD[v],
+            punto: { baja: "bg-slate-400", media: "bg-yellow-400", alta: "bg-orange-500", critica: "bg-red-600" }[v],
+          }))}
+        />
 
         </section>
 
@@ -191,7 +216,10 @@ export default function NuevaIncidencia() {
               key={f.categoria}
               categoria={f.categoria}
               valor={detalle}
-              onCambio={(campo, v) => setDetalle((d) => ({ ...d, [campo]: v }))}
+              onCambio={(campo, v) => {
+                setDetalle((d) => ({ ...d, [campo]: v }));
+                quitarError(`detalle_especifico.${campo}`);
+              }}
               errores={errores}
             />
           </section>
@@ -199,6 +227,7 @@ export default function NuevaIncidencia() {
 
         <div className="flex flex-wrap items-center gap-3">
           <button type="submit" disabled={enviando} className="btn btn-primario w-full sm:w-auto">
+            <Icono nombre="check" />
             {enviando ? "Enviando…" : "Crear incidencia"}
           </button>
           <Link to="/incidencias" className="btn btn-secundario w-full sm:w-auto">Cancelar</Link>

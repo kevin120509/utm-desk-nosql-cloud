@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api, ErrorApi } from "../api/cliente.js";
 import { useSesion } from "../auth/SesionContext.jsx";
 import Campo from "./Campo.jsx";
+import Icono from "./Iconos.jsx";
 
 const MIN = 2;
 const MAX = 40;
@@ -66,7 +67,10 @@ export default function PanelEtiquetas({ codigo, tags: inicial = [] }) {
 
   return (
     <section className="tarjeta p-5">
-      <h2 className="mb-3 text-lg font-semibold text-slate-900">Etiquetas</h2>
+      <h2 className="mb-4 flex items-center gap-2.5 text-lg font-semibold text-slate-900">
+        <span className="grid size-8 place-items-center rounded-lg bg-marca-50 text-marca-700"><Icono nombre="etiqueta" tamano={18} /></span>
+        Etiquetas
+      </h2>
 
       {tags.length === 0 ? (
         <p className="text-slate-700">Sin etiquetas.</p>
@@ -103,6 +107,7 @@ export default function PanelEtiquetas({ codigo, tags: inicial = [] }) {
             disabled={ocupado}
             className="btn btn-primario"
           >
+            <Icono nombre="mas" tamano={18} />
             {ocupado ? "Guardando…" : "Agregar"}
           </button>
         </form>
