@@ -1,0 +1,2480 @@
+{
+  "info": {
+    "name": "UTM Desk NoSQL Cloud",
+    "description": "Banco de pruebas de la API de UTM Desk. Una carpeta por caso de uso. Requiere los datos del seed (`npm run db:seed -- --yes`) y un environment con `base_url` y `password`. Ejecución: `npm run test:api` (Newman) o 'Run collection' en Postman, en orden. Cubre POST 201, GET 200, PATCH 200, 400 de validación, 401, 403, 404 y la concurrencia del estado (409).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "codigo",
+      "value": ""
+    },
+    {
+      "key": "estado_paralelo",
+      "value": ""
+    },
+    {
+      "key": "token_tecnico",
+      "value": ""
+    },
+    {
+      "key": "token_coordinador",
+      "value": ""
+    },
+    {
+      "key": "token_directivo",
+      "value": ""
+    },
+    {
+      "key": "token_ana",
+      "value": ""
+    },
+    {
+      "key": "token_daniela",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Salud",
+      "description": "La API responde. Sin autenticación.",
+      "item": [
+        {
+          "name": "GET /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Devuelve { ok: true }\", () => pm.expect(pm.response.json()).to.eql({ ok: true }));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health",
+            "description": "Comprobación de vida (la usa también el despliegue)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Sesión y permisos (RF-13)",
+      "description": "Login por rol (guarda los tokens), 401 y 403.",
+      "item": [
+        {
+          "name": "POST /auth/login — técnico",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 200 OK con credenciales válidas\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve un token y el usuario con su rol, sin hash de contraseña\", () => {",
+                  "  pm.expect(cuerpo.token).to.be.a(\"string\").and.not.empty;",
+                  "  pm.expect(cuerpo.usuario).to.include.keys(\"id\", \"nombre\", \"correo\", \"rol\");",
+                  "  pm.expect(JSON.stringify(cuerpo)).to.not.include(\"password_hash\");",
+                  "});",
+                  "pm.collectionVariables.set(\"token_tecnico\", cuerpo.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Guarda `token_tecnico`.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_tecnico}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /auth/login — coordinador",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 200 OK con credenciales válidas\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve un token y el usuario con su rol, sin hash de contraseña\", () => {",
+                  "  pm.expect(cuerpo.token).to.be.a(\"string\").and.not.empty;",
+                  "  pm.expect(cuerpo.usuario).to.include.keys(\"id\", \"nombre\", \"correo\", \"rol\");",
+                  "  pm.expect(JSON.stringify(cuerpo)).to.not.include(\"password_hash\");",
+                  "});",
+                  "pm.collectionVariables.set(\"token_coordinador\", cuerpo.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Guarda `token_coordinador`.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_coordinador}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /auth/login — directivo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 200 OK con credenciales válidas\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve un token y el usuario con su rol, sin hash de contraseña\", () => {",
+                  "  pm.expect(cuerpo.token).to.be.a(\"string\").and.not.empty;",
+                  "  pm.expect(cuerpo.usuario).to.include.keys(\"id\", \"nombre\", \"correo\", \"rol\");",
+                  "  pm.expect(JSON.stringify(cuerpo)).to.not.include(\"password_hash\");",
+                  "});",
+                  "pm.collectionVariables.set(\"token_directivo\", cuerpo.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Guarda `token_directivo`.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_directivo}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /auth/login — reportante Ana (docente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 200 OK con credenciales válidas\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve un token y el usuario con su rol, sin hash de contraseña\", () => {",
+                  "  pm.expect(cuerpo.token).to.be.a(\"string\").and.not.empty;",
+                  "  pm.expect(cuerpo.usuario).to.include.keys(\"id\", \"nombre\", \"correo\", \"rol\");",
+                  "  pm.expect(JSON.stringify(cuerpo)).to.not.include(\"password_hash\");",
+                  "});",
+                  "pm.collectionVariables.set(\"token_ana\", cuerpo.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Guarda `token_ana`. Es la dueña de la incidencia de la prueba.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_ana}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /auth/login — reportante Daniela (estudiante)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 200 OK con credenciales válidas\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve un token y el usuario con su rol, sin hash de contraseña\", () => {",
+                  "  pm.expect(cuerpo.token).to.be.a(\"string\").and.not.empty;",
+                  "  pm.expect(cuerpo.usuario).to.include.keys(\"id\", \"nombre\", \"correo\", \"rol\");",
+                  "  pm.expect(JSON.stringify(cuerpo)).to.not.include(\"password_hash\");",
+                  "});",
+                  "pm.collectionVariables.set(\"token_daniela\", cuerpo.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Guarda `token_daniela`. Sirve para probar acceso a incidencias ajenas.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_daniela}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /auth/login — contraseña incorrecta (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 401 Unauthorized\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo CREDENCIALES_INVALIDAS\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"CREDENCIALES_INVALIDAS\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Mismo error genérico que un correo inexistente: no revela si la cuenta existe.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_ana}}\",\n  \"password\": \"no-es-la-contraseña\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /auth/login — cuerpo inválido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"400 Bad Request\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "description": "Falta la contraseña: error de validación con detalles por campo.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"correo\": \"{{correo_ana}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /auth/me",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Devuelve el usuario con rol reportante\", () => {",
+                  "  const u = pm.response.json().usuario;",
+                  "  pm.expect(u.rol).to.eql(\"reportante\");",
+                  "  pm.expect(u).to.not.have.property(\"password_hash\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/auth/me",
+            "description": "Devuelve el usuario de la sesión."
+          }
+        },
+        {
+          "name": "GET /incidencias — sin token (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 401 sin token\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo NO_AUTENTICADO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"NO_AUTENTICADO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/incidencias",
+            "description": "Toda ruta de incidencias exige sesión."
+          }
+        },
+        {
+          "name": "GET /incidencias — token inválido (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 401 con token inválido\", () => pm.response.to.have.status(401));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo NO_AUTENTICADO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"NO_AUTENTICADO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer token.invalido.xyz",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "Un token mal formado se rechaza igual."
+          }
+        },
+        {
+          "name": "GET /analitica/edificios — reportante (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 403 Forbidden\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/analitica/edificios",
+            "description": "El rol reportante no tiene permiso para la analítica."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Registrar incidencia (CU-01 · RF-01/02/03)",
+      "description": "Alta con detalle polimórfico, validación y permisos. Guarda `codigo` para las carpetas siguientes.",
+      "item": [
+        {
+          "name": "POST /incidencias — alta válida (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-01: 201 Created\", () => pm.response.to.have.status(201));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Tiene código INC-AAAA-NNNN, estado abierta y consecutivo diario\", () => {",
+                  "  pm.expect(cuerpo.codigo).to.match(/^INC-\\d{4}-\\d{4,}$/);",
+                  "  pm.expect(cuerpo.estado).to.eql(\"abierta\");",
+                  "  pm.expect(cuerpo.consecutivo_diario).to.be.a(\"number\").and.at.least(1);",
+                  "});",
+                  "pm.test(\"Inicializa bitácora, etiquetas, evidencias y horas\", () => {",
+                  "  pm.expect(cuerpo.historial_seguimiento).to.have.lengthOf(1);",
+                  "  pm.expect(cuerpo.tags).to.eql([]);",
+                  "  pm.expect(cuerpo.evidencias_adjuntas).to.eql([]);",
+                  "  pm.expect(cuerpo.horas_invertidas).to.eql(0);",
+                  "});",
+                  "pm.test(\"El reportante viene de la sesión (Ana), no del cuerpo\", () => {",
+                  "  pm.expect(cuerpo.reportante.nombre).to.include(\"Ana\");",
+                  "});",
+                  "pm.test(\"No hay campos null ni fecha_resolucion\", () => {",
+                  "  pm.expect(JSON.stringify(cuerpo)).to.not.include(\"null\");",
+                  "  pm.expect(cuerpo).to.not.have.property(\"fecha_resolucion\");",
+                  "});",
+                  "pm.collectionVariables.set(\"codigo\", cuerpo.codigo);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "Alta de una incidencia de cómputo y redes. El reportante sale de la sesión. Guarda `codigo`.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba Postman: filtración eléctrica en el switch del laboratorio\",\n  \"descripcion\": \"Creada por la colección de Postman para validar el ciclo completo de una incidencia.\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Laboratorios de Cómputo\",\n    \"piso\": 1,\n    \"espacio\": \"LC-9\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_falla\": \"switch\",\n    \"direccion_ip\": \"10.20.9.1\",\n    \"vlan\": 90,\n    \"puerto_uplink\": \"Gi1/0/24\",\n    \"equipos_afectados\": 12\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias — detalle de otra categoría (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-02: 400 Bad Request\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});",
+                  "pm.test(\"Incluye detalles por campo\", () => pm.expect(pm.response.json().error.detalles).to.be.an(\"object\").and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "RF-02: el `detalle_especifico` de infraestructura no corresponde a la categoría computo_redes.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba Postman: filtración eléctrica en el switch del laboratorio\",\n  \"descripcion\": \"Creada por la colección de Postman para validar el ciclo completo de una incidencia.\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Laboratorios de Cómputo\",\n    \"piso\": 1,\n    \"espacio\": \"LC-9\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_dano\": \"filtracion\",\n    \"riesgo_seguridad\": \"bajo\",\n    \"requiere_contratista\": false\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias — campo extra reportante (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-02: 400 con campos extra\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "El cliente no puede fijar el reportante ni el estado: los campos extra se rechazan.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba Postman: filtración eléctrica en el switch del laboratorio\",\n  \"descripcion\": \"Creada por la colección de Postman para validar el ciclo completo de una incidencia.\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Laboratorios de Cómputo\",\n    \"piso\": 1,\n    \"espacio\": \"LC-9\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_falla\": \"switch\",\n    \"direccion_ip\": \"10.20.9.1\",\n    \"vlan\": 90,\n    \"puerto_uplink\": \"Gi1/0/24\",\n    \"equipos_afectados\": 12\n  },\n  \"reportante\": {\n    \"nombre\": \"Otra persona\"\n  },\n  \"estado\": \"cerrada\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias — campo obligatorio faltante (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-02: 400 Bad Request\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El detalle menciona el campo titulo\", () => pm.expect(pm.response.json().error.detalles).to.have.property(\"titulo\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "Sin título.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Creada por la colección de Postman para validar el ciclo completo de una incidencia.\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Laboratorios de Cómputo\",\n    \"piso\": 1,\n    \"espacio\": \"LC-9\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_falla\": \"switch\",\n    \"direccion_ip\": \"10.20.9.1\",\n    \"vlan\": 90,\n    \"puerto_uplink\": \"Gi1/0/24\",\n    \"equipos_afectados\": 12\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias — directivo (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 403 Forbidden\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_directivo}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "El directivo es de solo lectura.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba Postman: filtración eléctrica en el switch del laboratorio\",\n  \"descripcion\": \"Creada por la colección de Postman para validar el ciclo completo de una incidencia.\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Laboratorios de Cómputo\",\n    \"piso\": 1,\n    \"espacio\": \"LC-9\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_falla\": \"switch\",\n    \"direccion_ip\": \"10.20.9.1\",\n    \"vlan\": 90,\n    \"puerto_uplink\": \"Gi1/0/24\",\n    \"equipos_afectados\": 12\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias — sin token (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-13: 401 Unauthorized\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias",
+            "description": "Sin sesión no se puede crear.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba Postman: filtración eléctrica en el switch del laboratorio\",\n  \"descripcion\": \"Creada por la colección de Postman para validar el ciclo completo de una incidencia.\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Laboratorios de Cómputo\",\n    \"piso\": 1,\n    \"espacio\": \"LC-9\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_falla\": \"switch\",\n    \"direccion_ip\": \"10.20.9.1\",\n    \"vlan\": 90,\n    \"puerto_uplink\": \"Gi1/0/24\",\n    \"equipos_afectados\": 12\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Consultar y listar (RF-05/06)",
+      "description": "Lista filtrada y paginada, expediente completo y permisos por dueño.",
+      "item": [
+        {
+          "name": "GET /incidencias — técnico ve todas (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-06: 200 OK\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve { datos, total, pagina } con 5 como máximo\", () => {",
+                  "  pm.expect(cuerpo.datos).to.be.an(\"array\").with.length.within(1, 5);",
+                  "  pm.expect(cuerpo.total).to.be.a(\"number\").and.at.least(cuerpo.datos.length);",
+                  "  pm.expect(cuerpo.pagina).to.eql(1);",
+                  "});",
+                  "pm.test(\"La lista es ligera (sin bitácora ni evidencias) y ordenada por fecha desc\", () => {",
+                  "  pm.expect(cuerpo.datos[0]).to.not.have.property(\"historial_seguimiento\");",
+                  "  const f = cuerpo.datos.map((d) => new Date(d.fecha_creacion).getTime());",
+                  "  pm.expect(f).to.eql([...f].sort((a, b) => b - a));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias?limite=5",
+            "description": "Lista paginada, más reciente primero."
+          }
+        },
+        {
+          "name": "GET /incidencias?categoria&estado — filtros (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Todos los resultados cumplen el filtro\", () => {",
+                  "  for (const d of pm.response.json().datos) {",
+                  "    pm.expect(d.categoria).to.eql(\"computo_redes\");",
+                  "    pm.expect(d.estado).to.eql(\"abierta\");",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias?categoria=computo_redes&estado=abierta",
+            "description": "Filtros combinados (usa el índice compuesto)."
+          }
+        },
+        {
+          "name": "GET /incidencias — reportante solo ve las suyas (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Todas las incidencias son de Daniela\", () => {",
+                  "  const datos = pm.response.json().datos;",
+                  "  pm.expect(datos).to.be.an(\"array\");",
+                  "  for (const d of datos) pm.expect(d.reportante.nombre).to.include(\"Daniela\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_daniela}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias?limite=50",
+            "description": "Daniela solo recibe sus propias incidencias."
+          }
+        },
+        {
+          "name": "GET /incidencias — parámetros inválidos (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});",
+                  "pm.test(\"Detalla cada parámetro inválido\", () => {",
+                  "  const d = pm.response.json().error.detalles;",
+                  "  pm.expect(d).to.have.property(\"limite\");",
+                  "  pm.expect(d).to.have.property(\"estado\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias?limite=999&estado=nada",
+            "description": "Límite fuera de rango y estado desconocido."
+          }
+        },
+        {
+          "name": "GET /incidencias/:codigo — dueña (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-05: 200 OK\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Es el documento completo\", () => {",
+                  "  pm.expect(cuerpo.codigo).to.eql(pm.collectionVariables.get(\"codigo\"));",
+                  "  pm.expect(cuerpo).to.include.keys(\"detalle_especifico\", \"historial_seguimiento\", \"evidencias_adjuntas\", \"tags\", \"reportante\", \"ubicacion\");",
+                  "  pm.expect(cuerpo.detalle_especifico.tipo_falla).to.eql(\"switch\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "Expediente completo en una sola lectura."
+          }
+        },
+        {
+          "name": "GET /incidencias/:codigo — reportante ajeno (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-05: 403 Forbidden\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_daniela}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "Daniela no puede ver la incidencia de Ana."
+          }
+        },
+        {
+          "name": "GET /incidencias/:codigo — no existe (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"404 Not Found\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo NO_ENCONTRADO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"NO_ENCONTRADO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/INC-2026-9998",
+            "description": "También es lo que verá la UI al abrir un enlace de una incidencia ya depurada por el TTL."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Etiquetas (CU-04 · RF-08)",
+      "description": "$addToSet sin duplicados y $pull.",
+      "item": [
+        {
+          "name": "POST /incidencias/:codigo/tags — agrega y normaliza (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-08: 200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"La etiqueta quedó en minúsculas y sin espacios\", () => pm.expect(pm.response.json().tags).to.include(\"switch\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/tags",
+            "description": "\" Switch \" se guarda como `switch`.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \" Switch \"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/tags — repetida con otro formato (200, sin duplicar)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Sigue habiendo una sola etiqueta switch\", () => {",
+                  "  const tags = pm.response.json().tags;",
+                  "  pm.expect(tags.filter((x) => x === \"switch\")).to.have.lengthOf(1);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/tags",
+            "description": "\"SWITCH\" es la misma etiqueta: `$addToSet` deja el arreglo igual.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"SWITCH\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/tags — etiqueta demasiado corta (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/tags",
+            "description": "Mínimo 2 caracteres.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"a\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/tags — reportante (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/tags",
+            "description": "Solo técnico y coordinador gestionan etiquetas.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"wifi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/tags — incidencia inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/INC-2026-9998/tags",
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"wifi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/tags — segunda etiqueta (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Hay dos etiquetas\", () => pm.expect(pm.response.json().tags).to.have.members([\"switch\", \"sin-red\"]));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/tags",
+            "description": "Prepara el DELETE siguiente.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"sin-red\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /incidencias/:codigo/tags/:tag — quita (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-08: 200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"La etiqueta ya no está\", () => pm.expect(pm.response.json().tags).to.eql([\"switch\"]));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/tags/sin-red",
+            "description": "`$pull`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Evidencias (CU-02 · RF-04)",
+      "description": "Subida multipart al bucket privado de Supabase. Requiere la carpeta `fixtures/` junto a la colección.",
+      "item": [
+        {
+          "name": "POST /incidencias/:codigo/evidencias — PNG válido (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-04: 201 Created\", () => pm.response.to.have.status(201));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Devuelve los metadatos de la evidencia\", () => {",
+                  "  pm.expect(cuerpo).to.include.keys(\"nombre_archivo\", \"tipo_mime\", \"peso_kb\", \"storage_path\", \"url_storage\", \"url_expira\", \"fecha_carga\");",
+                  "  pm.expect(cuerpo.tipo_mime).to.eql(\"image/png\");",
+                  "  pm.expect(cuerpo.storage_path).to.match(/^INC-\\d{4}-\\d{4,}\\//);",
+                  "  pm.expect(cuerpo.url_storage).to.match(/^https:\\/\\//);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/evidencias",
+            "description": "La dueña sube una imagen. El tipo se detecta por los bytes; se devuelve una URL firmada temporal.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "archivo",
+                  "type": "file",
+                  "src": "fixtures/evidencia.png"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/evidencias — texto renombrado como .png (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-04: 400 Bad Request\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo ARCHIVO_INVALIDO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"ARCHIVO_INVALIDO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/evidencias",
+            "description": "Se valida el tipo REAL por los bytes, no la extensión. No se sube nada.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "archivo",
+                  "type": "file",
+                  "src": "fixtures/no-es-imagen.png"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/evidencias — sin archivo (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo ARCHIVO_INVALIDO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"ARCHIVO_INVALIDO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/evidencias",
+            "description": "",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "nota",
+                  "type": "text",
+                  "value": "sin archivo"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/evidencias — reportante ajeno (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_daniela}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/evidencias",
+            "description": "Daniela no puede adjuntar a la incidencia de Ana.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "archivo",
+                  "type": "file",
+                  "src": "fixtures/evidencia.png"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /incidencias/:codigo/evidencias — incidencia inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/INC-2026-9998/evidencias",
+            "description": "",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "archivo",
+                  "type": "file",
+                  "src": "fixtures/evidencia.png"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /incidencias/:codigo — la evidencia quedó en el expediente (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Hay exactamente una evidencia con URL firmada\", () => {",
+                  "  const ev = pm.response.json().evidencias_adjuntas;",
+                  "  pm.expect(ev).to.have.lengthOf(1);",
+                  "  pm.expect(ev[0].url_storage).to.match(/^https:\\/\\/.+token=/);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "La URL firmada se regenera al leer."
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Estado y bitácora (CU-03 · RF-07)",
+      "description": "Cambio de estado atómico ($set + $push + $inc), transiciones y concurrencia.",
+      "item": [
+        {
+          "name": "PATCH /incidencias/:codigo/estado — reportante (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_ana}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "Solo técnico y coordinador cambian el estado.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"en proceso\",\n  \"horas\": 1,\n  \"comentario\": \"Intento no autorizado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — abierta a en proceso (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-07: 200 OK\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Estado, horas y bitácora actualizados\", () => {",
+                  "  pm.expect(cuerpo.estado).to.eql(\"en proceso\");",
+                  "  pm.expect(cuerpo.horas_invertidas).to.eql(1.5);",
+                  "  pm.expect(cuerpo.historial_seguimiento).to.have.lengthOf(2);",
+                  "  const ultima = cuerpo.historial_seguimiento[1];",
+                  "  pm.expect(ultima.estado_anterior).to.eql(\"abierta\");",
+                  "  pm.expect(ultima.estado_nuevo).to.eql(\"en proceso\");",
+                  "});",
+                  "pm.test(\"Se asignó al técnico y todavía no hay fecha_resolucion\", () => {",
+                  "  pm.expect(cuerpo.asignado_a.nombre).to.be.a(\"string\");",
+                  "  pm.expect(cuerpo).to.not.have.property(\"fecha_resolucion\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "Un solo `updateOne` con $set, $push e $inc.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"en proceso\",\n  \"horas\": 1.5,\n  \"comentario\": \"Revisando el uplink del switch\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — horas fuera de rango (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-07: 400 Bad Request\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El detalle menciona horas\", () => pm.expect(pm.response.json().error.detalles).to.have.property(\"horas\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "Más de 24 horas por intervención.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"en espera\",\n  \"horas\": 99,\n  \"comentario\": \"Demasiadas horas\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — técnico no puede cerrar (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo TRANSICION_INVALIDA\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"TRANSICION_INVALIDA\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "Cerrar es solo del coordinador y solo desde resuelta.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"cerrada\",\n  \"horas\": 0,\n  \"comentario\": \"Intento de cierre\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — dos escrituras simultáneas (solo una se aplica)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.variables.get(\"base_url\");",
+                  "pm.sendRequest({",
+                  "  url: base + \"/incidencias/\" + pm.collectionVariables.get(\"codigo\") + \"/estado\",",
+                  "  method: \"PATCH\",",
+                  "  header: { \"Content-Type\": \"application/json\", Authorization: \"Bearer \" + pm.collectionVariables.get(\"token_tecnico\") },",
+                  "  body: { mode: \"raw\", raw: JSON.stringify({ estado_nuevo: \"en espera\", horas: 2, comentario: \"Concurrencia B: esperando refacción\" }) },",
+                  "}, (err, res) => {",
+                  "  pm.collectionVariables.set(\"estado_paralelo\", err ? \"error\" : String(res.code));",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const propio = pm.response.code;",
+                  "pm.test(\"La petición propia respondió 200 o 409/400 (nunca 5xx)\", () => pm.expect([200, 400, 409]).to.include(propio));",
+                  "pm.test(\"Exactamente UNA de las dos escrituras se aplicó\", () => {",
+                  "  const otro = Number(pm.collectionVariables.get(\"estado_paralelo\"));",
+                  "  pm.expect([200, 400, 409]).to.include(otro);",
+                  "  const aplicadas = [propio, otro].filter((c) => c === 200).length;",
+                  "  pm.expect(aplicadas).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "La petición y una segunda enviada en paralelo desde el pre-request intentan cambiar el estado desde `en proceso`. El filtro por estado leído garantiza que solo una se aplique: la otra recibe 409 CONFLICTO (leyó el estado antes del cambio) o 400 (leyó el estado ya cambiado). Nunca se aplican las dos. La prueba determinista del 409 está en las pruebas de integración (`actualizarEstado.integracion.test.js`).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"en espera\",\n  \"horas\": 1,\n  \"comentario\": \"Concurrencia A: esperando refacción\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /incidencias/:codigo — horas y bitácora coherentes tras la concurrencia (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Estado en espera, 3 entradas en la bitácora y horas de una sola escritura\", () => {",
+                  "  pm.expect(cuerpo.estado).to.eql(\"en espera\");",
+                  "  pm.expect(cuerpo.historial_seguimiento).to.have.lengthOf(3);",
+                  "  pm.expect([2.5, 3.5]).to.include(cuerpo.horas_invertidas);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "Con una sola escritura aplicada, las horas son 1.5 + (1 o 2) y la bitácora tiene 3 entradas."
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — en espera a resuelta (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Resuelta, con fecha_resolucion como fecha válida\", () => {",
+                  "  pm.expect(cuerpo.estado).to.eql(\"resuelta\");",
+                  "  pm.expect(cuerpo.fecha_resolucion).to.be.a(\"string\");",
+                  "  pm.expect(new Date(cuerpo.fecha_resolucion).toString()).to.not.eql(\"Invalid Date\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "Al resolver se asienta `fecha_resolucion` (la que usa el TTL de 60 días).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"resuelta\",\n  \"horas\": 2,\n  \"comentario\": \"Se reemplazó el módulo SFP del uplink\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — coordinador cierra (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Cerrada y con fecha_resolucion conservada\", () => {",
+                  "  const c = pm.response.json();",
+                  "  pm.expect(c.estado).to.eql(\"cerrada\");",
+                  "  pm.expect(c.fecha_resolucion).to.be.a(\"string\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "resuelta a cerrada solo por el coordinador; conserva la fecha_resolucion.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"cerrada\",\n  \"horas\": 0,\n  \"comentario\": \"Cierre administrativo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — cerrada es final (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo TRANSICION_INVALIDA\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"TRANSICION_INVALIDA\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/estado",
+            "description": "Nada se reabre.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"en proceso\",\n  \"horas\": 0,\n  \"comentario\": \"Intento de reabrir\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/estado — incidencia inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/INC-2026-9998/estado",
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado_nuevo\": \"en proceso\",\n  \"horas\": 1,\n  \"comentario\": \"No existe\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Búsqueda textual (CU-05 · RF-09)",
+      "description": "`$text` con índice ponderado en español y `textScore`.",
+      "item": [
+        {
+          "name": "GET /incidencias/buscar?q=filtración (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-09: 200 OK\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Hay resultados con score y orden descendente\", () => {",
+                  "  pm.expect(cuerpo.datos).to.be.an(\"array\").and.not.empty;",
+                  "  const s = cuerpo.datos.map((d) => d.score);",
+                  "  for (const x of s) pm.expect(x).to.be.a(\"number\");",
+                  "  pm.expect(s).to.eql([...s].sort((a, b) => b - a));",
+                  "});",
+                  "pm.test(\"Los resultados son ligeros (sin bitácora)\", () => pm.expect(cuerpo.datos[0]).to.not.have.property(\"historial_seguimiento\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/buscar?q=filtraci%C3%B3n",
+            "description": "Devuelve resultados con `score`, de mayor a menor relevancia. Encuentra también la incidencia de la prueba."
+          }
+        },
+        {
+          "name": "GET /incidencias/buscar?q=filtracion — sin acento (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"También encuentra resultados\", () => pm.expect(pm.response.json().datos).to.not.be.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/buscar?q=filtracion",
+            "description": "El índice en español ignora acentos y usa raíces: mismo resultado."
+          }
+        },
+        {
+          "name": "GET /incidencias/buscar — q vacío (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-09: 400 Bad Request\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/buscar?q=",
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /incidencias/buscar — sin token (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/incidencias/buscar?q=switch",
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Analítica (CU-06 · RF-10)",
+      "description": "Pipeline 1 (eficiencia por edificio) y Pipeline 2 (top 10 de etiquetas).",
+      "item": [
+        {
+          "name": "GET /analitica/edificios — directivo (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-10: 200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Cada edificio trae promedio, horas y conteo, ordenado por promedio desc\", () => {",
+                  "  const datos = pm.response.json().datos;",
+                  "  pm.expect(datos).to.be.an(\"array\").and.not.empty;",
+                  "  for (const d of datos) pm.expect(d).to.include.keys(\"edificio\", \"promedio_horas_resolucion\", \"total_horas_trabajo\", \"total_incidencias\");",
+                  "  const p = datos.map((d) => d.promedio_horas_resolucion);",
+                  "  pm.expect(p).to.eql([...p].sort((a, b) => b - a));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_directivo}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/analitica/edificios",
+            "description": "Promedio y total de horas por edificio (`$match`, `$group`, `$sort`)."
+          }
+        },
+        {
+          "name": "GET /analitica/tags — coordinador (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Como máximo 10, ordenadas por total desc\", () => {",
+                  "  const datos = pm.response.json().datos;",
+                  "  pm.expect(datos).to.be.an(\"array\").with.length.within(1, 10);",
+                  "  for (const d of datos) pm.expect(d).to.include.keys(\"tag\", \"total\", \"edificios\");",
+                  "  const tot = datos.map((d) => d.total);",
+                  "  pm.expect(tot).to.eql([...tot].sort((a, b) => b - a));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/analitica/tags",
+            "description": "Ranking de las 10 etiquetas más frecuentes (`$unwind`, `$group`, `$sort`, `$limit`)."
+          }
+        },
+        {
+          "name": "GET /analitica/tags — técnico (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/analitica/tags",
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Editar y borrar (RF-12)",
+      "description": "Solo coordinador. El borrado limpia también los archivos del bucket y deja la base como estaba.",
+      "item": [
+        {
+          "name": "PATCH /incidencias/:codigo — técnico (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", () => pm.response.to.have.status(403));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo SIN_PERMISO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"SIN_PERMISO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prioridad\": \"critica\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo — campo no editable (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo VALIDACION\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"VALIDACION\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "La categoría no se puede cambiar.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoria\": \"academico\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo — coordinador edita (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-12: 200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Los campos cambiaron\", () => {",
+                  "  const c = pm.response.json();",
+                  "  pm.expect(c.titulo).to.include(\"(corregido)\");",
+                  "  pm.expect(c.prioridad).to.eql(\"critica\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "`$set` de campos universales.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba Postman: fallo del switch del laboratorio (corregido)\",\n  \"prioridad\": \"critica\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /incidencias/:codigo — técnico (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_tecnico}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": ""
+          }
+        },
+        {
+          "name": "DELETE /incidencias/:codigo — coordinador (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"RF-12: 200 OK\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Confirma la eliminación\", () => pm.expect(pm.response.json()).to.eql({ eliminada: true, codigo: pm.collectionVariables.get(\"codigo\") }));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "Borra el documento y sus archivos del bucket."
+          }
+        },
+        {
+          "name": "GET /incidencias/:codigo — ya no existe (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"El error tiene el formato { error: { codigo, mensaje } } con codigo NO_ENCONTRADO\", () => {",
+                  "  const e = pm.response.json().error;",
+                  "  pm.expect(e).to.be.an(\"object\");",
+                  "  pm.expect(e.codigo).to.eql(\"NO_ENCONTRADO\");",
+                  "  pm.expect(e.mensaje).to.be.a(\"string\").and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": "Comprueba el borrado."
+          }
+        },
+        {
+          "name": "DELETE /incidencias/:codigo — segunda vez (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}",
+            "description": ""
+          }
+        }
+      ]
+    }
+  ]
+}

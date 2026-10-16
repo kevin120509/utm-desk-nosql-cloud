@@ -16,7 +16,9 @@
     "db:seed": "node scripts/db-seed.js",
     "db:verify": "node scripts/db-verify.js",
     "db:export": "node scripts/db-export.js",
-    "demo:ttl": "node scripts/demo-ttl.js"
+    "demo:ttl": "node scripts/demo-ttl.js",
+    "postman:build": "node scripts/postman/construirColeccion.js",
+    "test:api": "node scripts/test-api.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
@@ -32,6 +34,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "newman": "^6.2.3",
     "supertest": "^7.3.1",
     "vitest": "^5.0.5"
   }

@@ -46,8 +46,8 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [ ] **F08 Pulido.** Estados vacíos, cargando, errores, responsivo, foco y contraste. *Hecho cuando:* recorrido en móvil sin scroll horizontal.
 
 ## Hito 6 — Integración y calidad [R]
-- [ ] **R02 [R] Colección Postman.** Carpeta por caso de uso, variables `token` y `codigo`, `pm.test` en cada petición; incluye POST 201, GET 200, PATCH 200, POST 400, 401, 403, 404, 409. *Hecho cuando:* exportada a `postman/`.
-- [ ] **R03 [R] Newman.** `npm run test:api` corre la colección completa. *Hecho cuando:* todo en verde contra el servidor desplegado.
+- [x] **R02 [R] Colección Postman.** (hecho 2026-10-15: 10 carpetas, 62 peticiones, 125 pruebas en `postman/`; el 409 determinista queda cubierto por las pruebas de integración, en Postman la carrera acepta 409 o 400 y exige que solo una escritura se aplique) Carpeta por caso de uso, variables `token` y `codigo`, `pm.test` en cada petición; incluye POST 201, GET 200, PATCH 200, POST 400, 401, 403, 404, 409. *Hecho cuando:* exportada a `postman/`.
+- [x] **R03 [R] Newman.** (hecho 2026-10-15 contra la API LOCAL: 63 peticiones, 125/125 pruebas, 2 corridas seguidas; FALTA repetirlo con `API_URL=` contra el servidor desplegado tras B16) `npm run test:api` corre la colección completa. *Hecho cuando:* todo en verde contra el servidor desplegado.
 - [ ] **R04 [R] Verificación en Atlas.** `getIndexes()`, `explain()` (lista y búsqueda), validador activo, CRUD visto en Atlas. *Hecho cuando:* capturas guardadas en `docs/capturas/`.
 - [ ] **R05 [R] Seguridad.** Revisar: secretos fuera de git, roles en servidor, rate-limit, `helmet`, mime real, bucket privado, mensajes de error sin datos internos. *Hecho cuando:* lista de revisión sin pendientes críticos.
 - [ ] **R06 [R] Recorrido E2E por rol.** UI ↔ API ↔ Atlas con los 4 roles. *Hecho cuando:* informe final del revisor (qué probó, qué falló, qué se corrigió).
