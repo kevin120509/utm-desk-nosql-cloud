@@ -7,7 +7,9 @@ Sin datos sensibles aquí (claves, tokens, contraseñas). Máx. ~50 líneas. Act
 - 2026-10-15: D01 hecho: `entregables/Fase1_UTM-Desk-NoSQL-Cloud.pdf` (13 págs, portada UTM, 3 entregables de Fase 1). Falta revisión de Kevin.
 - Fase 1 se entrega hoy (2026-10-15). Fase 2 sin fecha confirmada.
 - 2026-10-15 T00 parcial: Atlas conecta (Cluster0 reutilizado, usuario `utmdesk_app`, `server/.env` listo). Rol restringido y verificado: `readWrite` solo en `utmdesk` (lectura de otras bases denegada). Supabase: proyecto `utm-desk-nosql-cloud` (org "kevin vargas") con bucket privado `evidencias` (4 MB, jpeg/png/pdf), `SUPABASE_URL` en `.env`. GitHub: repo privado `kevin120509/utm-desk-nosql-cloud`, rama `main` con el commit de planeación. Pendiente: Kevin pega `SUPABASE_SERVICE_ROLE_KEY` en `server/.env` (el `db:ping` de Supabase falla hasta entonces).
-- 2026-10-15 T01 hecho: server (Express 5, Vitest 2 tests verdes, `db:ping`) y web (Vite + React + Tailwind v4, build OK). Siguiente: B01 dominio y B02 validador/índices; en paralelo F01 base del frontend.
+- 2026-10-15 T01 hecho: server (Express 5, Vitest 2 tests verdes, `db:ping`) y web (Vite + React + Tailwind v4, build OK). Siguiente: B02 validador/índices; en paralelo F02 login y guardas.
+- 2026-10-15 B01 hecho: dominio en `server/src/domain/` (enums, transiciones, Zod por categoría, `generarCodigo`), 48 tests. Decisiones: transición libre entre abierta/en proceso/en espera (incluye volver a abierta); `transicionValida` devuelve booleano; `piso` entero (puede ser 0 o negativo); `editarIncidencia.ubicacion` exige objeto completo.
+- 2026-10-15 F01 hecho: rutas, sesión, cliente API, Layout con menú por rol, placeholders; dependencia `react-router-dom`. La guarda por rol y el login real se prueban cuando exista B03.
 - Equipo (4): Arroyo León Luis Diego, Can Domínguez Víctor Emmanuel, Montalvo Canché Emir Emanuel, Vargas Guzmán Kevin Aarón.
 - Docente confirmó: contador en MongoDB (sin Redis) y Supabase para evidencias.
 

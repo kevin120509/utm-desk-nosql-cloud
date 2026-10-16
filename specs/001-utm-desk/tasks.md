@@ -14,7 +14,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [ ] **D02 [D] Guion de la presentación de Fase 1.** Una página con los puntos a explicar al docente y las decisiones que defender (3 vs 4 prioridades, contador, evidencias). *Hecho cuando:* cada integrante puede explicar sus puntos.
 
 ## Hito 2 — Base de datos y dominio [B]
-- [ ] **B01 Dominio.** Enums, transiciones de estado, esquemas Zod por categoría, `generarCodigo`. *Hecho cuando:* tests unitarios de los 3 `detalle_especifico` (válido e inválido) y de las transiciones pasan.
+- [x] **B01 Dominio.** (hecho 2026-10-15: 48 tests verdes) Enums, transiciones de estado, esquemas Zod por categoría, `generarCodigo`. *Hecho cuando:* tests unitarios de los 3 `detalle_especifico` (válido e inválido) y de las transiciones pasan.
 - [ ] **B02 Validador e índices.** `db-setup.js` con `$jsonSchema` completo y los índices del plan §4.5; cliente Mongo cacheado. *Hecho cuando:* insertar un documento válido pasa y uno con `detalle_especifico` de otra categoría falla; `getIndexes()` lista los 5.
 - [ ] **B03 Usuarios y auth.** Colección `usuarios`, login, JWT, middleware de roles, `GET /auth/me`. *Hecho cuando:* 200 con credenciales buenas, 401 sin/mal token, 403 con rol sin permiso.
 - [ ] **B04 Contador.** Puerto + adaptador Mongo (`$inc` atómico con `upsert`). *Hecho cuando:* 20 llamadas en paralelo devuelven 20 números distintos.
@@ -36,7 +36,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [ ] **B15 Entregables de BD.** `db-export.js` genera `entregables/incidencias_campus.json` y `entregables/script-maestro.js` (mongosh: validador, índices, inserts). *Hecho cuando:* el script maestro corre en una base vacía y reproduce lo mismo.
 
 ## Hito 5 — Frontend [F] (en paralelo con Hitos 2–4)
-- [ ] **F01 Base.** Tailwind, router, cliente `api`, contexto de sesión, layout con menú por rol. *Hecho cuando:* navega entre páginas vacías.
+- [x] **F01 Base.** (hecho 2026-10-15: build OK; guarda por rol sin probar hasta B03) Tailwind, router, cliente `api`, contexto de sesión, layout con menú por rol. *Hecho cuando:* navega entre páginas vacías.
 - [ ] **F02 Login y guardas.** Pantalla de login y rutas protegidas por rol. *Hecho cuando:* cada rol ve solo su menú; 401 lleva al login.
 - [ ] **F03 Lista.** Tabla/tarjetas, filtros, paginación, buscador con relevancia. *Hecho cuando:* filtrar y buscar cambia resultados reales.
 - [ ] **F04 Nueva incidencia.** Formulario con bloque dinámico por categoría y errores del 400 junto a cada campo. *Hecho cuando:* se crea una incidencia de cada categoría desde la UI.
