@@ -1,10 +1,10 @@
-// Indicador de carga reutilizable.
+// Indicador de carga reutilizable. Mantiene la altura para que el contenido no "salte" al llegar.
 export default function Cargando({ texto = "Cargando…" }) {
   return (
-    <div role="status" aria-live="polite" className="flex items-center justify-center gap-3 p-8 text-slate-700">
+    <div role="status" aria-live="polite" className="flex min-h-40 items-center justify-center gap-3 p-8 text-slate-700">
       <span
         aria-hidden="true"
-        className="h-5 w-5 animate-spin rounded-full border-2 border-emerald-700 border-t-transparent"
+        className="size-5 animate-spin rounded-full border-2 border-marca-600 border-t-transparent motion-reduce:animate-none"
       />
       <span>{texto}</span>
     </div>

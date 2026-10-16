@@ -1,4 +1,7 @@
 import { formatearFecha, formatearPeso } from "../formato.js";
+import Icono from "./Iconos.jsx";
+
+const TIPOS = { "image/jpeg": "Imagen JPEG", "image/png": "Imagen PNG", "application/pdf": "Documento PDF" };
 
 // Lista de evidencias. Las URLs firmadas expiran: si `url_expira` ya venció
 // se avisa al usuario en lugar de mostrar un enlace roto.
@@ -11,43 +14,44 @@ export default function Evidencias({ evidencias }) {
         const esImagen = ev.tipo_mime === "image/jpeg" || ev.tipo_mime === "image/png";
         const esPdf = ev.tipo_mime === "application/pdf";
         return (
-          <li key={`${ev.nombre_archivo}-${i}`} className="rounded-md border border-slate-300 bg-white p-3">
-            <p className="break-words font-medium text-slate-900">{ev.nombre_archivo}</p>
-            <p className="text-sm text-slate-600">
-              {ev.tipo_mime}
-              {ev.peso_kb !== undefined && ` · ${formatearPeso(ev.peso_kb)}`}
-              {ev.fecha_carga && ` · ${formatearFecha(ev.fecha_carga)}`}
-            </p>
+          <li key={`${ev.nombre_archivo}-${i}`} className="overflow-hidden rounded-xl border border-slate-200 bg-white">
             {expirada ? (
-              <p role="status" className="mt-2 rounded bg-amber-50 p-2 text-sm text-amber-900">
-                El enlace expiró, recarga el expediente.
+              <p role="status" className="m-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">
+                El enlace expiró. Recarga el expediente para verla de nuevo.
               </p>
             ) : (
-              ev.url_storage && (
-                <div className="mt-2">
-                  {esImagen && (
-                    <a href={ev.url_storage} target="_blank" rel="noopener noreferrer">
-                      <img
-                        src={ev.url_storage}
-                        loading="lazy"
-                        alt={`Vista previa de la evidencia ${ev.nombre_archivo}`}
-                        className="max-h-56 w-auto max-w-full rounded border border-slate-200"
-                      />
-                    </a>
-                  )}
-                  {esPdf && (
-                    <a
-                      href={ev.url_storage}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block rounded-md border border-emerald-800 px-3 py-1.5 text-sm font-medium text-emerald-900 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
-                    >
-                      Abrir PDF
-                    </a>
-                  )}
-                </div>
-              )
+              ev.url_storage &&
+              (esImagen ? (
+                <a href={ev.url_storage} target="_blank" rel="noopener noreferrer" className="block bg-slate-100">
+                  <img
+                    src={ev.url_storage}
+                    loading="lazy"
+                    alt={`Vista previa de la evidencia ${ev.nombre_archivo}`}
+                    className="aspect-video w-full object-cover"
+                  />
+                </a>
+              ) : (
+                esPdf && (
+                  <a
+                    href={ev.url_storage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex aspect-video w-full flex-col items-center justify-center gap-2 bg-marca-50 text-marca-800 hover:bg-marca-100"
+                  >
+                    <Icono nombre="archivo" tamano={36} />
+                    <span className="text-sm font-semibold">Abrir PDF</span>
+                  </a>
+                )
+              ))
             )}
+            <div className="p-3">
+              <p className="break-words text-sm font-semibold text-slate-900">{ev.nombre_archivo}</p>
+              <p className="mt-0.5 text-xs text-slate-600">
+                {TIPOS[ev.tipo_mime] || ev.tipo_mime}
+                {ev.peso_kb !== undefined && ` · ${formatearPeso(ev.peso_kb)}`}
+                {ev.fecha_carga && ` · ${formatearFecha(ev.fecha_carga)}`}
+              </p>
+            </div>
           </li>
         );
       })}

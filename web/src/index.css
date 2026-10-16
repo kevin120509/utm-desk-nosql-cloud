@@ -1,1 +1,123 @@
 @import "tailwindcss";
+
+/* ------------------------------------------------------------------------------------------
+   Sistema de diseño de UTM Desk
+   - Estilo: panel de datos denso, sobrio y legible (skill ui-ux-pro-max: "Data-Dense Dashboard").
+   - Color: verde institucional de la UTM (marca) + neutros fríos; el acento lima es solo decorativo.
+   - Tipografía: Lexend para títulos y Source Sans 3 para texto (par "Corporate Trust").
+   - Contraste: texto normal >= 4.5:1; el color nunca es el único indicador (siempre hay texto/icono).
+   ------------------------------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Lexend", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+
+  --color-marca-50: #eef8f2;
+  --color-marca-100: #d5efe0;
+  --color-marca-200: #aadcc2;
+  --color-marca-300: #74c39d;
+  --color-marca-400: #3ea678;
+  --color-marca-500: #1f8a5f;
+  --color-marca-600: #0f7050;
+  --color-marca-700: #0b5d42;
+  --color-marca-800: #094b36;
+  --color-marca-900: #073b2b;
+  --color-marca-950: #04281d;
+  --color-acento: #8bc34a;
+  --color-lienzo: #f2f6f4;
+
+  --shadow-tarjeta: 0 1px 2px rgb(15 23 42 / 0.05), 0 1px 3px rgb(15 23 42 / 0.07);
+  --shadow-elevada: 0 4px 12px rgb(15 23 42 / 0.08), 0 2px 4px rgb(15 23 42 / 0.05);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-lienzo font-sans text-base leading-relaxed text-slate-900 antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  /* Foco siempre visible (teclado): anillo verde con separación. */
+  :focus-visible {
+    outline: 3px solid var(--color-marca-500);
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+  ::selection {
+    background: var(--color-marca-200);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ----- Superficies ----- */
+  .tarjeta {
+    @apply rounded-xl border border-slate-200 bg-white shadow-tarjeta;
+  }
+
+  /* ----- Botones (mínimo 44 px de alto para tocar con el dedo) ----- */
+  .btn {
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-55;
+  }
+  .btn-primario {
+    @apply bg-marca-700 text-white shadow-sm hover:bg-marca-800 active:bg-marca-900;
+  }
+  .btn-secundario {
+    @apply border border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50;
+  }
+  .btn-fantasma {
+    @apply text-slate-700 hover:bg-slate-100;
+  }
+  .btn-peligro {
+    @apply border border-red-300 bg-white text-red-800 hover:bg-red-50;
+  }
+
+  /* ----- Campos de formulario ----- */
+  /* Borde slate-500 (4.76:1 sobre blanco): los controles deben distinguirse con >= 3:1 (WCAG 1.4.11). */
+  .campo {
+    @apply block min-h-11 w-full rounded-lg border border-slate-500 bg-white px-3 py-2 text-base text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-500 hover:border-slate-700 disabled:bg-slate-100;
+  }
+  .campo:focus-visible {
+    outline: 3px solid var(--color-marca-300);
+    outline-offset: 0;
+    border-color: var(--color-marca-600);
+  }
+  .campo[aria-invalid="true"] {
+    @apply border-red-600;
+  }
+  .etiqueta-campo {
+    @apply block text-sm font-semibold text-slate-800;
+  }
+
+  /* ----- Insignias (estado y prioridad) ----- */
+  .insignia {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  /* ----- Títulos de página ----- */
+  .titulo-pagina {
+    @apply text-2xl font-semibold text-slate-900 sm:text-3xl;
+  }
+  .subtitulo-pagina {
+    @apply mt-1 text-slate-600;
+  }
+
+  /* ----- Enlaces dentro del contenido ----- */
+  .enlace {
+    @apply cursor-pointer font-semibold text-marca-700 underline decoration-marca-300 underline-offset-2 hover:text-marca-900 hover:decoration-marca-700;
+  }
+}

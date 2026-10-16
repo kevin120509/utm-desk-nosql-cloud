@@ -77,7 +77,7 @@ export default function SubirEvidencia({ codigo, reportante, onSubida }) {
   }
 
   return (
-    <form onSubmit={subir} noValidate className="mt-4 rounded-md border border-dashed border-slate-400 p-3">
+    <form onSubmit={subir} noValidate className="mt-5 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50/70 p-4">
       <label htmlFor="evidencia-archivo" className="block text-sm font-medium text-slate-800">
         Agregar evidencia
       </label>
@@ -90,7 +90,7 @@ export default function SubirEvidencia({ codigo, reportante, onSubida }) {
         disabled={subiendo}
         aria-describedby="evidencia-ayuda evidencia-error"
         aria-invalid={error ? true : undefined}
-        className="mt-1 block w-full text-sm text-slate-900 file:mr-3 file:rounded-md file:border file:border-slate-400 file:bg-white file:px-3 file:py-1.5 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-emerald-700"
+        className="mt-2 block w-full text-sm text-slate-800 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-marca-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-marca-800 hover:file:bg-marca-100"
       />
       <p id="evidencia-ayuda" className="mt-1 text-xs text-slate-600">
         JPEG, PNG o PDF, hasta 4 MB.
@@ -115,7 +115,7 @@ export default function SubirEvidencia({ codigo, reportante, onSubida }) {
       <button
         type="submit"
         disabled={!archivo || subiendo}
-        className="mt-3 rounded-md bg-emerald-800 px-4 py-2 font-medium text-white hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+        className="btn btn-primario mt-3"
       >
         {subiendo ? "Subiendo…" : "Subir evidencia"}
       </button>

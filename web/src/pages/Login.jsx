@@ -2,9 +2,15 @@ import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSesion } from "../auth/SesionContext.jsx";
 import ErrorMensaje from "../components/ErrorMensaje.jsx";
+import Icono from "../components/Iconos.jsx";
+import Marca from "../components/Marca.jsx";
 
-const campo =
-  "mt-1 block w-full rounded-md border border-slate-400 bg-white px-3 py-2 text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-emerald-700";
+// Puntos que explican el sistema en el panel de marca (solo escritorio).
+const PUNTOS = [
+  { icono: "lista", texto: "Reporta cualquier falla del campus y da seguimiento hasta su cierre." },
+  { icono: "clip", texto: "Adjunta fotos o PDF como evidencia, guardados de forma privada." },
+  { icono: "grafica", texto: "Tiempos de resolución y fallas recurrentes por edificio." },
+];
 
 export default function Login() {
   const { usuario, iniciarSesion } = useSesion();
@@ -12,6 +18,7 @@ export default function Login() {
   const ubicacion = useLocation();
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
+  const [verPassword, setVerPassword] = useState(false);
   const [error, setError] = useState(null);
   const [enviando, setEnviando] = useState(false);
 
@@ -32,51 +39,106 @@ export default function Login() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-slate-50 p-4">
-      <div className="w-full max-w-sm rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-emerald-800">UTM Desk</h1>
-        <p className="mt-1 text-sm text-slate-700">
-          Inicia sesión para reportar o dar seguimiento a incidencias.
-        </p>
-        <form onSubmit={enviar} className="mt-6 space-y-4" noValidate>
-          <div>
-            <label htmlFor="correo" className="text-sm font-medium text-slate-800">
-              Correo
-            </label>
-            <input
-              id="correo"
-              type="email"
-              autoComplete="username"
-              required
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              className={campo}
-            />
+    <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+      {/* Panel de marca */}
+      <aside className="relative hidden overflow-hidden bg-marca-900 p-12 text-white lg:flex lg:flex-col lg:justify-between">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-96 rotate-45 rounded-[3rem] bg-marca-800/70" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -left-20 size-80 rotate-45 rounded-[3rem] bg-marca-800/50" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-24 right-16 size-16 rotate-45 rounded-xl bg-acento/90" />
+
+        <div className="relative flex items-center gap-3">
+          <Marca tamano={44} />
+          <div className="leading-tight">
+            <p className="font-display text-xl font-semibold">UTM Desk</p>
+            <p className="text-sm text-marca-200">Universidad Tecnológica Metropolitana</p>
           </div>
-          <div>
-            <label htmlFor="password" className="text-sm font-medium text-slate-800">
-              Contraseña
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={campo}
-            />
+        </div>
+
+        <div className="relative max-w-md">
+          <h2 className="font-display text-4xl font-semibold leading-tight">
+            Soporte del campus, <span className="text-acento">en un solo lugar</span>
+          </h2>
+          <ul className="mt-8 space-y-5">
+            {PUNTOS.map((p) => (
+              <li key={p.icono} className="flex items-start gap-3 text-marca-100">
+                <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-lg bg-white/10 text-acento">
+                  <Icono nombre={p.icono} />
+                </span>
+                <span>{p.texto}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <p className="relative text-sm text-marca-300">Bases de Datos en la Nube · Unidad II</p>
+      </aside>
+
+      {/* Formulario */}
+      <main className="flex items-center justify-center p-6 sm:p-10">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex items-center gap-3 lg:hidden">
+            <Marca tamano={40} />
+            <p className="font-display text-xl font-semibold text-marca-900">UTM Desk</p>
           </div>
-          {error && <ErrorMensaje error={error} />}
-          <button
-            type="submit"
-            disabled={enviando || !correo || !password}
-            className="w-full rounded-md bg-emerald-800 px-4 py-2 font-medium text-white hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
-          >
-            {enviando ? "Entrando…" : "Entrar"}
-          </button>
-        </form>
-      </div>
-    </main>
+
+          <h1 className="font-display text-3xl font-semibold text-slate-900">Inicia sesión</h1>
+          <p className="mt-2 text-slate-600">Usa tu correo institucional para reportar o dar seguimiento a incidencias.</p>
+
+          <form onSubmit={enviar} className="mt-8 space-y-5" noValidate>
+            <div>
+              <label htmlFor="correo" className="etiqueta-campo">
+                Correo institucional
+              </label>
+              <input
+                id="correo"
+                type="email"
+                autoComplete="username"
+                required
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                placeholder="nombre@utmetropolitana.edu.mx"
+                className="campo mt-1.5"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="etiqueta-campo">
+                Contraseña
+              </label>
+              <div className="relative mt-1.5">
+                <input
+                  id="password"
+                  type={verPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="campo pr-24"
+                />
+                <button
+                  type="button"
+                  onClick={() => setVerPassword((v) => !v)}
+                  aria-pressed={verPassword}
+                  className="absolute inset-y-1 right-1 cursor-pointer rounded-md px-3 text-sm font-semibold text-marca-700 hover:bg-marca-50"
+                >
+                  {verPassword ? "Ocultar" : "Mostrar"}
+                </button>
+              </div>
+            </div>
+
+            {error && <ErrorMensaje error={error} />}
+
+            <button type="submit" disabled={enviando || !correo || !password} className="btn btn-primario w-full min-h-12! text-base!">
+              {enviando ? "Entrando…" : "Entrar"}
+            </button>
+          </form>
+
+          <p className="mt-8 flex items-start gap-2 text-sm text-slate-600">
+            <Icono nombre="escudo" tamano={18} className="mt-0.5 text-marca-600" />
+            <span>Tu sesión se cierra sola a las 8 horas. En un equipo compartido, recuerda cerrar sesión al terminar.</span>
+          </p>
+        </div>
+      </main>
+    </div>
   );
 }

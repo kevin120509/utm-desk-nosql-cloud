@@ -43,7 +43,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 - [x] **F05 Detalle.** (hecho 2026-10-15: build OK; contenedor `panel-acciones-personal` listo para F06) Datos, `detalle_especifico`, bitácora en línea de tiempo. *Hecho cuando:* se ve el expediente completo en una sola carga.
 - [x] **F06 Acciones de staff.** (hecho 2026-10-15: build OK; etiquetas y evidencia dependen de B08/B09) Actualizar estado/horas/comentario, etiquetas, subir evidencia con vista previa; manejo del 409. *Hecho cuando:* una actualización se refleja en la bitácora sin recargar.
 - [x] **F07 Analítica.** (hecho 2026-10-15: build OK, página cargada bajo demanda; verificación visual con datos tras B13) Barras por edificio, tabla de horas, top 10 tags. *Hecho cuando:* coincide con `GET /analitica/*`.
-- [ ] **F08 Pulido.** Estados vacíos, cargando, errores, responsivo, foco y contraste. *Hecho cuando:* recorrido en móvil sin scroll horizontal.
+- [x] **F08 Pulido.** (hecho 2026-10-16: rediseño visual completo, `docs/diseno-ui.md`; contraste calculado y corregido; revisado en escritorio y móvil) Estados vacíos, cargando, errores, responsivo, foco y contraste. *Hecho cuando:* recorrido en móvil sin scroll horizontal.
 
 ## Hito 6 — Integración y calidad [R]
 - [x] **R02 [R] Colección Postman.** (hecho 2026-10-15: 10 carpetas, 62 peticiones, 125 pruebas en `postman/`; el 409 determinista queda cubierto por las pruebas de integración, en Postman la carrera acepta 409 o 400 y exige que solo una escritura se aplique) Carpeta por caso de uso, variables `token` y `codigo`, `pm.test` en cada petición; incluye POST 201, GET 200, PATCH 200, POST 400, 401, 403, 404, 409. *Hecho cuando:* exportada a `postman/`.

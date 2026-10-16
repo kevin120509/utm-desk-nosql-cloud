@@ -135,7 +135,7 @@ export default function BloqueDetalle({ categoria, valor, onCambio, errores }) {
             type="checkbox"
             checked={valor.requiere_contratista}
             onChange={(ev) => onCambio("requiere_contratista", ev.target.checked)}
-            className="h-4 w-4 accent-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+            className="h-4 w-4 accent-emerald-700"
           />
           <label htmlFor={id("requiere_contratista")} className="text-sm font-medium text-slate-800">
             Requiere contratista
@@ -167,7 +167,7 @@ export default function BloqueDetalle({ categoria, valor, onCambio, errores }) {
             <button
               type="button"
               onClick={agregar}
-              className="shrink-0 rounded-md border border-emerald-800 px-3 py-2 text-sm font-medium text-emerald-900 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+              className="shrink-0 rounded-md border border-emerald-800 px-3 py-2 text-sm font-medium text-emerald-900 hover:bg-emerald-50"
             >
               Agregar
             </button>

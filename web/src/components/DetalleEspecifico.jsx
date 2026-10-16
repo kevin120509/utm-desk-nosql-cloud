@@ -42,13 +42,13 @@ export default function DetalleEspecifico({ categoria, detalle }) {
   if (campos.length === 0) return null;
 
   return (
-    <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+    <dl className="grid gap-3 sm:grid-cols-2">
       {campos.map(([clave, etiqueta, formato]) => {
         const v = detalle[clave];
         return (
-          <div key={clave}>
-            <dt className="text-sm text-slate-600">{etiqueta}</dt>
-            <dd className="font-medium text-slate-900">
+          <div key={clave} className={`rounded-lg bg-slate-50 px-4 py-3 ${Array.isArray(v) ? "sm:col-span-2" : ""}`}>
+            <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{etiqueta}</dt>
+            <dd className="mt-0.5 font-semibold text-slate-900">
               {Array.isArray(v) ? (
                 <ul className="list-disc pl-5">
                   {v.map((x, i) => (

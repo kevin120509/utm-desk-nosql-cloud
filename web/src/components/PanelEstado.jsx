@@ -115,7 +115,7 @@ export default function PanelEstado({ codigo, estadoActual, onActualizado }) {
   }
 
   return (
-    <section aria-labelledby="titulo-panel-estado" className="rounded-md border border-emerald-300 bg-emerald-50 p-4">
+    <section aria-labelledby="titulo-panel-estado" className="tarjeta border-marca-300 p-5 ring-4 ring-marca-50">
       <h2 id="titulo-panel-estado" className="mb-3 text-lg font-semibold text-slate-900">
         Actualizar estado
       </h2>
@@ -186,7 +186,7 @@ export default function PanelEstado({ codigo, estadoActual, onActualizado }) {
           <button
             type="submit"
             disabled={enviando || opciones.length === 0}
-            className="rounded-md bg-emerald-800 px-4 py-2 font-medium text-white hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+            className="btn btn-primario"
           >
             {enviando ? "Guardando…" : "Guardar cambio"}
           </button>

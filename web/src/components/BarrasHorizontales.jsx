@@ -1,7 +1,7 @@
 import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const ALTO_FILA = 44; // píxeles por barra
-const COLOR_BARRA = "#047857"; // emerald-700: contraste AA sobre fondo blanco
+const COLOR_BARRA = "#0f7050"; // marca-600: contraste AA sobre fondo blanco
 
 // Gráfica de barras horizontales. La etiqueta con el valor va escrita junto a cada barra
 // (no se depende solo del color) y `descripcion` resume la gráfica para lectores de pantalla.
@@ -19,11 +19,11 @@ export default function BarrasHorizontales({ datos, claveNombre, claveValor, uni
             type="category"
             dataKey="nombre"
             width={150}
-            tick={{ fill: "#334155", fontSize: 13 }}
+            tick={{ fill: "#334155", fontSize: 14 }}
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip formatter={(v) => [formato(v), ""]} separator="" cursor={{ fill: "#ecfdf5" }} />
+          <Tooltip formatter={(v) => [formato(v), ""]} separator="" cursor={{ fill: "#eef8f2" }} />
           <Bar dataKey="valor" fill={COLOR_BARRA} radius={[0, 4, 4, 0]} isAnimationActive={false}>
             <LabelList dataKey="valor" position="right" formatter={formato} fill="#0f172a" fontSize={13} />
           </Bar>

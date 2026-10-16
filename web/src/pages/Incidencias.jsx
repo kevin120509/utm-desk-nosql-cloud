@@ -9,6 +9,7 @@ import Paginacion from "../components/Paginacion.jsx";
 import Cargando from "../components/Cargando.jsx";
 import ErrorMensaje from "../components/ErrorMensaje.jsx";
 import EstadoVacio from "../components/EstadoVacio.jsx";
+import Icono from "../components/Iconos.jsx";
 
 const LIMITE = 10;
 const CLAVES_FILTRO = ["categoria", "estado", "prioridad", "edificio"];
@@ -61,36 +62,39 @@ export default function Incidencias() {
     if (valor.trim() === "" && q !== "") actualizar({ q: "" });
   }
 
+  const esReportante = usuario.rol === "reportante";
+
   return (
     <section>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-emerald-800">Incidencias</h1>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="titulo-pagina">Incidencias</h1>
+          <p className="subtitulo-pagina">
+            {esReportante ? "Tus reportes y su avance." : "Todas las incidencias del campus: filtra, busca y da seguimiento."}
+          </p>
+        </div>
         {ROLES_CREAR.includes(usuario.rol) && (
-          <Link
-            to="/incidencias/nueva"
-            className="rounded-md bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
-          >
+          <Link to="/incidencias/nueva" className="btn btn-primario">
+            <Icono nombre="mas" />
             Nueva incidencia
           </Link>
         )}
-      </div>
+      </header>
 
-      <form onSubmit={enviarBusqueda} role="search" className="mt-4 flex flex-wrap gap-2">
-        <label htmlFor="buscar" className="sr-only">Buscar incidencias</label>
-        <input
-          id="buscar"
-          type="search"
-          value={texto}
-          onChange={(e) => cambiarTexto(e.target.value)}
-          placeholder="Buscar por texto (título, descripción, etiquetas)"
-          className="min-w-0 flex-1 rounded-md border border-slate-400 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-emerald-700"
-        />
-        <button
-          type="submit"
-          className="rounded-md bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
-        >
-          Buscar
-        </button>
+      <form onSubmit={enviarBusqueda} role="search" className="mt-6 flex flex-wrap gap-2">
+        <div className="relative min-w-0 flex-1 basis-64">
+          <label htmlFor="buscar" className="sr-only">Buscar incidencias</label>
+          <Icono nombre="buscar" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+          <input
+            id="buscar"
+            type="search"
+            value={texto}
+            onChange={(e) => cambiarTexto(e.target.value)}
+            placeholder="Buscar por título, descripción o etiqueta (ej. filtración)"
+            className="campo pl-11"
+          />
+        </div>
+        <button type="submit" className="btn btn-primario">Buscar</button>
       </form>
 
       {/* En búsqueda los filtros no aplican: /buscar solo recibe q. */}
@@ -105,16 +109,31 @@ export default function Incidencias() {
         </div>
       )}
 
-      {enBusqueda && <p className="mt-4 text-sm text-slate-700">Resultados ordenados por relevancia para «{q}».</p>}
+      {enBusqueda && (
+        <p className="mt-4 flex flex-wrap items-center gap-2 text-sm text-slate-700">
+          <Icono nombre="buscar" tamano={16} />
+          Resultados ordenados por relevancia para <strong className="font-semibold">«{q}»</strong>.
+          <button type="button" onClick={() => { setTexto(""); actualizar({ q: "" }); }} className="enlace">
+            Quitar búsqueda
+          </button>
+        </p>
+      )}
 
       <div className="mt-4" aria-live="polite">
         {cargando && <Cargando texto="Cargando incidencias…" />}
         {!cargando && error && <ErrorMensaje error={error} onReintentar={reintentar} />}
         {!cargando && !error && datos.length === 0 && (
           <EstadoVacio
-            titulo={enBusqueda ? "No hay incidencias que coincidan con la búsqueda" : "No hay incidencias con esos filtros"}
-            texto="Prueba con otros criterios."
-          />
+            icono={enBusqueda ? "buscar" : "buzon"}
+            titulo={enBusqueda ? "Ninguna incidencia coincide con la búsqueda" : "No hay incidencias con esos filtros"}
+            texto={enBusqueda ? "Prueba con otra palabra; la búsqueda ignora acentos y plurales." : "Cambia o limpia los filtros para ver más resultados."}
+          >
+            {hayFiltros && (
+              <button type="button" onClick={() => setParams({})} className="btn btn-secundario">
+                Limpiar filtros
+              </button>
+            )}
+          </EstadoVacio>
         )}
         {!cargando && !error && datos.length > 0 && (
           <>

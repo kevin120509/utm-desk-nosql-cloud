@@ -1,6 +1,6 @@
 // Pantalla "Nueva incidencia" (plan §10): campos universales + bloque por categoría.
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { api, ErrorApi } from "../api/cliente.js";
 import { CATEGORIAS, PRIORIDADES, EDIFICIOS } from "../catalogo.js";
 import Campo from "../components/Campo.jsx";
@@ -110,11 +110,12 @@ export default function NuevaIncidencia() {
   }
 
   return (
-    <section className="mx-auto max-w-2xl">
-      <h1 className="text-2xl font-bold text-emerald-800">Nueva incidencia</h1>
-      <form onSubmit={enviar} noValidate className="mt-4 space-y-4">
+    <section className="mx-auto max-w-3xl">
+      <h1 className="titulo-pagina">Nueva incidencia</h1>
+      <p className="subtitulo-pagina">Cuéntanos qué pasó y dónde. Mientras más datos, más rápido se atiende.</p>
+      <form onSubmit={enviar} noValidate className="mt-6 space-y-6">
         {resumen.length > 0 && (
-          <div role="alert" className="rounded-md border border-red-300 bg-red-50 p-4 text-red-900">
+          <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-900">
             <p className="font-medium">Revisa los datos enviados:</p>
             <ul className="mt-2 list-disc pl-5 text-sm">
               {resumen.map((m, i) => <li key={i}>{m}</li>)}
@@ -123,6 +124,8 @@ export default function NuevaIncidencia() {
         )}
         {errorApi && <ErrorMensaje error={errorApi} />}
 
+        <section aria-labelledby="sec-general" className="tarjeta space-y-5 p-5 sm:p-6">
+          <h2 id="sec-general" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900"><span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-marca-700 text-sm font-semibold text-white">1</span>¿Qué ocurre?</h2>
         <Campo id="titulo" etiqueta="Título" requerido error={errores.titulo} ayuda="Entre 5 y 120 caracteres">
           {(p) => <input {...p} type="text" maxLength={120} value={f.titulo} onChange={set("titulo")} />}
         </Campo>
@@ -156,8 +159,10 @@ export default function NuevaIncidencia() {
           </Campo>
         </div>
 
-        <fieldset className="space-y-4 rounded-md border border-slate-300 p-4">
-          <legend className="px-1 text-sm font-semibold text-slate-800">Ubicación</legend>
+        </section>
+
+        <section aria-labelledby="sec-ubicacion" className="tarjeta space-y-5 p-5 sm:p-6">
+          <h2 id="sec-ubicacion" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900"><span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-marca-700 text-sm font-semibold text-white">2</span>¿Dónde?</h2>
           <Campo id="ubicacion-edificio" etiqueta="Edificio" requerido error={errores["ubicacion.edificio"]}>
             {(p) => (
               <select {...p} value={f.edificio} onChange={set("edificio")}>
@@ -174,13 +179,14 @@ export default function NuevaIncidencia() {
               {(p) => <input {...p} type="text" value={f.espacio} onChange={set("espacio")} />}
             </Campo>
           </div>
-        </fieldset>
+        </section>
 
         {f.categoria && (
-          <fieldset className="space-y-4 rounded-md border border-slate-300 p-4">
-            <legend className="px-1 text-sm font-semibold text-slate-800">
-              Detalle específico: {CATEGORIAS[f.categoria]}
-            </legend>
+          <section aria-labelledby="sec-detalle" className="tarjeta space-y-5 p-5 sm:p-6">
+            <h2 id="sec-detalle" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900">
+              <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-marca-700 text-sm font-semibold text-white">3</span>
+              Detalle técnico · {CATEGORIAS[f.categoria]}
+            </h2>
             <BloqueDetalle
               key={f.categoria}
               categoria={f.categoria}
@@ -188,16 +194,15 @@ export default function NuevaIncidencia() {
               onCambio={(campo, v) => setDetalle((d) => ({ ...d, [campo]: v }))}
               errores={errores}
             />
-          </fieldset>
+          </section>
         )}
 
-        <button
-          type="submit"
-          disabled={enviando}
-          className="w-full rounded-md bg-emerald-800 px-4 py-2.5 font-medium text-white hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:w-auto"
-        >
-          {enviando ? "Enviando…" : "Crear incidencia"}
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button type="submit" disabled={enviando} className="btn btn-primario w-full sm:w-auto">
+            {enviando ? "Enviando…" : "Crear incidencia"}
+          </button>
+          <Link to="/incidencias" className="btn btn-secundario w-full sm:w-auto">Cancelar</Link>
+        </div>
       </form>
     </section>
   );

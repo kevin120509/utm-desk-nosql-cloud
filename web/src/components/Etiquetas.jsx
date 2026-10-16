@@ -1,31 +1,47 @@
 import { ESTADOS, PRIORIDADES } from "../catalogo.js";
 
-// Colores con contraste AA (texto oscuro sobre fondo claro). Además del color
-// siempre se muestra el texto, así no depende solo del color.
+// Insignias de estado y prioridad. Cumplen contraste AA (texto oscuro sobre fondo claro) y NUNCA
+// dependen solo del color: llevan texto y un punto/forma distinta por estado.
 const COLOR_ESTADO = {
-  abierta: "bg-blue-100 text-blue-900 border-blue-300",
-  "en proceso": "bg-amber-100 text-amber-900 border-amber-300",
-  "en espera": "bg-slate-200 text-slate-900 border-slate-400",
-  resuelta: "bg-emerald-100 text-emerald-900 border-emerald-300",
-  cerrada: "bg-slate-100 text-slate-700 border-slate-300",
+  abierta: { caja: "bg-sky-50 text-sky-900 border-sky-300", punto: "bg-sky-600" },
+  "en proceso": { caja: "bg-amber-50 text-amber-900 border-amber-300", punto: "bg-amber-500" },
+  "en espera": { caja: "bg-violet-50 text-violet-900 border-violet-300", punto: "bg-violet-500" },
+  resuelta: { caja: "bg-emerald-50 text-emerald-900 border-emerald-300", punto: "bg-emerald-600" },
+  cerrada: { caja: "bg-slate-100 text-slate-700 border-slate-300", punto: "bg-slate-500" },
 };
 
 const COLOR_PRIORIDAD = {
-  baja: "bg-slate-100 text-slate-800 border-slate-300",
-  media: "bg-yellow-100 text-yellow-900 border-yellow-300",
-  alta: "bg-orange-100 text-orange-900 border-orange-300",
-  critica: "bg-red-100 text-red-900 border-red-300",
+  baja: { caja: "bg-slate-50 text-slate-800 border-slate-300", marca: "▁" },
+  media: { caja: "bg-yellow-50 text-yellow-900 border-yellow-300", marca: "▃" },
+  alta: { caja: "bg-orange-50 text-orange-900 border-orange-300", marca: "▅" },
+  critica: { caja: "bg-red-50 text-red-900 border-red-300", marca: "▇" },
 };
 
-const base = "inline-block whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-semibold";
+// Borde de color a la izquierda de cada fila/tarjeta según la prioridad.
+export const BORDE_PRIORIDAD = {
+  baja: "border-l-slate-300",
+  media: "border-l-yellow-400",
+  alta: "border-l-orange-500",
+  critica: "border-l-red-600",
+};
 
 export function EtiquetaEstado({ estado }) {
-  return <span className={`${base} ${COLOR_ESTADO[estado] || COLOR_ESTADO.cerrada}`}>{ESTADOS[estado] || estado}</span>;
+  const c = COLOR_ESTADO[estado] || COLOR_ESTADO.cerrada;
+  return (
+    <span className={`insignia ${c.caja}`}>
+      <span aria-hidden="true" className={`size-2 rounded-full ${c.punto}`} />
+      {ESTADOS[estado] || estado}
+    </span>
+  );
 }
 
 export function EtiquetaPrioridad({ prioridad }) {
+  const c = COLOR_PRIORIDAD[prioridad] || COLOR_PRIORIDAD.baja;
   return (
-    <span className={`${base} ${COLOR_PRIORIDAD[prioridad] || COLOR_PRIORIDAD.baja}`}>
+    <span className={`insignia ${c.caja}`}>
+      <span aria-hidden="true" className="font-mono text-[0.7rem] leading-none">
+        {c.marca}
+      </span>
       {PRIORIDADES[prioridad] || prioridad}
     </span>
   );

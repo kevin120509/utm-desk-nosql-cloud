@@ -65,7 +65,7 @@ export default function PanelEtiquetas({ codigo, tags: inicial = [] }) {
   if (!puedeEditar && tags.length === 0) return null;
 
   return (
-    <section className="rounded-md border border-slate-300 bg-white p-4">
+    <section className="tarjeta p-5">
       <h2 className="mb-3 text-lg font-semibold text-slate-900">Etiquetas</h2>
 
       {tags.length === 0 ? (
@@ -73,7 +73,7 @@ export default function PanelEtiquetas({ codigo, tags: inicial = [] }) {
       ) : (
         <ul className="flex flex-wrap gap-2">
           {tags.map((t) => (
-            <li key={t} className="inline-flex items-center gap-1 rounded-full bg-slate-100 py-1 pl-3 pr-1 text-sm text-slate-900">
+            <li key={t} className="inline-flex items-center gap-1 rounded-full border border-marca-200 bg-marca-50 py-1 pl-3 pr-1 text-sm font-medium text-marca-900">
               <span className="break-all">{t}</span>
               {puedeEditar && (
                 <button
@@ -81,7 +81,7 @@ export default function PanelEtiquetas({ codigo, tags: inicial = [] }) {
                   onClick={() => quitar(t)}
                   disabled={ocupado}
                   aria-label={`Quitar etiqueta ${t}`}
-                  className="rounded-full px-2 text-base font-bold leading-6 text-slate-800 hover:bg-slate-300 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-emerald-700"
+                  className="cursor-pointer rounded-full px-2.5 text-base font-bold leading-6 text-marca-800 hover:bg-marca-200 disabled:opacity-60"
                 >
                   <span aria-hidden="true">×</span>
                 </button>
@@ -101,7 +101,7 @@ export default function PanelEtiquetas({ codigo, tags: inicial = [] }) {
           <button
             type="submit"
             disabled={ocupado}
-            className="rounded-md bg-emerald-800 px-4 py-2 font-medium text-white hover:bg-emerald-900 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+            className="btn btn-primario"
           >
             {ocupado ? "Guardando…" : "Agregar"}
           </button>
