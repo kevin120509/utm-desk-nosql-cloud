@@ -48,7 +48,7 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 ## Hito 6 — Integración y calidad [R]
 - [x] **R02 [R] Colección Postman.** (hecho 2026-10-15: 10 carpetas, 62 peticiones, 125 pruebas en `postman/`; el 409 determinista queda cubierto por las pruebas de integración, en Postman la carrera acepta 409 o 400 y exige que solo una escritura se aplique) Carpeta por caso de uso, variables `token` y `codigo`, `pm.test` en cada petición; incluye POST 201, GET 200, PATCH 200, POST 400, 401, 403, 404, 409. *Hecho cuando:* exportada a `postman/`.
 - [x] **R03 [R] Newman.** (hecho 2026-10-15: 63 peticiones, 125/125 pruebas contra la API local (2 corridas) y contra la desplegada en Vercel con `API_URL=`) `npm run test:api` corre la colección completa. *Hecho cuando:* todo en verde contra el servidor desplegado.
-- [ ] **R04 [R] Verificación en Atlas.** `getIndexes()`, `explain()` (lista y búsqueda), validador activo, CRUD visto en Atlas. *Hecho cuando:* capturas guardadas en `docs/capturas/`.
+- [x] **R04 [R] Verificación en Atlas.** (hecho 2026-10-16: `docs/verificacion-atlas.md` generado con `server/scripts/db-explain.js`; capturas de pantalla quedan en D03) `getIndexes()`, `explain()` (lista y búsqueda), validador activo, CRUD visto en Atlas. *Hecho cuando:* capturas guardadas en `docs/capturas/`.
 - [x] **R05 [R] Seguridad.** (hecho 2026-10-15: `docs/revision-R05-seguridad.md`, 20 controles OK, 3 riesgos aceptados; rate limit en login probado en producción; Newman 125/125 en prod) Revisar: secretos fuera de git, roles en servidor, rate-limit, `helmet`, mime real, bucket privado, mensajes de error sin datos internos. *Hecho cuando:* lista de revisión sin pendientes críticos.
 - [x] **R06 [R] Recorrido E2E por rol.** (hecho 2026-10-16 en localhost contra Atlas/Supabase reales: reportante, técnico, coordinador y directivo; bugs corregidos: import faltante en SubirEvidencia, errores de validación que no se limpiaban; añadido PanelAdministrar para RF-12; resultados en `docs/lista-verificacion-enunciado.md`) UI ↔ API ↔ Atlas con los 4 roles. *Hecho cuando:* informe final del revisor (qué probó, qué falló, qué se corrigió).
 
@@ -58,8 +58,8 @@ Paralelismo: tras T01, **[B]** y **[F]** avanzan a la vez (el contrato está en 
 
 ## Hito 8 — Documentos finales
 - [ ] **D03 [D] Capturas.** Atlas (documentos, índices, validador), UI por pantalla, Postman (URL, método, cabeceras, status y payload). *Hecho cuando:* imágenes nítidas en `docs/capturas/`.
-- [ ] **D04 [D] Guía de defensa individual.** Preguntas probables por caso de uso y respuesta corta con el código involucrado. *Hecho cuando:* cada integrante tiene sus caso(s) de uso asignados y las respuestas.
-- [ ] **D05 [D] Guion de la demo en vivo.** Orden: Atlas → UI (alta) → evidencia → estado → tags → búsqueda → analítica → TTL → Postman → plan B. *Hecho cuando:* ensayo completo en menos de 10 min.
+- [x] **D04 [D] Guía de defensa individual.** Preguntas probables por caso de uso y respuesta corta con el código involucrado. *Hecho cuando:* cada integrante tiene sus caso(s) de uso asignados y las respuestas.
+- [x] **D05 [D] Guion de la demo en vivo.** Orden: Atlas → UI (alta) → evidencia → estado → tags → búsqueda → analítica → TTL → Postman → plan B. *Hecho cuando:* ensayo completo en menos de 10 min.
 - [ ] **D06 [D] PDF final (APA 7) y zip.** Portada, problemática, justificación, requisitos finales, tecnologías, capturas, esquema JSON poblado, banco de pruebas Postman, conclusiones individuales, referencias; `.zip` con PDF, script maestro/JSON y enlaces del repo y URL. *Hecho cuando:* `.zip` revisado contra la lista del enunciado §6 Fase 2.
 
 ## Validación final (RF por RF)

@@ -98,7 +98,7 @@ export default function Incidencias() {
             type="search"
             value={texto}
             onChange={(e) => cambiarTexto(e.target.value)}
-            placeholder="Buscar por título, descripción o etiqueta (ej. filtración)"
+            placeholder="Buscar por título o descripción (ej. filtración)"
             className="campo pl-11"
           />
         </div>
