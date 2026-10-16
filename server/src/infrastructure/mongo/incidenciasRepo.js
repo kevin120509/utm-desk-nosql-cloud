@@ -102,6 +102,18 @@ export class IncidenciasRepoMongo {
     return matchedCount === 1;
   }
 
+  /**
+   * Agrega una evidencia al expediente (RF-04): UN updateOne con $push.
+   * @returns {Promise<boolean>} false si la incidencia no existe.
+   */
+  async agregarEvidencia(codigo, evidencia, ahora) {
+    const { matchedCount } = await this.coleccion.updateOne(
+      { codigo },
+      { $push: { evidencias_adjuntas: evidencia }, $set: { fecha_actualizacion: ahora } },
+    );
+    return matchedCount === 1;
+  }
+
   /** Elimina el documento por código. true si se borró uno. */
   async eliminar(codigo) {
     const { deletedCount } = await this.coleccion.deleteOne({ codigo });

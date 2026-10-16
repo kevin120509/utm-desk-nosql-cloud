@@ -51,13 +51,24 @@
  *   UN solo updateOne con filtro { codigo, estado: estadoLeido }. true si se aplicó; false si otra persona cambió el estado antes (conflicto).
  * @property {(datos: {codigo: string, cambios: {$set: object}}) => Promise<boolean>} editar
  *   UN solo updateOne con filtro { codigo } (RF-12). true si la incidencia existe; false si no.
+ * @property {(codigo: string, evidencia: object, ahora: Date) => Promise<boolean>} agregarEvidencia
+ *   UN updateOne con $push a `evidencias_adjuntas`. false si la incidencia no existe.
  * @property {(codigo: string) => Promise<boolean>} eliminar  deleteOne por código. true si borró un documento.
  */
 
 /**
- * Puerto del almacén de archivos (bucket de evidencias).
+ * Puerto del almacén de archivos (bucket PRIVADO de evidencias; en Supabase Storage).
  * @typedef {Object} Almacen
+ * @property {(datos: {ruta: string, buffer: Buffer, tipoMime: string}) => Promise<void>} subir
+ *   Sube el archivo en `ruta`; falla si ya existe.
+ * @property {(ruta: string, segundos: number) => Promise<{url: string, expira: Date}>} urlFirmada
+ *   URL temporal de lectura (el bucket es privado).
  * @property {(paths: string[]) => Promise<void>} eliminarArchivos  Borra por `storage_path`; lanza si falla.
+ */
+
+/**
+ * Detector del tipo real de un archivo por su firma de bytes.
+ * @typedef {(buffer: Buffer) => Promise<string|null>} DetectarTipo  MIME detectado o null.
  */
 
 export {};

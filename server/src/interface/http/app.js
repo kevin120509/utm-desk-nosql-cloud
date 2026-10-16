@@ -5,6 +5,7 @@ import cors from "cors";
 import { rutasAuth } from "./rutas/auth.js";
 import { rutasIncidencias } from "./rutas/incidencias.js";
 import { rutasEtiquetas } from "./rutas/etiquetas.js";
+import { rutasEvidencias } from "./rutas/evidencias.js";
 import { rutasAnalitica } from "./rutas/analitica.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 
@@ -14,7 +15,7 @@ import { manejadorErrores } from "./middlewares/errores.js";
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */
-export function crearApp({ auth, incidencias, etiquetas, analitica } = {}) {
+export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica } = {}) {
   const app = express();
 
   app.use(helmet());
@@ -36,6 +37,11 @@ export function crearApp({ auth, incidencias, etiquetas, analitica } = {}) {
   // Etiquetas (POST/DELETE /:codigo/tags): router propio montado bajo el mismo prefijo.
   if (auth && etiquetas) {
     app.use("/api/incidencias", rutasEtiquetas({ auth, etiquetas }));
+  }
+
+  // Evidencias (POST /:codigo/evidencias, multipart): router propio bajo el mismo prefijo.
+  if (auth && evidencias) {
+    app.use("/api/incidencias", rutasEvidencias({ auth, evidencias }));
   }
 
   // Analítica (RF-10): solo coordinador y directivo, bajo /api/analitica.

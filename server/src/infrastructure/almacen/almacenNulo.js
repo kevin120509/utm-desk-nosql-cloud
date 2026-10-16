@@ -1,9 +1,17 @@
-// Almacén que no hace nada. Sirve mientras B09 no implemente el adaptador de Supabase.
+// Almacén que no hace nada. Se usa cuando Supabase no está configurado (sin variables de entorno).
+const SIN_CONFIGURAR = "Almacén de archivos no configurado (faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY)";
+
 export class AlmacenNulo {
   /** @param {string[]} paths */
   async eliminarArchivos(paths) {
-    console.warn(
-      `Almacén de archivos no configurado: B09 lo implementa con Supabase (se omiten ${paths.length} archivo(s))`
-    );
+    console.warn(`${SIN_CONFIGURAR}: se omiten ${paths.length} archivo(s)`);
+  }
+
+  async subir() {
+    throw new Error(SIN_CONFIGURAR);
+  }
+
+  async urlFirmada() {
+    throw new Error(SIN_CONFIGURAR);
   }
 }

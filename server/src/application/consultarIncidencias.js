@@ -20,12 +20,14 @@ export function listarIncidencias({ incidenciasRepo }) {
 
 /**
  * Expediente completo en UNA lectura (el documento ya trae bitácora, tags y evidencias).
- * Nota: las URLs firmadas de evidencias se regeneran en B09 (Supabase); mientras tanto
- * se devuelve `url_storage` tal como está guardada.
- * @param {{incidenciasRepo: import("./puertos/index.js").IncidenciasRepo}} deps
+ * Las URLs firmadas caducan, por eso al leer se REGENERAN desde `storage_path` y se
+ * reemplazan solo en la respuesta (no se escribe nada en Mongo).
+ * @param {{incidenciasRepo: import("./puertos/index.js").IncidenciasRepo,
+ *          almacen?: import("./puertos/index.js").Almacen,
+ *          ttlSegundos?: number}} deps  `almacen` es opcional: sin él se devuelve lo guardado.
  * @returns {(sesion: {id: string, rol: string}, codigo: string) => Promise<object>}
  */
-export function obtenerIncidencia({ incidenciasRepo }) {
+export function obtenerIncidencia({ incidenciasRepo, almacen, ttlSegundos = 3600 }) {
   return async function obtener(sesion, codigo) {
     // Un código con mala forma no puede existir: se responde 404 sin tocar la BD.
     if (!PATRON_CODIGO.test(String(codigo))) {
@@ -38,6 +40,26 @@ export function obtenerIncidencia({ incidenciasRepo }) {
     if (sesion.rol === "reportante" && String(doc.reportante.usuario_id) !== String(sesion.id)) {
       throw new ErrorApp("SIN_PERMISO", "No tienes permiso para ver esta incidencia");
     }
-    return doc;
+    return conUrlsFirmadas(doc, almacen, ttlSegundos);
   };
+}
+
+// Regenera la URL firmada de cada evidencia. Si el almacén falla con una, se deja la URL
+// guardada y se registra el error: ver el expediente nunca debe romperse por esto.
+async function conUrlsFirmadas(doc, almacen, ttlSegundos) {
+  const evidencias = doc.evidencias_adjuntas;
+  if (!almacen?.urlFirmada || !Array.isArray(evidencias) || evidencias.length === 0) return doc;
+
+  const regeneradas = await Promise.all(
+    evidencias.map(async (ev) => {
+      try {
+        const { url, expira } = await almacen.urlFirmada(ev.storage_path, ttlSegundos);
+        return { ...ev, url_storage: url, url_expira: expira };
+      } catch (e) {
+        console.error(`obtenerIncidencia: no se pudo firmar la URL de una evidencia (${e?.message})`);
+        return ev;
+      }
+    }),
+  );
+  return { ...doc, evidencias_adjuntas: regeneradas };
 }
