@@ -207,6 +207,11 @@ ${tabla(
   ],
 )}
 
+<p>Tres peticiones representativas ejecutadas en la aplicación de escritorio de Postman contra la API local, con su método, URL, cuerpo, código de estado y respuesta:</p>
+${fig("postman-01-health-200.jpg", "GET /api/health responde 200 OK", "5.6in", "Captura de Postman, 19 de octubre de 2026.")}
+${fig("postman-02-login-400.jpg", "POST /api/auth/login con un cuerpo inválido responde 400 con el detalle por campo", "5.0in", "Captura de Postman, 19 de octubre de 2026.")}
+${fig("postman-03-login-401.jpg", "POST /api/auth/login con una contraseña incorrecta responde 401 sin revelar si el correo existe", "5.0in", "Captura de Postman, 19 de octubre de 2026. La contraseña del cuerpo es de prueba y es incorrecta a propósito.")}
+
 <h2>Despliegue y seguridad</h2>
 <p>La API y la web están desplegadas en Vercel como dos proyectos independientes que se conectan a MongoDB Atlas y a Supabase mediante variables de entorno marcadas como sensibles. Atlas usa un usuario de base de datos con permiso <code>readWrite</code> únicamente sobre la base <code>utmdesk</code>. La revisión de seguridad documentó 20 controles verificados, entre ellos contraseñas con bcrypt, JWT de 8 horas, roles validados en el servidor, límite de intentos de inicio de sesión, rechazo de operadores NoSQL por validación estricta, <i>helmet</i>, CORS restringido, depósito privado y secretos fuera del repositorio (OWASP Foundation, s. f.). Riesgos aceptados: el límite de peticiones es por instancia en el entorno sin servidor y la sesión se guarda en <code>localStorage</code>.</p>
 
