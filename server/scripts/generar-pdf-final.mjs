@@ -23,12 +23,13 @@ function ejemplo(cat) {
 }
 
 let nFig = 0;
-const fig = (archivo, titulo, ancho = "5.4in") => {
+const fig = (archivo, titulo, ancho = "5.4in", origen = "Captura propia del sistema local conectado a MongoDB Atlas y Supabase, con datos ficticios.") => {
   const ruta = join(CAP, archivo);
   if (!existsSync(ruta)) return "";
   nFig += 1;
+  const mime = archivo.endsWith(".jpg") ? "image/jpeg" : "image/png";
   const b64 = readFileSync(ruta).toString("base64");
-  return `<figure><p class="fig-num"><b>Figura ${nFig}</b></p><p class="fig-tit"><i>${esc(titulo)}</i></p><img style="max-width:${ancho};max-height:7.4in" src="data:image/png;base64,${b64}" alt="${esc(titulo)}"><p class="fig-nota"><i>Nota.</i> Captura propia del sistema local conectado a MongoDB Atlas y Supabase, con datos ficticios.</p></figure>`;
+  return `<figure><p class="fig-num"><b>Figura ${nFig}</b></p><p class="fig-tit"><i>${esc(titulo)}</i></p><img style="max-width:${ancho};max-height:7.4in" src="data:${mime};base64,${b64}" alt="${esc(titulo)}"><p class="fig-nota"><i>Nota.</i> ${esc(origen)}</p></figure>`;
 };
 let nTab = 0;
 const tabla = (titulo, cabeza, filas) => {
@@ -212,6 +213,14 @@ ${tabla(
 <h2>Verificación en Atlas</h2>
 <p>Con una consulta <code>explain("executionStats")</code> se comprobó que los listados, la búsqueda, el código y las incidencias del reportante usan índice:</p>
 ${tabla("Planes de ejecución observados en Atlas", ["Consulta", "Plan y documentos examinados"], explain.map(([a, b]) => [esc(a), esc(b)]))}
+
+<h2>Capturas de MongoDB Atlas</h2>
+<p>Las siguientes capturas muestran la colección en Atlas (Data Explorer, clúster Cluster0, base <code>utmdesk</code>): sus 24 documentos, los seis índices (el predeterminado más los cinco del proyecto, con el TTL y el de texto) y el validador activo con acción de error y nivel estricto.</p>
+${fig("atlas-01-documentos.jpg", "Colección incidencias_campus con sus 24 documentos", "5.6in", "Captura de MongoDB Atlas, 19 de octubre de 2026.")}
+${fig("atlas-02-indices-a.jpg", "Índices de la colección: predeterminado y compuesto por categoría, estado y edificio", "5.6in", "Captura de MongoDB Atlas, 19 de octubre de 2026.")}
+${fig("atlas-03-indices-b-ttl.jpg", "Índices compuesto, TTL de resolución, de texto y de código", "5.6in", "Captura de MongoDB Atlas, 19 de octubre de 2026.")}
+${fig("atlas-04-indices-c.jpg", "Índices de texto, de código único y por reportante", "5.6in", "Captura de MongoDB Atlas, 19 de octubre de 2026.")}
+${fig("atlas-05-validador.jpg", "Validador $jsonSchema con acción Error y nivel Strict", "5.6in", "Captura de MongoDB Atlas, 19 de octubre de 2026.")}
 
 <h2 class="nuevo">Distribución del trabajo</h2>
 <p>El proyecto se repartió por caso de uso del enunciado para que cada integrante defienda una parte completa: desde la interfaz hasta la operación de MongoDB que la respalda. Todos conocen a grandes rasgos las partes de los demás.</p>
