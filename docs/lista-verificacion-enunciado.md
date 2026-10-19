@@ -20,7 +20,7 @@ Leyenda: ✅ verificado con evidencia · ⏳ falta verificar · ➖ fuera de alc
 | RF-11 TTL 60 días | 61 d desaparece, 59 d permanece | `npm run demo:ttl` (purga en ~10 s) | ✅ |
 | RF-12 Editar/borrar | PATCH y DELETE coordinador, 403 técnico | Integración + Newman; UI `PanelAdministrar` construido | ✅ API · ⏳ UI coordinador |
 | RF-13 Sesión/permisos | 200 / 401 / 403 | Newman; límite de intentos de login probado en producción | ✅ |
-| RF-14 Datos demo | Seed 24 incidencias; export JSON y script maestro | `db:seed`, `db:verify` 16/16, `db:export`; script maestro corrido en base vacía de Atlas | ✅ (mongosh real ⏳: no instalado) |
+| RF-14 Datos demo | Seed 24 incidencias; export JSON y script maestro | `db:seed`, `db:verify` 16/16, `db:export`; script maestro corrido en base vacía de Atlas | ✅ (script maestro corrido con mongosh 2.13.0 real el 2026-10-19: 24 docs, 5 índices y validador activo) |
 | RF-15 Interfaz | Login, formulario dinámico, lista, expediente, estado, analítica | Recorrido UI con los 4 roles hecho el 2026-10-16 | ✅ |
 
 ## No funcionales
@@ -57,5 +57,5 @@ Leyenda: ✅ verificado con evidencia · ⏳ falta verificar · ➖ fuera de alc
 
 - Probar en la UI con los otros tres roles (técnico, coordinador, directivo): requiere iniciar sesión con la contraseña del seed.
 - R04 capturas de Atlas, R06 informe E2E, D03 capturas, D04 guía de defensa, D05 guion de demo, D06 PDF final y zip.
-- `mongosh` real sobre el script maestro (no está instalado en esta máquina).
+- (hecho) `mongosh` real sobre el script maestro.
 - Restablecer la base con datos de ejemplo al terminar las pruebas (`npm run db:seed -- --yes`).

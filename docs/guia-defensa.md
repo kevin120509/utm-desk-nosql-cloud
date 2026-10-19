@@ -200,7 +200,7 @@ Regla de oro en una defensa: después de cualquier cambio en vivo, correr la pru
 - **¿Por qué cuatro prioridades si el enunciado menciona tres?** Decisión del equipo: se agregó «crítica» para servicio caído o riesgo; está en el enum y en el validador.
 - **¿Qué roles hay?** Reportante, técnico, coordinador y directivo; los permisos se aplican en el servidor.
 - **¿Qué riesgos aceptaron?** El límite de peticiones es por instancia en Vercel y la sesión se guarda en `localStorage`; detalle en `docs/revision-R05-seguridad.md`.
-- **¿Qué no se pudo probar?** `mongosh` real sobre el script maestro (se ejecutó con el driver en una base vacía de Atlas).
+- **¿Qué no se pudo probar?** Nada pendiente de base de datos: el script maestro se ejecutó con `mongosh` real sobre colecciones temporales y creó 24 documentos, 5 índices y el validador.
 
 ## 9. Cómo practicar la defensa
 
