@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1240" width="1800" height="1240" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0b5d42"/>
+    </marker>
+    <marker id="flechaGris" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect width="1800" height="1240" fill="#ffffff"/>
+
+  <text x="900" y="46" text-anchor="middle" font-size="30" font-weight="bold" fill="#0b3d2e">UTM Desk NoSQL Cloud — Modelo de la base de datos (MongoDB Atlas, base «utmdesk»)</text>
+  <text x="900" y="76" text-anchor="middle" font-size="16" fill="#4b5563">3 colecciones en Atlas + 1 bucket privado en Supabase Storage. Los datos que pertenecen a una incidencia van dentro de su mismo documento.</text>
+
+  <!-- ============ usuarios ============ -->
+  <g>
+    <rect x="40" y="130" width="400" height="330" rx="10" fill="#f0fdf4" stroke="#0b5d42" stroke-width="2.5"/>
+    <rect x="40" y="130" width="400" height="44" rx="10" fill="#0b5d42"/>
+    <text x="60" y="160" font-size="20" font-weight="bold" fill="#fff">usuarios</text>
+    <text x="420" y="160" text-anchor="end" font-size="13" fill="#d1fae5">colección · cuentas</text>
+    <g font-size="16" fill="#111827">
+      <text x="60" y="206"><tspan font-weight="bold">_id</tspan>  ObjectId</text>
+      <text x="60" y="234"><tspan font-weight="bold">nombre</tspan>  texto</text>
+      <text x="60" y="262"><tspan font-weight="bold">correo</tspan>  texto · único</text>
+      <text x="60" y="290"><tspan font-weight="bold">password_hash</tspan>  bcrypt (no se exporta)</text>
+      <text x="60" y="318"><tspan font-weight="bold">rol</tspan>  reportante | tecnico |</text>
+      <text x="60" y="340">          coordinador | directivo</text>
+      <text x="60" y="368"><tspan font-weight="bold">tipo</tspan>  docente | estudiante |</text>
+      <text x="60" y="390">          administrativo (solo reportantes)</text>
+      <text x="60" y="418"><tspan font-weight="bold">activo</tspan>  booleano</text>
+    </g>
+    <text x="60" y="446" font-size="13" fill="#0b5d42">Índice: idx_correo_unico (correo, único)</text>
+  </g>
+
+  <!-- ============ contadores ============ -->
+  <g>
+    <rect x="40" y="520" width="400" height="190" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="2.5"/>
+    <rect x="40" y="520" width="400" height="44" rx="10" fill="#b45309"/>
+    <text x="60" y="550" font-size="20" font-weight="bold" fill="#fff">contadores</text>
+    <text x="420" y="550" text-anchor="end" font-size="13" fill="#fef3c7">colección · números consecutivos</text>
+    <g font-size="16" fill="#111827">
+      <text x="60" y="596"><tspan font-weight="bold">_id</tspan>  "contador:incidencias:</text>
+      <text x="60" y="618">          AAAA-MM-DD:categoria"</text>
+      <text x="60" y="646"><tspan font-weight="bold">valor</tspan>  entero (sube con $inc)</text>
+    </g>
+    <text x="60" y="682" font-size="13" fill="#92400e">findOneAndUpdate + $inc + upsert = atómico</text>
+    <text x="60" y="700" font-size="13" fill="#92400e">(dos altas a la vez nunca repiten número)</text>
+  </g>
+
+  <!-- ============ incidencias_campus ============ -->
+  <g>
+    <rect x="560" y="130" width="720" height="760" rx="10" fill="#ffffff" stroke="#0b5d42" stroke-width="3"/>
+    <rect x="560" y="130" width="720" height="48" rx="10" fill="#0b5d42"/>
+    <text x="582" y="162" font-size="22" font-weight="bold" fill="#fff">incidencias_campus</text>
+    <text x="1260" y="162" text-anchor="end" font-size="14" fill="#d1fae5">colección principal · 1 documento = 1 expediente</text>
+
+    <g font-size="16" fill="#111827">
+      <text x="582" y="212"><tspan font-weight="bold">_id</tspan>  ObjectId</text>
+      <text x="582" y="238"><tspan font-weight="bold">codigo</tspan>  "INC-2026-0001" · único</text>
+      <text x="582" y="264"><tspan font-weight="bold">consecutivo_diario</tspan>  entero (del contador)</text>
+      <text x="582" y="290"><tspan font-weight="bold">titulo</tspan> (5–120)   <tspan font-weight="bold">descripcion</tspan> (10–2000)</text>
+      <text x="582" y="316"><tspan font-weight="bold">categoria</tspan>  computo_redes | infraestructura | academico</text>
+      <text x="582" y="342"><tspan font-weight="bold">prioridad</tspan>  baja | media | alta | critica</text>
+      <text x="582" y="368"><tspan font-weight="bold">estado</tspan>  abierta | en proceso | en espera | resuelta | cerrada</text>
+      <text x="582" y="394"><tspan font-weight="bold">horas_invertidas</tspan>  número (suma de la bitácora)</text>
+      <text x="582" y="420"><tspan font-weight="bold">fecha_creacion</tspan> · <tspan font-weight="bold">fecha_actualizacion</tspan>  Date</text>
+      <text x="582" y="446"><tspan font-weight="bold">fecha_resolucion</tspan>  Date · SOLO resuelta o cerrada</text>
+      <text x="582" y="472"><tspan font-weight="bold">tags</tspan>  ["switch", "lc-2", ...]  (sin duplicados)</text>
+    </g>
+
+    <!-- embebidos -->
+    <rect x="580" y="490" width="330" height="108" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="594" y="512" font-size="15" font-weight="bold" fill="#1d4ed8">reportante  { }  (embebido)</text>
+    <text x="594" y="536" font-size="14" fill="#111827">usuario_id  → usuarios._id</text>
+    <text x="594" y="556" font-size="14" fill="#111827">nombre · tipo · correo</text>
+    <text x="594" y="578" font-size="12" fill="#1d4ed8">copia para leer sin join</text>
+
+    <rect x="930" y="490" width="330" height="108" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="944" y="512" font-size="15" font-weight="bold" fill="#1d4ed8">ubicacion  { }  (embebido)</text>
+    <text x="944" y="536" font-size="14" fill="#111827">edificio · piso (opcional) · espacio</text>
+    <text x="944" y="558" font-size="14" fill="#111827">asignado_a { usuario_id, nombre }</text>
+    <text x="944" y="578" font-size="12" fill="#1d4ed8">quién atiende (opcional)</text>
+
+    <rect x="580" y="614" width="680" height="96" rx="6" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="594" y="636" font-size="15" font-weight="bold" fill="#6d28d9">detalle_especifico  { }  — cambia según la categoría (oneOf en el validador)</text>
+    <text x="594" y="660" font-size="13.5" fill="#111827">computo_redes: tipo_falla · direccion_ip · vlan (1–4094) · puerto_uplink · equipos_afectados</text>
+    <text x="594" y="680" font-size="13.5" fill="#111827">infraestructura: tipo_dano · riesgo_seguridad · requiere_contratista · insumos? · contratista?</text>
+    <text x="594" y="700" font-size="13.5" fill="#111827">academico: plataforma · periodo_escolar (AAAA-1..3) · estudiantes_impactados · codigo_curso?</text>
+
+    <rect x="580" y="724" width="680" height="76" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+    <text x="594" y="746" font-size="15" font-weight="bold" fill="#c2410c">historial_seguimiento  [ ]  (arreglo embebido · $push)</text>
+    <text x="594" y="770" font-size="14" fill="#111827">{ fecha, autor { usuario_id, nombre }, estado_nuevo, comentario, horas }</text>
+    <text x="594" y="790" font-size="12" fill="#c2410c">una entrada por cambio de estado; la primera es el alta</text>
+
+    <rect x="580" y="812" width="680" height="64" rx="6" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="594" y="834" font-size="15" font-weight="bold" fill="#b91c1c">evidencias_adjuntas  [ ]  (arreglo embebido · $push)</text>
+    <text x="594" y="858" font-size="13.5" fill="#111827">{ nombre_archivo, tipo_mime, peso_kb, storage_path, url_storage*, url_expira*, fecha_carga }</text>
+  </g>
+
+  <!-- ============ Supabase ============ -->
+  <g>
+    <rect x="1400" y="620" width="360" height="270" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
+    <rect x="1400" y="620" width="360" height="44" rx="10" fill="#059669"/>
+    <text x="1420" y="650" font-size="20" font-weight="bold" fill="#fff">Supabase Storage</text>
+    <text x="1740" y="650" text-anchor="end" font-size="13" fill="#d1fae5">bucket privado</text>
+    <g font-size="16" fill="#111827">
+      <text x="1420" y="696"><tspan font-weight="bold">evidencias/</tspan></text>
+      <text x="1436" y="722">INC-2026-0001/</text>
+      <text x="1452" y="746">&lt;uuid&gt;-foto-techo.png</text>
+      <text x="1452" y="770">&lt;uuid&gt;-diagnostico.pdf</text>
+    </g>
+    <text x="1420" y="806" font-size="13" fill="#065f46">Solo JPEG, PNG o PDF · máximo 4 MB</text>
+    <text x="1420" y="826" font-size="13" fill="#065f46">Tipo real por firma de bytes</text>
+    <text x="1420" y="846" font-size="13" fill="#065f46">* La URL firmada caduca y se</text>
+    <text x="1420" y="866" font-size="13" fill="#065f46">  regenera en cada lectura</text>
+  </g>
+
+  <!-- ============ Reglas de Atlas ============ -->
+  <g>
+    <rect x="1400" y="130" width="360" height="450" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <rect x="1400" y="130" width="360" height="44" rx="10" fill="#475569"/>
+    <text x="1420" y="160" font-size="20" font-weight="bold" fill="#fff">Índices de incidencias_campus</text>
+    <g font-size="14.5" fill="#111827">
+      <text x="1420" y="204"><tspan font-weight="bold">idx_cat_estado_edificio</tspan></text>
+      <text x="1436" y="224">categoria + estado + ubicacion.edificio</text>
+      <text x="1436" y="243" fill="#475569">listados con filtros</text>
+      <text x="1420" y="276"><tspan font-weight="bold">idx_texto_es</tspan></text>
+      <text x="1436" y="296">texto español: titulo (peso 10), descripcion (5)</text>
+      <text x="1436" y="315" fill="#475569">búsqueda por relevancia</text>
+      <text x="1420" y="348"><tspan font-weight="bold">idx_ttl_resolucion</tspan></text>
+      <text x="1436" y="368">fecha_resolucion · TTL 60 días</text>
+      <text x="1436" y="387" fill="#475569">Mongo borra solo la incidencia</text>
+      <text x="1420" y="420"><tspan font-weight="bold">idx_codigo</tspan>  (único)</text>
+      <text x="1436" y="440">codigo</text>
+      <text x="1420" y="472"><tspan font-weight="bold">idx_reportante</tspan></text>
+      <text x="1436" y="492">reportante.usuario_id + fecha_creacion ↓</text>
+      <text x="1436" y="511" fill="#475569">“mis incidencias”</text>
+    </g>
+    <text x="1420" y="552" font-size="13.5" fill="#334155" font-weight="bold">Validador: $jsonSchema · strict · error</text>
+  </g>
+
+  <!-- ============ Flechas ============ -->
+  <!-- usuarios -> reportante -->
+  <path d="M440 300 C 500 300, 520 540, 580 540" fill="none" stroke="#0b5d42" stroke-width="2.5" marker-end="url(#flecha)"/>
+  <text x="452" y="352" font-size="12.5" fill="#0b5d42" stroke="#fff" stroke-width="4" paint-order="stroke">referencia</text><text x="452" y="368" font-size="12.5" fill="#0b5d42" stroke="#fff" stroke-width="4" paint-order="stroke">usuario_id</text>
+  <!-- contadores -> consecutivo -->
+  <path d="M440 610 C 520 610, 500 262, 580 262" fill="none" stroke="#b45309" stroke-width="2.5" marker-end="url(#flecha)"/>
+  <text x="446" y="600" font-size="13" fill="#b45309" transform="rotate(-62 446 600)"> </text>
+  <text x="452" y="650" font-size="12.5" fill="#b45309" stroke="#fff" stroke-width="4" paint-order="stroke">consecutivo</text><text x="452" y="666" font-size="12.5" fill="#b45309" stroke="#fff" stroke-width="4" paint-order="stroke">y código</text>
+  <!-- evidencias -> supabase -->
+  <path d="M1260 844 C 1330 844, 1340 760, 1400 760" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#flecha)"/>
+  <text x="1280" y="910" font-size="13" fill="#059669">storage_path apunta al archivo</text>
+  <!-- ttl -->
+  <path d="M1260 446 C 1330 446, 1340 360, 1400 360" fill="none" stroke="#6b7280" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#flechaGris)"/>
+
+  <!-- ============ Flujo de datos ============ -->
+  <rect x="40" y="940" width="1720" height="270" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="60" y="972" font-size="20" font-weight="bold" fill="#111827">Cómo se usa cada parte</text>
+
+  <g font-size="15.5" fill="#111827">
+    <text x="60" y="1008"><tspan font-weight="bold" fill="#0b5d42">Alta:</tspan> la API toma el consecutivo en «contadores», arma el código INC-AAAA-NNNN e inserta el documento con estado «abierta» y una primera entrada en la bitácora.</text>
+    <text x="60" y="1038"><tspan font-weight="bold" fill="#0b5d42">Evidencia:</tspan> el archivo va a Supabase y en Mongo se hace un solo $push en «evidencias_adjuntas» con su metadato y ruta.</text>
+    <text x="60" y="1068"><tspan font-weight="bold" fill="#0b5d42">Cambio de estado:</tspan> un solo updateOne con el estado leído en el filtro: $set (estado, fechas), $push (bitácora) y $inc (horas). Si otro lo cambió antes → 409.</text>
+    <text x="60" y="1098"><tspan font-weight="bold" fill="#0b5d42">Etiquetas:</tspan> $addToSet (sin duplicar) y $pull (quitar), siempre en minúsculas.</text>
+    <text x="60" y="1128"><tspan font-weight="bold" fill="#0b5d42">Búsqueda y analítica:</tspan> $text sobre idx_texto_es; pipelines con $match, $dateDiff, $group, $unwind, $sort y $limit.</text>
+    <text x="60" y="1158"><tspan font-weight="bold" fill="#0b5d42">Depuración:</tspan> al pasar a «resuelta» se guarda fecha_resolucion; 60 días después el índice TTL elimina el documento (el TTL no borra los archivos del bucket; solo el borrado por la API los elimina).</text>
+    <text x="60" y="1188"><tspan font-weight="bold" fill="#0b5d42">Seguridad:</tspan> Zod valida en la API y el $jsonSchema valida en Mongo; las contraseñas son hashes bcrypt y la sesión es un JWT.</text>
+  </g>
+</svg>
