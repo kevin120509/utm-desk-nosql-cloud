@@ -39,6 +39,11 @@ const tabla = (titulo, cabeza, filas) => {
     .join("")}</tbody></table></div>`;
 };
 
+const ASSETS = join(import.meta.dirname, "assets");
+const b64 = (f) => readFileSync(join(ASSETS, f)).toString("base64");
+const ESQUINA = `data:image/png;base64,${b64("portada-esquina.png")}`;
+const LOGO = `data:image/png;base64,${b64("portada-logo.png")}`;
+
 const integrantes = ["Arroyo León Luis Diego", "Can Domínguez Víctor Emmanuel", "Montalvo Canché Emir Emanuel", "Vargas Guzmán Kevin Aarón"];
 
 const explain = atlas
@@ -54,9 +59,11 @@ h1,h2,h3{font-size:12pt;margin:0;line-height:2;page-break-after:avoid}
 h1{text-align:center;font-weight:bold}
 h2{text-align:left;font-weight:bold}
 h3{text-align:left;font-weight:bold;font-style:italic}
-.portada{text-align:center;page-break-after:always;padding-top:1.6in}
-.portada p{text-indent:0;text-align:center}
-.portada .titulo{font-weight:bold;margin-bottom:.5in}
+@page portada{size:Letter;margin:0}
+.portada{page:portada;position:relative;width:8.5in;height:11in;overflow:hidden;page-break-after:always;font-family:Arial,Helvetica,sans-serif;text-align:center;line-height:1.25}
+.portada p{text-indent:0;text-align:center;margin:0}
+.portada img{position:absolute}
+.portada .caja{position:absolute;left:0;right:0;top:1.75in}
 .pend{background:#fff3b0}
 .nuevo{page-break-before:always}
 ul,ol{margin:0 0 0 .5in;padding-left:.3in}
@@ -76,13 +83,24 @@ code{font-family:Consolas,"Courier New",monospace;font-size:10pt}
 </style></head><body>
 
 <section class="portada">
-<p><b>Universidad Tecnológica Metropolitana</b></p>
-<p>Desarrollo de Software Multiplataforma · Grupo 7A</p>
-<p>Bases de Datos en la Nube · Unidad II</p>
-<p style="margin-top:.6in" class="titulo"><b>UTM Desk NoSQL Cloud: gestión de incidencias del campus con MongoDB Atlas</b></p>
-<p style="margin-top:.4in">${integrantes.join("<br>")}</p>
-<p style="margin-top:.4in">Docente: Lizandro Israel Reyes Carrillo</p>
-<p style="margin-top:.3in">16 de octubre de 2026</p>
+<img src="${ESQUINA}" alt="" style="left:-0.75pt;top:-0.6pt;width:215.6pt;height:261.4pt;transform:rotate(180deg)">
+<img src="${ESQUINA}" alt="" style="left:395.25pt;top:520.9pt;width:215.6pt;height:261.4pt">
+<img src="${LOGO}" alt="Logotipo de la UTM" style="left:270.75pt;top:37.5pt;width:69.9pt;height:74pt">
+<div class="caja">
+<p style="font-size:17pt;margin-top:.1in">UNIVERSIDAD TECNOLÓGICA METROPOLITANA</p>
+<p style="font-size:11pt;margin-top:.12in">DIVISIÓN TIC</p>
+<p style="font-size:26pt;font-weight:bold;margin-top:.45in;line-height:1.5">BASES DE DATOS<br>EN LA NUBE</p>
+<hr style="width:5.8in;border:0;border-top:1px solid #bbb;margin:.35in auto">
+<p style="font-size:17pt;font-weight:bold">“UTM Desk NoSQL Cloud”</p>
+<p style="font-size:17pt;font-weight:bold">Fase 2: Proyecto final</p>
+<p style="font-size:10.5pt;margin-top:.4in">UNIDAD II. BASES DE DATOS NO RELACIONALES EN LA NUBE</p>
+<p style="font-size:15pt;margin-top:.08in">MONGODB ATLAS, API REST Y POSTMAN</p>
+<p style="font-size:10.5pt;margin-top:.22in">PRESENTAN:</p>
+<p style="font-size:10.5pt;line-height:1.5">${integrantes.join("<br>")}</p>
+<p style="font-size:10.5pt;margin-top:.22in">Desarrollo de Software Multiplataforma · Grupo 7A</p>
+<p style="font-size:10.5pt">Docente: Lizandro Israel Reyes Carrillo</p>
+<p style="font-size:10.5pt;font-weight:bold;margin-top:.4in">Mérida, Yucatán, 19 de octubre de 2026</p>
+</div>
 </section>
 
 <h1>UTM Desk NoSQL Cloud: gestión de incidencias del campus con MongoDB Atlas</h1>
@@ -298,11 +316,7 @@ try {
     footerTemplate: "<div></div>",
     paperWidth: 8.5,
     paperHeight: 11,
-    marginTop: 1,
-    marginBottom: 1,
-    marginLeft: 1,
-    marginRight: 1,
-    preferCSSPageSize: false,
+    preferCSSPageSize: true,
   });
   if (!r.result?.data) throw new Error("printToPDF falló: " + JSON.stringify(r.error ?? r));
   writeFileSync(join(ENT, "UTM-Desk-NoSQL-Cloud_Final.pdf"), Buffer.from(r.result.data, "base64"));
