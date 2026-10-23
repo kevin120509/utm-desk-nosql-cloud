@@ -42,9 +42,12 @@ export default function Login() {
     <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
       {/* Panel de marca */}
       <aside className="relative hidden overflow-hidden bg-marca-900 p-12 text-white lg:flex lg:flex-col lg:justify-between">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-96 rotate-45 rounded-[3rem] bg-marca-800/70" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -left-20 size-80 rotate-45 rounded-[3rem] bg-marca-800/50" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-24 right-16 size-16 rotate-45 rounded-xl bg-acento/90" />
+        <img src="/logo-utm-rombo-marca.png" alt="" aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 size-96 opacity-60" />
+        <img src="/logo-utm-rombo-marca.png" alt="" aria-hidden="true"
+          className="pointer-events-none absolute -bottom-28 -left-20 size-80 rotate-12 opacity-50" />
+        <img src="/logo-utm-rombo-lima.png" alt="" aria-hidden="true"
+          className="pointer-events-none absolute bottom-24 right-16 size-20 opacity-90" />
 
         <div className="relative flex items-center gap-3">
           <Marca tamano={44} />
@@ -113,15 +116,19 @@ export default function Login() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="campo pr-24"
+                  className="campo pr-12"
                 />
                 <button
                   type="button"
                   onClick={() => setVerPassword((v) => !v)}
                   aria-pressed={verPassword}
-                  className="absolute inset-y-1 right-1 cursor-pointer rounded-md px-3 text-sm font-semibold text-marca-700 hover:bg-marca-50"
+                  aria-label={verPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  title={verPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  className="absolute inset-y-1 right-1 grid w-10 cursor-pointer place-items-center rounded-md text-marca-700 transition-colors hover:bg-marca-50"
                 >
-                  {verPassword ? "Ocultar" : "Mostrar"}
+                  <span key={verPassword} className="animacion-ojo grid place-items-center">
+                    <Icono nombre={verPassword ? "ojo-cerrado" : "ojo"} tamano={19} />
+                  </span>
                 </button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSesion } from "../auth/SesionContext.jsx";
 import { ROLES_CREAR, ROLES_ANALITICA, NOMBRE_ROL } from "../auth/permisos.js";
@@ -14,7 +14,8 @@ const iniciales = (nombre = "") =>
     .map((p) => p[0].toUpperCase())
     .join("");
 
-// Enlace del menú: fondo claro translúcido y barra lima cuando está activo.
+// Enlace del menú: fondo claro translúcido cuando está activo; la barra lima
+// es compartida y se desliza (ver NavConIndicador).
 function EnlaceMenu({ a, icono, texto, alNavegar }) {
   return (
     <NavLink
@@ -27,14 +28,41 @@ function EnlaceMenu({ a, icono, texto, alNavegar }) {
         }`
       }
     >
-      {({ isActive }) => (
-        <>
-          {isActive && <span aria-hidden="true" className="absolute inset-y-2 -left-3 w-1 rounded-r bg-acento" />}
-          <Icono nombre={icono} />
-          <span>{texto}</span>
-        </>
-      )}
+      <Icono nombre={icono} />
+      <span>{texto}</span>
     </NavLink>
+  );
+}
+
+// Menú con indicador deslizante: una sola barra lima que se mueve a la
+// pestaña activa midiendo su posición real en el DOM.
+function NavConIndicador({ enlaces, alNavegar }) {
+  const navRef = useRef(null);
+  const { pathname } = useLocation();
+  const [indicador, setIndicador] = useState({ top: 0, alto: 0, visible: false });
+
+  useLayoutEffect(() => {
+    const activo = navRef.current?.querySelector('[aria-current="page"]');
+    setIndicador(
+      activo
+        ? { top: activo.offsetTop + 8, alto: activo.offsetHeight - 16, visible: true }
+        : { top: 0, alto: 0, visible: false },
+    );
+  }, [pathname, enlaces]);
+
+  return (
+    <nav ref={navRef} aria-label="Principal" className="relative flex-1 space-y-1 px-3">
+      <span
+        aria-hidden="true"
+        className={`absolute left-0 w-1 rounded-r bg-acento transition-all duration-300 ease-out ${
+          indicador.visible ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ top: indicador.top, height: indicador.alto }}
+      />
+      {enlaces.map((e) => (
+        <EnlaceMenu key={e.a} {...e} alNavegar={alNavegar} />
+      ))}
+    </nav>
   );
 }
 
@@ -44,9 +72,25 @@ export default function Layout() {
   const navigate = useNavigate();
   const ubicacion = useLocation();
   const [abierto, setAbierto] = useState(false);
+  const [confirmando, setConfirmando] = useState(false);
+  const [saliendo, setSaliendo] = useState(false);
+  const [cargandoRuta, setCargandoRuta] = useState(false);
 
-  // Al cambiar de página se cierra el menú móvil.
-  useEffect(() => setAbierto(false), [ubicacion.pathname]);
+  // Al cambiar de página se cierra el menú móvil y se muestra el rombo de carga un momento.
+  useEffect(() => {
+    setAbierto(false);
+    setCargandoRuta(true);
+    const t = setTimeout(() => setCargandoRuta(false), 650);
+    return () => clearTimeout(t);
+  }, [ubicacion.pathname]);
+
+  // Escape cierra la confirmación de cierre de sesión.
+  useEffect(() => {
+    if (!confirmando || saliendo) return;
+    const alTeclar = (e) => e.key === "Escape" && setConfirmando(false);
+    window.addEventListener("keydown", alTeclar);
+    return () => window.removeEventListener("keydown", alTeclar);
+  }, [confirmando, saliendo]);
 
   // Menú según el rol (plan §5).
   const enlaces = [{ a: "/incidencias", icono: "lista", texto: "Incidencias" }];
@@ -54,6 +98,12 @@ export default function Layout() {
   if (ROLES_ANALITICA.includes(usuario.rol)) enlaces.push({ a: "/analitica", icono: "grafica", texto: "Analítica" });
 
   function salir() {
+    setConfirmando(true);
+  }
+
+  async function confirmarSalida() {
+    setSaliendo(true);
+    await new Promise((r) => setTimeout(r, 1000));
     cerrarSesion();
     navigate("/login", { replace: true });
   }
@@ -68,11 +118,7 @@ export default function Layout() {
         </div>
       </div>
 
-      <nav aria-label="Principal" className="flex-1 space-y-1 px-3">
-        {enlaces.map((e) => (
-          <EnlaceMenu key={e.a} {...e} alNavegar={() => setAbierto(false)} />
-        ))}
-      </nav>
+      <NavConIndicador enlaces={enlaces} alNavegar={() => setAbierto(false)} />
 
       <div className="m-3 rounded-xl bg-white/8 p-3">
         <div className="flex items-center gap-3">
@@ -128,15 +174,80 @@ export default function Layout() {
           <span>{abierto ? "Cerrar" : "Menú"}</span>
         </button>
       </header>
-      {abierto && (
-        <div id="menu-movil" className="fixed inset-x-0 bottom-0 top-[3.5rem] z-20 overflow-y-auto bg-marca-900 lg:hidden [&>div>div:first-child]:hidden">
-          {menu}
-        </div>
-      )}
+      {/* Menú móvil: cajón lateral izquierdo que desliza; ocupa la mitad de la pantalla. */}
+      <div
+        aria-hidden="true"
+        onClick={() => setAbierto(false)}
+        className={`fixed inset-0 top-[3.5rem] z-20 bg-marca-950/50 transition-opacity duration-300 lg:hidden ${
+          abierto ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+      <div
+        id="menu-movil"
+        inert={!abierto}
+        className={`fixed bottom-0 left-0 top-[3.5rem] z-30 w-1/2 min-w-56 max-w-72 overflow-y-auto bg-marca-900 shadow-elevada transition-transform duration-300 ease-out lg:hidden ${
+          abierto ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {menu}
+      </div>
 
       <main id="contenido" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         <Outlet />
       </main>
+
+      {/* Velo de carga de marca al cambiar de pestaña (rombo UTM en bucle). */}
+      {cargandoRuta && (
+        <div className="animacion-opaco fixed inset-0 z-40 grid place-items-center bg-white/60 backdrop-blur-[2px]" role="status" aria-label="Cargando sección">
+          <img src="/logo-utm-rombo.png" alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} className="animacion-rombo size-16 select-none" />
+        </div>
+      )}
+
+      {/* Confirmación de cierre de sesión con animación de aparición. */}
+      {confirmando && (
+        <div
+          className="animacion-opaco fixed inset-0 z-50 grid place-items-center bg-marca-950/60 p-4"
+          onClick={() => !saliendo && setConfirmando(false)}
+        >
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="titulo-salir"
+            aria-describedby="texto-salir"
+            className="animacion-tarjeta w-full max-w-sm rounded-2xl bg-white p-6 shadow-elevada"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {saliendo ? (
+              <div className="flex flex-col items-center gap-4 py-4" role="status" aria-label="Cerrando sesión">
+                <img src="/logo-utm-rombo.png" alt="" draggable={false} onContextMenu={(e) => e.preventDefault()} className="animacion-rombo size-14 select-none" />
+                <p className="text-sm font-semibold text-slate-700">Cerrando sesión…</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-marca-50 text-marca-700">
+                    <Icono nombre="salir" />
+                  </span>
+                  <h2 id="titulo-salir" className="font-display text-lg font-semibold text-slate-900">
+                    ¿Cerrar sesión?
+                  </h2>
+                </div>
+                <p id="texto-salir" className="mt-3 text-sm text-slate-600">
+                  Tu sesión en UTM Desk se cerrará en este dispositivo.
+                </p>
+                <div className="mt-5 flex gap-3">
+                  <button type="button" onClick={() => setConfirmando(false)} className="btn btn-secundario flex-1">
+                    Cancelar
+                  </button>
+                  <button type="button" onClick={confirmarSalida} className="btn btn-primario flex-1">
+                    Cerrar sesión
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

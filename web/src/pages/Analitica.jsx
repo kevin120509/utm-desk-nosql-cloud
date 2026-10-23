@@ -12,14 +12,14 @@ const num = new Intl.NumberFormat("es-MX", { maximumFractionDigits: 1 });
 // Tarjeta de indicador (KPI): número grande, etiqueta y una nota breve.
 function Indicador({ icono, etiqueta, valor, nota }) {
   return (
-    <div className="tarjeta flex items-start gap-4 p-5">
-      <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-marca-50 text-marca-700">
-        <Icono nombre={icono} tamano={22} />
+    <div className="tarjeta flex items-start gap-3 p-4 sm:gap-4 sm:p-5">
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-marca-50 text-marca-700 sm:size-11">
+        <Icono nombre={icono} tamano={20} />
       </span>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-slate-600">{etiqueta}</p>
-        <p className="font-display text-3xl font-semibold leading-tight text-slate-900">{valor}</p>
-        {nota && <p className="mt-0.5 break-words text-sm text-slate-600">{nota}</p>}
+        <p className="text-xs font-medium text-slate-600 sm:text-sm">{etiqueta}</p>
+        <p className="font-display text-2xl font-semibold leading-tight text-slate-900 sm:text-3xl">{valor}</p>
+        {nota && <p className="mt-0.5 break-words text-xs text-slate-600 sm:text-sm">{nota}</p>}
       </div>
     </div>
   );
@@ -33,7 +33,7 @@ function Resumen({ datos }) {
   const promedio = total ? datos.reduce((s, d) => s + d.promedio_horas_resolucion * d.total_incidencias, 0) / total : 0;
   const masLento = [...datos].sort((a, b) => b.promedio_horas_resolucion - a.promedio_horas_resolucion)[0];
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
       <Indicador icono="check" etiqueta="Incidencias resueltas" valor={total} nota="Resueltas o cerradas" />
       <Indicador icono="reloj" etiqueta="Resolución promedio" valor={`${num.format(promedio)} h`} nota="Desde el registro hasta resolver" />
       <Indicador icono="herramienta" etiqueta="Horas de trabajo" valor={`${num.format(horasTrabajo)} h`} nota="Suma de las intervenciones" />
@@ -64,7 +64,7 @@ function Seccion({ id, titulo, ayuda, consulta, textoVacio, children }) {
 function TablaEdificios({ datos }) {
   return (
     <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200">
-      <table className="w-full text-left text-sm">
+      <table className="w-full min-w-max text-left text-sm">
         <caption className="sr-only">Eficiencia de resolución por edificio</caption>
         <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
           <tr>

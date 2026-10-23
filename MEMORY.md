@@ -50,6 +50,7 @@ Sin datos sensibles aquí (claves, tokens, contraseñas). Máx. ~50 líneas. Act
 - 2026-10-15 F01 hecho: rutas, sesión, cliente API, Layout con menú por rol, placeholders; dependencia `react-router-dom`. La guarda por rol y el login real se prueban cuando exista B03.
 - Equipo (4): Arroyo León Luis Diego, Can Domínguez Víctor Emmanuel, Montalvo Canché Emir Emanuel, Vargas Guzmán Kevin Aarón.
 - Docente confirmó: contador en MongoDB (sin Redis) y Supabase para evidencias.
+- 2026-10-22: Emir clonó el repo y verificó su entorno: `server/.env` configurado, `db:ping` OK (Atlas + bucket), `db:verify` 16/16, `npm test` 351/351 verde, `web` corre en 5173 contra la API de producción (`web/.env` con `VITE_API_URL=https://utm-desk-api.vercel.app/api`). Las resoluciones del seed tienen ya 20-37.5 días: re-correr `db:seed -- --yes` antes de la defensa.
 
 ## Decisiones (con su porqué)
 - Driver nativo `mongodb` y no Mongoose: hay que mostrar `$jsonSchema`, índices y pipelines tal cual.

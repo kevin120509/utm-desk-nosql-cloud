@@ -121,3 +121,32 @@
     @apply cursor-pointer font-semibold text-marca-700 underline decoration-marca-300 underline-offset-2 hover:text-marca-900 hover:decoration-marca-700;
   }
 }
+
+/* ----- Animaciones de marca (rombo UTM, tarjetas y velos) ----- */
+/* prefers-reduced-motion ya las neutraliza globalmente (ver @media reduce arriba). */
+@keyframes rombo-giro {
+  to { transform: rotateY(360deg); }
+}
+@keyframes tarjeta-entra {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+}
+@keyframes opaco-entra {
+  from { opacity: 0; }
+}
+@keyframes ojo-cambia {
+  from { opacity: 0; transform: scale(0.6) rotate(-12deg); }
+}
+
+.animacion-rombo {
+  animation: rombo-giro 1.15s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  filter: drop-shadow(0 6px 14px rgba(11, 93, 66, 0.35));
+}
+.animacion-tarjeta {
+  animation: tarjeta-entra 0.22s ease-out both;
+}
+.animacion-opaco {
+  animation: opaco-entra 0.18s ease-out both;
+}
+.animacion-ojo {
+  animation: ojo-cambia 0.22s cubic-bezier(0.34, 1.4, 0.5, 1) both;
+}
