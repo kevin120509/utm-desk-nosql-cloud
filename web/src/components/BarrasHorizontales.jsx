@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
-import { Bar, BarChart, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Cell, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const ALTO_FILA = 44; // píxeles por barra
-const COLOR_BARRA = "#0f7050"; // marca-600: contraste AA sobre fondo blanco
+// Paleta por nivel (familia marca): claro = valores bajos, medio = actual, oscuro = altos.
+// Los terciles se calculan con min/max de los datos, así los colores se reasignan solos al actualizarse.
+const NIVELES = { bajo: "#74c39d", medio: "#0f7050", alto: "#094b36" }; // marca-300 / 600 / 800
+
+function colorDe(valor, min, max) {
+  const rango = max - min;
+  if (rango === 0) return NIVELES.medio;
+  if (valor <= min + rango / 3) return NIVELES.bajo;
+  if (valor <= min + (2 * rango) / 3) return NIVELES.medio;
+  return NIVELES.alto;
+}
 
 // ¿Pantalla angosta? En móvil la columna de etiquetas se reduce para que las
 // barras queden pegadas a la izquierda en vez de flotar a la derecha.
@@ -23,6 +33,9 @@ function useMovil() {
 export default function BarrasHorizontales({ datos, claveNombre, claveValor, unidad, descripcion }) {
   const movil = useMovil();
   const filas = datos.map((d) => ({ nombre: d[claveNombre], valor: d[claveValor] }));
+  const valores = filas.map((f) => f.valor);
+  const min = Math.min(...valores);
+  const max = Math.max(...valores);
   const formato = (v) => `${new Intl.NumberFormat("es-MX", { maximumFractionDigits: 1 }).format(v)} ${unidad}`;
   // En móvil las etiquetas largas se recortan (el nombre completo está en la tabla de abajo).
   const corta = (n) => (n.length > 14 ? `${n.slice(0, 13)}…` : n);
@@ -42,7 +55,10 @@ export default function BarrasHorizontales({ datos, claveNombre, claveValor, uni
             axisLine={false}
           />
           <Tooltip formatter={(v) => [formato(v), ""]} separator="" cursor={{ fill: "#eef8f2" }} />
-          <Bar dataKey="valor" fill={COLOR_BARRA} radius={[0, 4, 4, 0]} isAnimationActive={false}>
+          <Bar dataKey="valor" radius={[0, 4, 4, 0]} isAnimationActive={false}>
+            {filas.map((f) => (
+              <Cell key={f.nombre} fill={colorDe(f.valor, min, max)} />
+            ))}
             <LabelList dataKey="valor" position="right" formatter={formato} fill="#0f172a" fontSize={13} />
           </Bar>
         </BarChart>
