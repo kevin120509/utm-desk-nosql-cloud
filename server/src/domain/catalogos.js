@@ -5,8 +5,8 @@ import { CATEGORIAS } from './enumeraciones.js';
 
 export const CATEGORIAS_BASE = {
   computo_redes: { nombre: 'Cómputo y redes', descripcion: 'Equipos, red, software y cuentas.' },
-  infraestructura: { nombre: 'Infraestructura', descripcion: 'Instalaciones, mobiliario y servicios del edificio.' },
-  academico: { nombre: 'Académico', descripcion: 'Aulas, laboratorios y recursos para clase.' },
+  infraestructura_fisica: { nombre: 'Infraestructura física', descripcion: 'Instalaciones, mobiliario y servicios del edificio.' },
+  servicios_academicos: { nombre: 'Servicios académicos', descripcion: 'Aulas, laboratorios y recursos para clase.' },
 };
 
 export const EDIFICIOS_BASE = ['Edificio A', 'Edificio B', 'Laboratorios de Cómputo', 'Biblioteca', 'Administrativo'];

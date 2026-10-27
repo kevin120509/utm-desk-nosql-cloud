@@ -1,6 +1,7 @@
 // Implementación del puerto IncidenciasRepo sobre la colección `incidencias_campus`.
 import { ObjectId } from "mongodb";
 import { ErrorApp } from "../../application/errores.js";
+import { regexSeguro } from "./regex.js";
 
 // Mensaje genérico: nunca se expone el detalle de Atlas al cliente.
 const ERROR_GENERICO = "Error interno del servidor";
@@ -118,5 +119,40 @@ export class IncidenciasRepoMongo {
   async eliminar(codigo) {
     const { deletedCount } = await this.coleccion.deleteOne({ codigo });
     return deletedCount === 1;
+  }
+
+  /**
+   * Listado del módulo admin: los mismos filtros que `listar` (sin limitar por propietario)
+   * y búsqueda por texto libre en código, título o descripción (regex escapada, sin índice).
+   * @param {{filtros?: object, q?: string, pagina: number, limite: number}} opciones
+   * @returns {Promise<{datos: object[], total: number}>}
+   */
+  async listarAdmin({ filtros = {}, q, pagina, limite }) {
+    const { categoria, estado, prioridad, edificio } = filtros;
+    const filtro = {};
+    if (categoria) filtro.categoria = categoria;
+    if (estado) filtro.estado = estado;
+    if (prioridad) filtro.prioridad = prioridad;
+    if (edificio) filtro["ubicacion.edificio"] = edificio;
+    if (q) {
+      const rx = regexSeguro(q);
+      filtro.$or = [{ codigo: rx }, { titulo: rx }, { descripcion: rx }];
+    }
+    const [datos, total] = await Promise.all([
+      this.coleccion
+        .find(filtro, { projection: PROYECCION_LISTA })
+        .sort({ fecha_creacion: -1, _id: -1 })
+        .skip((pagina - 1) * limite)
+        .limit(limite)
+        .toArray(),
+      this.coleccion.countDocuments(filtro),
+    ]);
+    return { datos, total };
+  }
+
+  /** Edificios que aparecen en alguna incidencia (catálogo derivado de los datos). */
+  async edificiosDistintos() {
+    const valores = await this.coleccion.distinct("ubicacion.edificio");
+    return valores.sort((a, b) => a.localeCompare(b, "es"));
   }
 }

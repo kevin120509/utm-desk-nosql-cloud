@@ -5,9 +5,10 @@ import { crearAutenticacion } from "../middlewares/autenticacion.js";
 import { requierePermiso } from "../middlewares/roles.js";
 
 /**
- * @param {{auth: object, usuarios: object, administrar: object, catalogos?: object}} deps
+ * @param {{auth: object, usuarios: object, administrar: object, catalogos?: object,
+ *          incidencias?: {listar: Function, obtener: Function}, metricas?: Function}} deps
  */
-export function rutasAdmin({ auth, usuarios, administrar, catalogos }) {
+export function rutasAdmin({ auth, usuarios, administrar, catalogos, incidencias, metricas }) {
   const router = Router();
   router.use(crearAutenticacion(auth));
 
@@ -78,6 +79,23 @@ export function rutasAdmin({ auth, usuarios, administrar, catalogos }) {
   router.get("/resumen", requierePermiso("metricas.consultar"), async (_req, res) => {
     res.status(200).json(await administrar.resumen());
   });
+
+  // Métricas detalladas (prioridad, edificio, tiempo de resolución, técnicos, fallas recurrentes).
+  if (metricas) {
+    router.get("/metricas", requierePermiso("metricas.consultar"), async (_req, res) => {
+      res.status(200).json(await metricas());
+    });
+  }
+
+  // Vista de incidencias para el superAdmin: lista con búsqueda y expediente con auditoría.
+  if (incidencias) {
+    router.get("/incidencias", requierePermiso("incidencias.consultar_todas"), async (req, res) => {
+      res.status(200).json(await incidencias.listar(req.query));
+    });
+    router.get("/incidencias/:codigo", requierePermiso("incidencias.consultar_todas"), async (req, res) => {
+      res.status(200).json(await incidencias.obtener(req.usuario, req.params.codigo));
+    });
+  }
 
   return router;
 }

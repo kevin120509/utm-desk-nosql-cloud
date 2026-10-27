@@ -28,6 +28,10 @@ import { gestionarCatalogos } from "./application/gestionarCatalogos.js";
 import { gestionarUsuarios } from "./application/gestionarUsuarios.js";
 import { registrarUsuario } from "./application/registrarUsuario.js";
 import { administrar } from "./application/administrar.js";
+import { administrarIncidencias } from "./application/administrarIncidencias.js";
+import { consultarMetricasAdmin } from "./application/consultarMetricasAdmin.js";
+import { MetricasAdminRepoMongo } from "./infrastructure/mongo/metricasAdminRepo.js";
+import { ultimoError } from "./infrastructure/diagnostico/ultimoError.js";
 import { ContadorMongo } from "./infrastructure/mongo/contadorMongo.js";
 import { hasherBcrypt } from "./infrastructure/seguridad/bcrypt.js";
 import { crearTokens } from "./infrastructure/seguridad/jwt.js";
@@ -95,7 +99,10 @@ export async function construirApp() {
   // Administración (superAdmin) y registro público.
   const admin = {
     usuarios: gestionarUsuarios({ usuariosRepo, hasher: hasherBcrypt, auditor }),
-    administrar: administrar({ bitacoraRepo, adminRepo: new AdminRepoMongo(db), almacen }),
+    administrar: administrar({ bitacoraRepo, adminRepo: new AdminRepoMongo(db), almacen, ultimoError }),
+    // Vista de incidencias y métricas detalladas del superAdmin (solo lectura).
+    incidencias: administrarIncidencias({ incidenciasRepo, expediente: incidencias.obtener }),
+    metricas: consultarMetricasAdmin({ metricasRepo: new MetricasAdminRepoMongo(db.collection("incidencias_campus")) }),
   };
   const registro = registrarUsuario({
     usuariosRepo,

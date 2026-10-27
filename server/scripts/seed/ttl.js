@@ -24,7 +24,7 @@ function documento({ ahora, diasDesdeResolucion, consecutivo, titulo }) {
     consecutivo_diario: 1,
     titulo,
     descripcion: "Documento temporal para demostrar la depuración automática por TTL.",
-    categoria: "infraestructura",
+    categoria: "infraestructura_fisica",
     prioridad: "baja",
     estado: "resuelta",
     reportante: { usuario_id: autor.usuario_id, nombre: autor.nombre, tipo: "administrativo", correo: "demo.ttl@utmetropolitana.edu.mx" },

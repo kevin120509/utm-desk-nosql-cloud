@@ -18,4 +18,9 @@ export class AlmacenNulo {
   async urlFirmada() {
     throw new Error(SIN_CONFIGURAR);
   }
+
+  // Estado para el panel de sistema (no lanza: "no configurado" es un estado válido).
+  async comprobar() {
+    return { estado: "no_configurado" };
+  }
 }

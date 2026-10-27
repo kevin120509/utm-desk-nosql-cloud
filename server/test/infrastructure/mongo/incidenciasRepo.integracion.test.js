@@ -25,7 +25,7 @@ const entradas = [
     descripcion: "Gotea agua del techo sobre los pupitres.",
     prioridad: "media",
     ubicacion: { edificio: "Edificio A", espacio: "A-203" },
-    categoria: "infraestructura",
+    categoria: "infraestructura_fisica",
     detalle_especifico: {
       tipo_dano: "filtracion",
       riesgo_seguridad: "bajo",
@@ -39,7 +39,7 @@ const entradas = [
     descripcion: "Los alumnos reciben error al entrar al portal.",
     prioridad: "baja",
     ubicacion: { edificio: "Administrativo", espacio: "Sistemas" },
-    categoria: "academico",
+    categoria: "servicios_academicos",
     detalle_especifico: { plataforma: "portal_calificaciones", periodo_escolar: "2026-1", estudiantes_impactados: 40 },
   },
 ];

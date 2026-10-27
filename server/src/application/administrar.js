@@ -8,8 +8,9 @@ const bitacoraSchema = z.object({
   limite: z.coerce.number().int().min(1).max(100).default(30),
 });
 
-/** @param {{bitacoraRepo: object, adminRepo: {ping: Function, resumen: Function}, almacen: {salud?: Function}, reloj?: () => Date}} deps */
-export function administrar({ bitacoraRepo, adminRepo, almacen, reloj = () => new Date() }) {
+/** @param {{bitacoraRepo: object, adminRepo: {ping: Function, resumen: Function}, almacen: {salud?: Function},
+ *           ultimoError?: () => ({codigo: string, ruta: string, fecha: Date, mensaje: string} | undefined), reloj?: () => Date}} deps */
+export function administrar({ bitacoraRepo, adminRepo, almacen, ultimoError = () => undefined, reloj = () => new Date() }) {
   const vistaEvento = (e) => ({
     id: String(e._id),
     tipo: e.tipo,
@@ -40,7 +41,15 @@ export function administrar({ bitacoraRepo, adminRepo, almacen, reloj = () => ne
         comprobar(async () => ({ ok: true, detalle: `Responde en ${await adminRepo.ping()} ms` })),
         comprobar(async () => (almacen?.salud ? almacen.salud() : { ok: false, detalle: "Sin comprobación" })),
       ]);
-      return { api: { ok: true, detalle: "Respondiendo" }, mongo, almacenamiento, hora: reloj() };
+      // El último error interno solo aparece si lo hubo (sin campos vacíos ni secretos).
+      const error = ultimoError();
+      return {
+        api: { ok: true, detalle: "Respondiendo" },
+        mongo,
+        almacenamiento,
+        hora: reloj(),
+        ...(error ? { ultimo_error: error } : {}),
+      };
     },
 
     resumen: () => adminRepo.resumen(),

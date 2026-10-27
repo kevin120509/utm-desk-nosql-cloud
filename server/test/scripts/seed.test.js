@@ -30,7 +30,7 @@ describe("seed: distribución del plan §9", () => {
 
   it("24 incidencias, 8 por categoría", () => {
     expect(incidencias).toHaveLength(24);
-    expect(contar(incidencias, (d) => d.categoria)).toEqual({ computo_redes: 8, infraestructura: 8, academico: 8 });
+    expect(contar(incidencias, (d) => d.categoria)).toEqual({ computo_redes: 8, infraestructura_fisica: 8, servicios_academicos: 8 });
   });
 
   it("estados 5/4/3/6/6 y prioridades 5/9/7/3", () => {

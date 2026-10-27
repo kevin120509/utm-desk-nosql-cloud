@@ -80,15 +80,15 @@ describe('crearIncidenciaSchema', () => {
   };
   it('acepta válido en las 3 categorías', () => {
     expect(ok(crearIncidenciaSchema, base)).toBe(true);
-    expect(ok(crearIncidenciaSchema, { ...base, categoria: 'infraestructura', detalle_especifico: infra })).toBe(true);
-    expect(ok(crearIncidenciaSchema, { ...base, categoria: 'academico', detalle_especifico: acad })).toBe(true);
+    expect(ok(crearIncidenciaSchema, { ...base, categoria: 'infraestructura_fisica', detalle_especifico: infra })).toBe(true);
+    expect(ok(crearIncidenciaSchema, { ...base, categoria: 'servicios_academicos', detalle_especifico: acad })).toBe(true);
   });
   it('piso es opcional', () => {
     expect(ok(crearIncidenciaSchema, { ...base, ubicacion: { edificio: 'A', espacio: 'B' } })).toBe(true);
   });
   it('rechaza detalle de otra categoría', () => {
     expect(ok(crearIncidenciaSchema, { ...base, detalle_especifico: infra })).toBe(false);
-    expect(ok(crearIncidenciaSchema, { ...base, categoria: 'academico', detalle_especifico: redes })).toBe(false);
+    expect(ok(crearIncidenciaSchema, { ...base, categoria: 'servicios_academicos', detalle_especifico: redes })).toBe(false);
   });
   it('rechaza título corto, prioridad mala y campos extra (reportante)', () => {
     expect(ok(crearIncidenciaSchema, { ...base, titulo: 'abc' })).toBe(false);

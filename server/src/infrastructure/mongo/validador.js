@@ -146,8 +146,8 @@ export const validadorIncidencias = {
         // Polimorfismo: cada categoría exige SU forma de detalle_especifico.
         oneOf: [
           { properties: { categoria: { enum: ["computo_redes"] }, detalle_especifico: detalleComputoRedes } },
-          { properties: { categoria: { enum: ["infraestructura"] }, detalle_especifico: detalleInfraestructura } },
-          { properties: { categoria: { enum: ["academico"] }, detalle_especifico: detalleAcademico } },
+          { properties: { categoria: { enum: ["infraestructura_fisica"] }, detalle_especifico: detalleInfraestructura } },
+          { properties: { categoria: { enum: ["servicios_academicos"] }, detalle_especifico: detalleAcademico } },
         ],
       },
       {

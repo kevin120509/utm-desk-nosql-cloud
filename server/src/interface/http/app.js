@@ -78,7 +78,17 @@ export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, 
 
   // Administración (superAdmin): usuarios, roles, bitácora, salud y métricas globales.
   if (auth && admin) {
-    app.use("/api/admin", rutasAdmin({ auth, usuarios: admin.usuarios, administrar: admin.administrar, catalogos }));
+    app.use(
+      "/api/admin",
+      rutasAdmin({
+        auth,
+        usuarios: admin.usuarios,
+        administrar: admin.administrar,
+        catalogos,
+        incidencias: admin.incidencias,
+        metricas: admin.metricas,
+      }),
+    );
   }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.

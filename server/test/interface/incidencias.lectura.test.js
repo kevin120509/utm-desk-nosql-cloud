@@ -17,7 +17,7 @@ const incidencia = (n, dueno, extra = {}) => ({
   _id: new ObjectId(),
   codigo: `INC-2026-${String(n).padStart(4, "0")}`,
   titulo: `Incidencia ${n}`,
-  categoria: "infraestructura",
+  categoria: "infraestructura_fisica",
   estado: "abierta",
   prioridad: "media",
   ubicacion: { edificio: "Edificio A", espacio: "A-1" },
@@ -28,7 +28,7 @@ const incidencia = (n, dueno, extra = {}) => ({
 
 const base = [
   incidencia(1, idAna),
-  incidencia(2, idBeto, { categoria: "academico", prioridad: "alta" }),
+  incidencia(2, idBeto, { categoria: "servicios_academicos", prioridad: "alta" }),
   incidencia(3, idAna, { estado: "en proceso" }),
 ];
 
@@ -99,7 +99,7 @@ describe("GET /api/incidencias", () => {
   });
 
   it("filtra por categoría, estado y prioridad", async () => {
-    const res = await get("/api/incidencias?categoria=academico&prioridad=alta", tokenTec);
+    const res = await get("/api/incidencias?categoria=servicios_academicos&prioridad=alta", tokenTec);
     expect(res.status).toBe(200);
     expect(res.body.datos.map((d) => d.codigo)).toEqual(["INC-2026-0002"]);
   });

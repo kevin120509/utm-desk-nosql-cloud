@@ -1,70 +1,277 @@
-Trabaja únicamente en la carpeta `web` del repositorio `utm-desk-nosql-cloud`. No modifiques `server`, MongoDB, Supabase ni las credenciales.
+Revisa el repositorio UTM Desk y desarrolla el módulo administrativo del rol `superAdmin`, modificando frontend y backend de forma coordinada.
 
-La API backend ya está desplegada y responde correctamente en:
+Antes de programar:
 
-`https://utm-desk-nosql-cloud-server-three.vercel.app/api`
+1. Revisa la estructura real del repositorio.
+2. Identifica si el backend usa JavaScript o TypeScript.
+3. Identifica cómo funciona actualmente la autenticación.
+4. Revisa las rutas existentes, modelos MongoDB, middlewares y componentes frontend.
+5. Revisa el JSON actual de las incidencias y conserva sus nombres de campos.
+6. No inventes una arquitectura diferente si ya existe una implementación funcional.
+7. No crees usuarios automáticamente.
+8. No escribas contraseñas, tokens ni variables secretas en el código.
 
-Revisa y corrige el frontend para que funcione con esa API.
+## Rol administrativo
 
-Tareas:
+Utiliza exactamente el rol:
 
-1. Revisa `web/src/api/cliente.js`, `web/src/auth/` y las páginas que utilizan la API.
-2. Confirma que todas las peticiones usen:
-
-```js
-import.meta.env.VITE_API_URL || "http://localhost:4000/api"
+```text
+superAdmin
 ```
 
-3. Confirma que el login utilice:
+El `superAdmin` podrá administrar usuarios, permisos, catálogos y configuración general, pero todas las acciones administrativas deberán quedar registradas.
 
-```http
-POST /auth/login
+## Páginas frontend
+
+Crea o adapta las siguientes rutas:
+
+```text
+/admin
+/admin/usuarios
+/admin/roles
+/admin/catalogos
+/admin/incidencias
+/admin/bitacora
+/admin/metricas
+/admin/sistema
 ```
 
-con este cuerpo:
+### `/admin`
 
-```json
-{
-  "correo": "...",
-  "password": "..."
-}
+Dashboard administrativo con:
+
+- Total de usuarios.
+- Usuarios activos y suspendidos.
+- Incidencias abiertas, en proceso, resueltas y cerradas.
+- Incidencias por categoría.
+- Incidencias por edificio.
+- Estado general de la API, MongoDB y almacenamiento.
+- Accesos rápidos a usuarios, roles y bitácora.
+
+### `/admin/usuarios`
+
+Debe permitir:
+
+- Consultar usuarios.
+- Buscar por nombre o correo.
+- Filtrar por rol y estado.
+- Activar o suspender usuarios.
+- Consultar el detalle de un usuario.
+- Asignar o retirar roles.
+- Mostrar confirmación antes de cambios importantes.
+- No mostrar contraseñas.
+- No permitir eliminar al último `superAdmin`.
+
+### `/admin/roles`
+
+Debe permitir:
+
+- Consultar roles existentes.
+- Mostrar permisos de cada rol.
+- Asignar roles a usuarios.
+- Retirar roles.
+- Evitar que un usuario público seleccione roles administrativos.
+- Mostrar advertencia antes de cambiar permisos elevados.
+
+Roles válidos:
+
+```text
+reportante
+tecnico
+coordinador
+directivo
+soporteTI
+superAdmin
 ```
 
-4. Confirma que las rutas protegidas envíen el token como:
+El bot asistente no debe tratarse como usuario administrativo.
 
-```http
-Authorization: Bearer TOKEN
+### `/admin/catalogos`
+
+Administrar:
+
+- Categorías de incidencias.
+- Edificios.
+- Ubicaciones.
+- Tipos de ubicación.
+- Técnicos.
+- Categorías asignadas a cada técnico.
+- Disponibilidad de técnicos.
+
+No elimines físicamente catálogos utilizados por incidencias históricas. Usa estados como `activo` e `inactivo`.
+
+### `/admin/incidencias`
+
+Debe permitir al `superAdmin`:
+
+- Consultar todas las incidencias.
+- Buscar por código, título o descripción.
+- Filtrar por estado, categoría, prioridad y edificio.
+- Consultar el documento completo.
+- Consultar historial y evidencias.
+- Ver quién creó y modificó cada registro.
+
+No debe permitir alterar directamente el historial operativo ni eliminar incidencias permanentemente.
+
+### `/admin/bitacora`
+
+Mostrar:
+
+- Usuario que realizó la acción.
+- Acción ejecutada.
+- Módulo afectado.
+- Identificador del registro afectado.
+- Fecha y hora.
+- Resultado de la operación.
+- Dirección IP o información técnica disponible, sin exponer secretos.
+
+### `/admin/metricas`
+
+Mostrar métricas provenientes de MongoDB:
+
+- Incidencias por categoría.
+- Incidencias por estado.
+- Incidencias por prioridad.
+- Incidencias por edificio.
+- Tiempo promedio de resolución.
+- Técnicos con más incidencias asignadas.
+- Incidencias recurrentes.
+
+### `/admin/sistema`
+
+Mostrar:
+
+- Estado de la API.
+- Estado de conexión con MongoDB.
+- Estado del almacenamiento de evidencias.
+- Versión o entorno de ejecución.
+- Último error registrado, sin mostrar secretos.
+- Fecha de la última comprobación.
+
+## Backend
+
+Implementa o adapta middleware para validar:
+
+```text
+JWT válido
++
+usuario activo
++
+rol superAdmin
++
+permiso requerido
 ```
 
-5. Crea o actualiza `web/.env.example` con:
+No confíes únicamente en la protección visual del frontend.
 
-```env
-VITE_API_URL=http://localhost:4000/api
+Rutas sugeridas:
+
+```text
+GET    /api/admin/usuarios
+GET    /api/admin/usuarios/:id
+PATCH  /api/admin/usuarios/:id/estado
+PATCH  /api/admin/usuarios/:id/roles
+
+GET    /api/admin/roles
+GET    /api/admin/permisos
+
+GET    /api/admin/catalogos
+POST   /api/admin/catalogos
+PATCH  /api/admin/catalogos/:id
+
+GET    /api/admin/incidencias
+GET    /api/admin/incidencias/:id
+
+GET    /api/admin/bitacora
+GET    /api/admin/metricas
+GET    /api/admin/sistema
 ```
 
-6. No guardes secretos ni contraseñas en el frontend.
-7. No hardcodees la URL de producción dentro de los componentes. La URL debe provenir de `VITE_API_URL`.
-8. Revisa que `web/vercel.json` sea compatible con un proyecto cuyo `Root Directory` sea `web`.
-9. Ejecuta:
+Antes de crear una ruta, revisa si ya existe una equivalente y reutilízala.
 
-```bash
-cd web
-npm install
-npm run build
+## Integración con MongoDB
+
+Usa las colecciones existentes. Como referencia, revisa especialmente:
+
+```text
+incidencias_campus
+ubicaciones
+tecnicos
+usuarios o perfiles
+bitacora administrativa
 ```
 
-10. Si encuentras errores de rutas, variables de entorno o conexión con la API, corrígelos únicamente dentro de `web`.
+Cada incidencia debe conservar su estructura documental actual, incluyendo:
 
-Para producción, Vercel debe usar esta variable:
-
-```env
-VITE_API_URL=https://utm-desk-nosql-cloud-server-three.vercel.app/api
+```text
+codigo
+titulo
+descripcion
+categoria
+prioridad
+estado
+reportante
+ubicacion
+tecnico_asignado
+detalle_especifico
+tags
+historial_seguimiento
+evidencias_adjuntas
+horas_invertidas
+fecha_creacion
+fecha_resolucion
 ```
 
-Al finalizar, informa:
+Las categorías deben conservar sus estructuras específicas:
 
-- archivos modificados;
-- problemas encontrados;
-- resultado de `npm run build`;
-- URL o ruta exacta utilizada para el login;
-- cualquier ajuste que todavía deba realizarse en las variables de Vercel.
+```text
+computo_redes
+infraestructura_fisica
+servicios_academicos
+```
+
+No mezcles campos de una categoría con otra. Usa validaciones para rechazar documentos incompletos o incompatibles.
+
+## Seguridad
+
+- No expongas `MONGODB_URI`.
+- No expongas contraseñas.
+- No guardes contraseñas sin hash.
+- No incluyas secretos en respuestas JSON.
+- Valida los datos recibidos en el backend.
+- Aplica CORS únicamente a los orígenes configurados.
+- Registra las acciones administrativas.
+- Usa desactivación lógica en lugar de eliminación física.
+- No permitas que un `superAdmin` elimine al último usuario con ese rol.
+
+## Pruebas
+
+Agrega pruebas para:
+
+1. Acceso permitido de `superAdmin`.
+2. Acceso rechazado de `reportante`.
+3. Acceso rechazado sin token.
+4. Acceso rechazado con token vencido.
+5. Consulta de usuarios.
+6. Cambio de estado de usuario.
+7. Asignación de roles.
+8. Protección del último `superAdmin`.
+9. Consulta de incidencias.
+10. Consulta de métricas.
+11. Registro de acciones en bitácora.
+12. Validación de categorías y documentos JSON.
+
+## Entrega
+
+Antes de terminar:
+
+1. Muestra los archivos modificados.
+2. Explica las rutas frontend creadas.
+3. Explica las rutas backend creadas o reutilizadas.
+4. Indica cómo se relacionan con MongoDB.
+5. Muestra ejemplos de respuestas JSON sin datos sensibles.
+6. Ejecuta las pruebas disponibles.
+7. Indica qué quedó pendiente.
+8. No crees usuarios reales.
+9. No ejecutes migraciones destructivas.
+10. No hagas commit ni despliegue sin autorización.

@@ -86,7 +86,7 @@ describe("catálogo público", () => {
   it("sin catálogo sembrado devuelve los valores iniciales", async () => {
     const r = await request(app).get("/api/catalogos").set(como("rep"));
     expect(r.status).toBe(200);
-    expect(r.body.categorias.map((c) => c.clave)).toEqual(["computo_redes", "infraestructura", "academico"]);
+    expect(r.body.categorias.map((c) => c.clave)).toEqual(["computo_redes", "infraestructura_fisica", "servicios_academicos"]);
     expect(r.body.edificios.map((e) => e.nombre)).toContain("Biblioteca");
     expect(docs.length).toBe(0); // leer no escribe en la base
   });
@@ -127,8 +127,8 @@ describe("administración de catálogos", () => {
     const ultimo = edificios.at(-1);
     expect((await request(app).patch(`/api/admin/catalogos/edificios/${ultimo._id}`).set(como("adm")).send({ activo: false })).status).toBe(409);
     await request(app).patch("/api/admin/catalogos/categorias/computo_redes").set(como("adm")).send({ activo: false });
-    await request(app).patch("/api/admin/catalogos/categorias/infraestructura").set(como("adm")).send({ activo: false });
-    expect((await request(app).patch("/api/admin/catalogos/categorias/academico").set(como("adm")).send({ activo: false })).status).toBe(409);
+    await request(app).patch("/api/admin/catalogos/categorias/infraestructura_fisica").set(como("adm")).send({ activo: false });
+    expect((await request(app).patch("/api/admin/catalogos/categorias/servicios_academicos").set(como("adm")).send({ activo: false })).status).toBe(409);
   });
 
   it("administra espacios: agrega, repite (409), desactiva y renombra", async () => {
@@ -156,7 +156,7 @@ describe("administración de catálogos", () => {
 });
 
 describe("validación de incidencias contra el catálogo", () => {
-  const ubic = (edificio, espacio) => ({ categoria: "academico", ubicacion: { edificio, espacio } });
+  const ubic = (edificio, espacio) => ({ categoria: "servicios_academicos", ubicacion: { edificio, espacio } });
 
   it("sin catálogo sembrado no restringe", async () => {
     await expect(catalogos.validarUbicacion(ubic("Cualquiera", "Lo que sea"))).resolves.toBeUndefined();
@@ -170,7 +170,7 @@ describe("validación de incidencias contra el catálogo", () => {
     await expect(catalogos.validarUbicacion(ubic("Edificio A", "Aula 999"))).rejects.toMatchObject({ codigo: "VALIDACION" });
     await expect(catalogos.validarUbicacion(ubic("Edificio B", "Cualquier cosa"))).resolves.toBeUndefined(); // sin espacios definidos
     await expect(catalogos.validarUbicacion(ubic("Edificio Fantasma", "x"))).rejects.toMatchObject({ codigo: "VALIDACION" });
-    await request(app).patch("/api/admin/catalogos/categorias/academico").set(como("adm")).send({ activo: false });
+    await request(app).patch("/api/admin/catalogos/categorias/servicios_academicos").set(como("adm")).send({ activo: false });
     await expect(catalogos.validarUbicacion(ubic("Edificio A", "Aula 101"))).rejects.toMatchObject({ codigo: "VALIDACION" });
   });
 });
@@ -192,7 +192,7 @@ describe("técnicos", () => {
   });
 
   it("al cambiar el rol de un técnico se limpian sus datos de técnico", async () => {
-    await request(app).patch(`/api/admin/tecnicos/${ids.tec}`).set(como("adm")).send({ disponible: false, categorias: ["academico"] });
+    await request(app).patch(`/api/admin/tecnicos/${ids.tec}`).set(como("adm")).send({ disponible: false, categorias: ["servicios_academicos"] });
     await request(app).patch(`/api/admin/usuarios/${ids.tec}/rol`).set(como("adm")).send({ rol: "coordinador" });
     const u = usuarios.find((x) => x._id === ids.tec);
     expect(u.rol).toBe("coordinador");

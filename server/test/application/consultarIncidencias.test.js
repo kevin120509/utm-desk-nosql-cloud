@@ -25,10 +25,10 @@ describe("listarIncidencias", () => {
     const repo = repoFalso();
     await listarIncidencias({ incidenciasRepo: repo })(
       { id: "c1", rol: "coordinador" },
-      { categoria: "academico", estado: "abierta", prioridad: "alta", edificio: "Biblioteca", pagina: "3", limite: "20" },
+      { categoria: "servicios_academicos", estado: "abierta", prioridad: "alta", edificio: "Biblioteca", pagina: "3", limite: "20" },
     );
     expect(repo.listar).toHaveBeenCalledWith({
-      filtros: { categoria: "academico", estado: "abierta", prioridad: "alta", edificio: "Biblioteca" },
+      filtros: { categoria: "servicios_academicos", estado: "abierta", prioridad: "alta", edificio: "Biblioteca" },
       propietarioId: undefined,
       pagina: 3,
       limite: 20,

@@ -17,8 +17,8 @@ describe("claveDiaria / claveAnual (sin BD)", () => {
   });
 
   it("23:30 del 14 en Mérida (05:30Z del 15) cuenta como el día 14", () => {
-    expect(claveDiaria("academico", new Date("2026-10-15T05:30:00Z"))).toBe(
-      "contador:incidencias:2026-10-14:academico"
+    expect(claveDiaria("servicios_academicos", new Date("2026-10-15T05:30:00Z"))).toBe(
+      "contador:incidencias:2026-10-14:servicios_academicos"
     );
   });
 
@@ -31,8 +31,8 @@ describe("claveDiaria / claveAnual (sin BD)", () => {
   });
 
   it("rechaza fecha inválida", () => {
-    expect(() => claveDiaria("academico", new Date("no es fecha"))).toThrow(/fecha/i);
-    expect(() => claveDiaria("academico", "2026-10-15")).toThrow(/fecha/i);
+    expect(() => claveDiaria("servicios_academicos", new Date("no es fecha"))).toThrow(/fecha/i);
+    expect(() => claveDiaria("servicios_academicos", "2026-10-15")).toThrow(/fecha/i);
   });
 
   it("rechaza año que no sea entero de 4 dígitos", () => {
@@ -75,25 +75,25 @@ describe("ContadorMongo (Atlas real)", () => {
   });
 
   it("otra categoría u otro día reinician en 1", async () => {
-    expect(await contador.siguienteDiario("infraestructura", new Date("2026-10-15T15:00:00Z"))).toBe(1);
+    expect(await contador.siguienteDiario("infraestructura_fisica", new Date("2026-10-15T15:00:00Z"))).toBe(1);
     expect(await contador.siguienteDiario("computo_redes", new Date("2026-10-16T15:00:00Z"))).toBe(1);
     expect(await contador.siguienteAnual(2027)).toBe(1);
   });
 
   it("respeta la zona horaria de Mérida", async () => {
     // 05:30Z del 15 = día 14 local; 07:00Z del 15 = día 15 local.
-    await contador.siguienteDiario("academico", new Date("2026-10-15T05:30:00Z"));
-    await contador.siguienteDiario("academico", new Date("2026-10-15T07:00:00Z"));
+    await contador.siguienteDiario("servicios_academicos", new Date("2026-10-15T05:30:00Z"));
+    await contador.siguienteDiario("servicios_academicos", new Date("2026-10-15T07:00:00Z"));
     const col = db.collection(nombreCol);
-    const d14 = await col.findOne({ _id: "contador:incidencias:2026-10-14:academico" });
-    const d15 = await col.findOne({ _id: "contador:incidencias:2026-10-15:academico" });
+    const d14 = await col.findOne({ _id: "contador:incidencias:2026-10-14:servicios_academicos" });
+    const d15 = await col.findOne({ _id: "contador:incidencias:2026-10-15:servicios_academicos" });
     expect(d14.valor).toBe(1);
     expect(d15.valor).toBe(1);
   });
 
   it("categoría inválida y fecha inválida lanzan error claro", async () => {
     await expect(contador.siguienteDiario("otra", new Date())).rejects.toThrow(/categor/i);
-    await expect(contador.siguienteDiario("academico", new Date("x"))).rejects.toThrow(/fecha/i);
+    await expect(contador.siguienteDiario("servicios_academicos", new Date("x"))).rejects.toThrow(/fecha/i);
     await expect(contador.siguienteAnual("2026")).rejects.toThrow(/a[ñn]o/i);
   });
 });

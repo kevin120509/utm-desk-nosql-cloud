@@ -22,9 +22,9 @@ export const USUARIOS_DEMO = [
 // Tabla de incidencias. `creada` = días atrás; cada paso = [horas después de crear, estado, horas
 // de trabajo, comentario, quién]. `ev` = evidencias [muestra, nombre de archivo].
 // ---------------------------------------------------------------------------
-const I = "infraestructura";
+const I = "infraestructura_fisica";
 const R = "computo_redes";
-const A = "academico";
+const A = "servicios_academicos";
 
 const TABLA = [
   // ----- INFRAESTRUCTURA -----
