@@ -3,6 +3,9 @@
 Sin datos sensibles aquí (claves, tokens, contraseñas). Máx. ~50 líneas. Actualizar al terminar cada tarea.
 
 ## Estado actual
+- 2026-10-27 SUPERADMIN INTEGRADO (rama `integracion/superadmin`, subida a `main`): base = módulo de Kevin (`/api/admin`: usuarios, roles, catálogos editables, bitácora `bitacora`, seguridad, salud, resumen, registro público). Aportes de VictorCD20 encima: `GET /api/admin/incidencias` y `/incidencias/:codigo` (expediente con auditoría), `GET /api/admin/metricas` (prioridad, edificio, tiempo de resolución, técnicos, fallas recurrentes), último error interno en `/salud`, página `/admin/incidencias` y `/admin/metricas`, y scripts `admin:promover` y `db:migrar-categorias`.
+- 2026-10-27 CATEGORÍAS RENOMBRADAS en código: `infraestructura_fisica` y `servicios_academicos` (antes `infraestructura`, `academico`). Los datos ya guardados en Atlas NO están migrados: falta `npm run db:migrar-categorias` (simulación) y luego `npm run db:migrar-categorias -- --yes`. Revisar también la colección `catalogos`, sembrada con los nombres viejos.
+- 2026-10-27 PRUEBAS: el servidor pasa las pruebas sin Atlas (331). Las de integración con Atlas NO se corrieron en esta sesión: la resolución SRV del clúster falló localmente (ECONNREFUSED); verificar en otra red. Producción se probó a mano por el equipo.
 - 2026-10-15: planeación completa en BORRADOR (constitución, spec, plan, tareas). No hay código. Esperando "aprobado" de Kevin para implementar.
 - 2026-10-15: D01 hecho: `entregables/Fase1_UTM-Desk-NoSQL-Cloud.pdf` (13 págs, portada UTM, 3 entregables de Fase 1). Falta revisión de Kevin.
 - Fase 1 se entrega hoy (2026-10-15). Fase 2 sin fecha confirmada.
