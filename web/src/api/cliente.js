@@ -1,7 +1,7 @@
 // Cliente HTTP mínimo sobre fetch para hablar con la API (plan §6).
 import { leerSesion, borrarSesion } from "../auth/almacen.js";
 
-const BASE = import.meta.env.VITE_API_URL || "https://utm-desk-nosql-cloudserver-server.vercel.app/";
+const BASE = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 // Error con el formato de la API: { error: { codigo, mensaje, detalles? } }
 export class ErrorApi extends Error {
