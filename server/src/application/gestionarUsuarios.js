@@ -70,8 +70,8 @@ export function gestionarUsuarios({ usuariosRepo, hasher, auditor, reloj = () =>
 
   // Segunda red contra la carrera de dos peticiones simultáneas: si tras el cambio ya no queda
   // ningún superAdmin activo, se deshace el cambio y se responde con conflicto.
-  async function revertirSiSinSuperAdmin(doc, id, restaurar) {
-    if (doc.rol !== "superAdmin" || doc.activo === false) return;
+  async function revertirSiSinSuperAdmin(eraSuperAdminActivo, id, restaurar) {
+    if (!eraSuperAdminActivo) return;
     if ((await usuariosRepo.contarSuperAdminsActivos()) > 0) return;
     await usuariosRepo.actualizar(id, { $set: restaurar });
     throw new ErrorApp("CONFLICTO", "No se puede dejar el sistema sin un superAdmin activo");
@@ -162,8 +162,9 @@ export function gestionarUsuarios({ usuariosRepo, hasher, auditor, reloj = () =>
       }
       // Los datos de técnico no tienen sentido en otro rol.
       if (doc.rol === "tecnico") cambios.$unset = { ...(cambios.$unset ?? {}), disponible: "", categorias_atiende: "" };
+      const eraSuperAdminActivo = doc.rol === "superAdmin" && doc.activo !== false;
       await usuariosRepo.actualizar(id, cambios);
-      if (d.rol !== "superAdmin") await revertirSiSinSuperAdmin(doc, id, { rol: "superAdmin" });
+      if (d.rol !== "superAdmin") await revertirSiSinSuperAdmin(eraSuperAdminActivo, id, { rol: "superAdmin" });
       await auditor.registrarAdmin("usuario.cambiar_rol", sesion, { tipo: "usuario", id }, { de: rolAnterior, a: d.rol });
       return { usuario: vista(await cargar(id)) };
     },
@@ -176,8 +177,9 @@ export function gestionarUsuarios({ usuariosRepo, hasher, auditor, reloj = () =>
       const doc = await cargar(id);
       if ((doc.activo !== false) === activo) return { usuario: vista(doc) };
       if (!activo) await exigirOtroSuperAdmin(doc);
+      const eraSuperAdminActivo = doc.rol === "superAdmin" && doc.activo !== false;
       await usuariosRepo.actualizar(id, { $set: { activo } });
-      if (!activo) await revertirSiSinSuperAdmin(doc, id, { activo: true });
+      if (!activo) await revertirSiSinSuperAdmin(eraSuperAdminActivo, id, { activo: true });
       await auditor.registrarAdmin(activo ? "usuario.activar" : "usuario.suspender", sesion, { tipo: "usuario", id }, { correo: doc.correo });
       return { usuario: vista(await cargar(id)) };
     },
