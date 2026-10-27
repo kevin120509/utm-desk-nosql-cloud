@@ -2,15 +2,11 @@ import { NavLink } from "react-router-dom";
 import Icono from "../Iconos.jsx";
 
 // Secciones del módulo admin (/admin/*). El orden es el del menú.
+// Usuarios, roles, catálogos, bitácora y salud están en /admin (página de Kevin).
 const SECCIONES = [
-  { a: "/admin", texto: "Inicio" },
-  { a: "/admin/usuarios", texto: "Usuarios" },
-  { a: "/admin/roles", texto: "Roles" },
-  { a: "/admin/catalogos", texto: "Catálogos" },
+  { a: "/admin", texto: "Panel" },
   { a: "/admin/incidencias", texto: "Incidencias" },
-  { a: "/admin/bitacora", texto: "Bitácora" },
   { a: "/admin/metricas", texto: "Métricas" },
-  { a: "/admin/sistema", texto: "Sistema" },
 ];
 
 // Encabezado de cada página del módulo: título, descripción y pestañas de navegación.

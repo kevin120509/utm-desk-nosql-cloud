@@ -15,6 +15,17 @@ import Cargando from "./components/Cargando.jsx";
 // Recharts pesa bastante y solo lo usan coordinador y directivo: se descarga bajo demanda.
 const Analitica = lazy(() => import("./pages/Analitica.jsx"));
 
+// Vistas del superAdmin que se suman a /admin (incidencias y métricas detalladas).
+const AdminIncidencias = lazy(() => import("./pages/admin/AdminIncidencias.jsx"));
+const AdminMetricas = lazy(() => import("./pages/admin/AdminMetricas.jsx"));
+
+// Envuelve una página perezosa con su estado de carga.
+const enCarga = (Pagina, texto) => (
+  <Suspense fallback={<Cargando texto={texto} />}>
+    <Pagina />
+  </Suspense>
+);
+
 // Rutas de la app. Las protegidas exigen sesión; algunas, un rol (plan §5).
 export default function App() {
   return (
@@ -43,6 +54,8 @@ export default function App() {
               </Route>
               <Route element={<RutaProtegida roles={ROLES_ADMIN} />}>
                 <Route path="/admin" element={<Administracion />} />
+                <Route path="/admin/incidencias" element={enCarga(AdminIncidencias, "Cargando incidencias…")} />
+                <Route path="/admin/metricas" element={enCarga(AdminMetricas, "Cargando métricas…")} />
               </Route>
               <Route path="*" element={<Navigate to="/incidencias" replace />} />
             </Route>
