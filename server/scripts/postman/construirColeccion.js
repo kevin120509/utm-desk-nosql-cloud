@@ -786,7 +786,7 @@ ${t.errorCodigo("SIN_PERMISO")}`,
       metodo: "PATCH",
       ruta: "/incidencias/{{codigo}}",
       token: TOKENS.coordinador,
-      cuerpo: { categoria: "academico" },
+      cuerpo: { categoria: "servicios_academicos" },
       pruebas: `${t.estado(400)}
 ${t.errorCodigo("VALIDACION")}`,
     }),

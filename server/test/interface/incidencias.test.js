@@ -17,7 +17,7 @@ const cuerpo = {
   descripcion: "Gotea agua del techo sobre los pupitres.",
   prioridad: "media",
   ubicacion: { edificio: "Edificio A", piso: 2, espacio: "A-203" },
-  categoria: "infraestructura",
+  categoria: "infraestructura_fisica",
   detalle_especifico: { tipo_dano: "filtracion", riesgo_seguridad: "bajo", requiere_contratista: false },
 };
 

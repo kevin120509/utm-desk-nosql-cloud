@@ -19,8 +19,8 @@ const detalleAcad = { plataforma: "correo_institucional", periodo_escolar: "2026
 
 const plantillas = [
   { categoria: "computo_redes", detalle_especifico: detalleRedes, edificio: "Laboratorios de Cómputo", prioridad: "alta" },
-  { categoria: "infraestructura", detalle_especifico: detalleInfra, edificio: "Edificio A", prioridad: "media" },
-  { categoria: "academico", detalle_especifico: detalleAcad, edificio: "Administrativo", prioridad: "baja" },
+  { categoria: "infraestructura_fisica", detalle_especifico: detalleInfra, edificio: "Edificio A", prioridad: "media" },
+  { categoria: "servicios_academicos", detalle_especifico: detalleAcad, edificio: "Administrativo", prioridad: "baja" },
 ];
 
 // Recorre el plan de ejecución y junta los nombres de etapa (IXSCAN, COLLSCAN, SORT...).
@@ -112,7 +112,7 @@ describe.skipIf(!hayEntorno)("lectura de incidencias (Atlas real)", () => {
     expect((await listar(sesionTec, { estado: "resuelta" })).total).toBe(1);
     expect((await listar(sesionTec, { prioridad: "baja" })).total).toBe(2);
     expect((await listar(sesionTec, { edificio: "Edificio A" })).total).toBe(3);
-    const combinado = await listar(sesionTec, { categoria: "infraestructura", estado: "resuelta", edificio: "Edificio A" });
+    const combinado = await listar(sesionTec, { categoria: "infraestructura_fisica", estado: "resuelta", edificio: "Edificio A" });
     expect(combinado.total).toBe(1);
     expect(combinado.datos[0].codigo).toBe(creadas[1].codigo);
   }, 60000);

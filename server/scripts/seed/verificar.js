@@ -5,8 +5,8 @@ import { detalleComputoRedes, detalleInfraestructura, detalleAcademico } from ".
 const MS_DIA = 24 * 3_600_000;
 const ESQUEMA_DETALLE = {
   computo_redes: detalleComputoRedes,
-  infraestructura: detalleInfraestructura,
-  academico: detalleAcademico,
+  infraestructura_fisica: detalleInfraestructura,
+  servicios_academicos: detalleAcademico,
 };
 
 function contar(docs, f) {

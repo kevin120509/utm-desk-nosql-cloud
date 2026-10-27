@@ -13,3 +13,9 @@ export const indicesIncidencias = [
 ];
 
 export const indicesUsuarios = [{ name: "idx_correo_unico", key: { correo: 1 }, unique: true }];
+
+// Bitácora administrativa: consulta más reciente primero, y por usuario.
+export const indicesBitacoraAdmin = [
+  { name: "idx_bitacora_fecha", key: { fecha: -1 } },
+  { name: "idx_bitacora_usuario_fecha", key: { usuario_id: 1, fecha: -1 } },
+];

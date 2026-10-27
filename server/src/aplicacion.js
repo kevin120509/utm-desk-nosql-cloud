@@ -23,6 +23,16 @@ import { consultarAnalitica } from "./application/consultarAnalitica.js";
 import { ContadorMongo } from "./infrastructure/mongo/contadorMongo.js";
 import { hasherBcrypt } from "./infrastructure/seguridad/bcrypt.js";
 import { crearTokens } from "./infrastructure/seguridad/jwt.js";
+import { administrarBitacora } from "./application/administrarBitacora.js";
+import { administrarUsuarios } from "./application/administrarUsuarios.js";
+import { administrarIncidencias } from "./application/administrarIncidencias.js";
+import { consultarMetricasAdmin } from "./application/consultarMetricasAdmin.js";
+import { consultarSistema } from "./application/consultarSistema.js";
+import { consultarCatalogos } from "./application/consultarCatalogos.js";
+import { listarRoles, listarPermisos } from "./application/consultarRolesPermisos.js";
+import { BitacoraAdminRepoMongo } from "./infrastructure/mongo/bitacoraAdminRepo.js";
+import { MetricasAdminRepoMongo } from "./infrastructure/mongo/metricasAdminRepo.js";
+import { ultimoError } from "./infrastructure/diagnostico/ultimoError.js";
 
 /**
  * @returns {Promise<import("express").Express>} la aplicación lista para atender peticiones.
@@ -76,5 +86,32 @@ export async function construirApp() {
     analiticaRepo: new AnaliticaRepoMongo(db.collection("incidencias_campus")),
   });
 
-  return crearApp({ auth, incidencias, etiquetas, evidencias, analitica });
+  // Módulo superAdmin (/api/admin). La bitácora administrativa vive en `bitacora_admin`.
+  const metricasRepo = new MetricasAdminRepoMongo(db.collection("incidencias_campus"));
+  const bitacora = administrarBitacora({
+    bitacoraRepo: new BitacoraAdminRepoMongo(db.collection("bitacora_admin")),
+  });
+  const admin = {
+    usuarios: administrarUsuarios({ usuariosRepo, bitacora }),
+    incidencias: administrarIncidencias({
+      incidenciasRepo,
+      expediente: incidencias.obtener,
+    }),
+    catalogos: consultarCatalogos({ usuariosRepo, incidenciasRepo }),
+    bitacora,
+    metricas: consultarMetricasAdmin({ metricasRepo }),
+    sistema: consultarSistema({
+      comprobarMongo: async () => {
+        await db.command({ ping: 1 });
+      },
+      comprobarAlmacen: () => almacen.comprobar(),
+      ultimoError,
+      entorno: process.env.VERCEL_ENV || process.env.NODE_ENV || "desarrollo",
+      version: process.env.npm_package_version || "desconocida",
+    }),
+    roles: listarRoles,
+    permisos: listarPermisos,
+  };
+
+  return crearApp({ auth, incidencias, etiquetas, evidencias, analitica, admin });
 }

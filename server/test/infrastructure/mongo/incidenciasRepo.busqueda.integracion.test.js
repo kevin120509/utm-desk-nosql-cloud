@@ -69,14 +69,14 @@ describe.skipIf(!hayEntorno)("búsqueda textual (Atlas real)", () => {
     });
     buscar = buscarIncidencias({ incidenciasRepo });
 
-    const alta = (sesion, titulo, descripcion, cat = "infraestructura") =>
+    const alta = (sesion, titulo, descripcion, cat = "infraestructura_fisica") =>
       registrar(sesion, {
         titulo,
         descripcion,
         categoria: cat,
         prioridad: "media",
         ubicacion: { edificio: "Edificio A", espacio: "A-1" },
-        detalle_especifico: cat === "infraestructura" ? detalleInfra : detalleRedes,
+        detalle_especifico: cat === "infraestructura_fisica" ? detalleInfra : detalleRedes,
       });
 
     // Ana: palabra solo en la descripción (peso 5). Beto: palabra en el título (peso 10).

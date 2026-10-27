@@ -17,14 +17,14 @@ const CAMPOS = {
     ["puerto_uplink", "Puerto uplink", String],
     ["equipos_afectados", "Equipos afectados", String],
   ],
-  infraestructura: [
+  infraestructura_fisica: [
     ["tipo_dano", "Tipo de daño", traducir(TIPOS_DANO)],
     ["riesgo_seguridad", "Riesgo de seguridad", traducir(RIESGOS)],
     ["requiere_contratista", "Requiere contratista", siNo],
     ["contratista_externo", "Contratista externo", String],
     ["insumos_requeridos", "Insumos requeridos", String], // se muestra como lista
   ],
-  academico: [
+  servicios_academicos: [
     ["plataforma", "Plataforma", traducir(PLATAFORMAS)],
     ["periodo_escolar", "Periodo escolar", String],
     ["estudiantes_impactados", "Estudiantes impactados", String],

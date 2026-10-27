@@ -30,6 +30,13 @@ export class AlmacenSupabase {
     return { url: data.signedUrl, expira: new Date(Date.now() + segundos * 1000) };
   }
 
+  /** Comprueba que el bucket responde (lectura de metadatos, sin tocar archivos). Lanza si falla. */
+  async comprobar() {
+    const { error } = await this.cliente.storage.getBucket(this.bucket);
+    if (error) throw new Error(`No se pudo consultar el bucket: ${error.message}`);
+    return { estado: "configurado" };
+  }
+
   /** Borra objetos por ruta. Lanza si falla. */
   async eliminarArchivos(rutas) {
     if (!rutas?.length) return;

@@ -18,7 +18,9 @@
     "db:export": "node scripts/db-export.js",
     "demo:ttl": "node scripts/demo-ttl.js",
     "postman:build": "node scripts/postman/construirColeccion.js",
-    "test:api": "node scripts/test-api.js"
+    "test:api": "node scripts/test-api.js",
+    "admin:promover": "node scripts/promover-superadmin.js",
+    "db:migrar-categorias": "node scripts/migrar-categorias.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",

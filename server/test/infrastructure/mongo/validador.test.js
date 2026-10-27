@@ -82,7 +82,7 @@ describe("validador $jsonSchema: documentos válidos", () => {
   it("inserta infraestructura (con opcionales)", async () => {
     const r = await col.insertOne(
       docBase({
-        categoria: "infraestructura",
+        categoria: "infraestructura_fisica",
         detalle_especifico: {
           tipo_dano: "filtracion",
           riesgo_seguridad: "medio",
@@ -98,7 +98,7 @@ describe("validador $jsonSchema: documentos válidos", () => {
   it("inserta academico", async () => {
     const r = await col.insertOne(
       docBase({
-        categoria: "academico",
+        categoria: "servicios_academicos",
         detalle_especifico: { plataforma: "lms", periodo_escolar: "2026-3", estudiantes_impactados: 35, codigo_curso: "BD-301" },
       }),
     );
@@ -122,7 +122,7 @@ describe("validador $jsonSchema: documentos inválidos (código 121)", () => {
   it("detalle_especifico de otra categoría", async () => {
     await esperaRechazo(
       docBase({
-        categoria: "academico",
+        categoria: "servicios_academicos",
         detalle_especifico: { tipo_falla: "switch", direccion_ip: "10.0.0.1", vlan: 10, puerto_uplink: "Gi1", equipos_afectados: 3 },
       }),
     );

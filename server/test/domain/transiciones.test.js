@@ -49,6 +49,6 @@ describe('transicionValida', () => {
   it('valores desconocidos son inválidos', () => {
     expect(transicionValida('abierta', 'xyz', 'tecnico')).toBe(false);
     expect(transicionValida('abierta', 'en proceso', 'admin')).toBe(false);
-    expect(ROLES.length).toBe(4);
+    expect(ROLES.length).toBe(5);
   });
 });

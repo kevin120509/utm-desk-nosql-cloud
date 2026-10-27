@@ -34,7 +34,7 @@ try {
   console.log(`- bsonType raíz: ${v?.validator?.$jsonSchema?.bsonType}, requeridos: ${v?.validator?.$jsonSchema?.required?.join(", ")}`);
 
   const consultas = [
-    ["Listado filtrado (categoría + estado + edificio)", { categoria: "infraestructura", estado: "abierta", "ubicacion.edificio": "Edificio A" }, null],
+    ["Listado filtrado (categoría + estado + edificio)", { categoria: "infraestructura_fisica", estado: "abierta", "ubicacion.edificio": "Edificio A" }, null],
     ["Búsqueda de texto «filtración»", { $text: { $search: "filtración" } }, null],
     ["Código único", { codigo: "INC-2026-0001" }, null],
     ["Mis incidencias (reportante)", { "reportante.usuario_id": (await col.findOne({}))?.reportante?.usuario_id }, { fecha_creacion: -1 }],

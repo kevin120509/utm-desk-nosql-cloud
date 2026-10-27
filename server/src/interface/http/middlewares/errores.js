@@ -2,6 +2,7 @@
 // Nunca expone stack ni mensajes internos.
 import { ZodError } from "zod";
 import { ErrorApp } from "../../../application/errores.js";
+import { registrarUltimoError } from "../../../infrastructure/diagnostico/ultimoError.js";
 
 // Status HTTP por código de error de aplicación.
 const STATUS = {
@@ -10,6 +11,8 @@ const STATUS = {
   SIN_PERMISO: 403,
   NO_ENCONTRADO: 404,
   CONFLICTO: 409,
+  ULTIMO_SUPERADMIN: 409,
+  OPERACION_NO_PERMITIDA: 409,
   VALIDACION: 400,
   TRANSICION_INVALIDA: 400,
   ARCHIVO_INVALIDO: 400,
@@ -28,7 +31,7 @@ function detallesZod(err) {
 
 // Express exige 4 parámetros para reconocer un manejador de errores.
 // eslint-disable-next-line no-unused-vars
-export function manejadorErrores(err, _req, res, _next) {
+export function manejadorErrores(err, req, res, _next) {
   if (err instanceof ZodError) {
     return res.status(400).json({
       error: { codigo: "VALIDACION", mensaje: "Datos inválidos", detalles: detallesZod(err) },
@@ -48,5 +51,7 @@ export function manejadorErrores(err, _req, res, _next) {
   }
   // Cualquier otra cosa: se registra en el servidor y el cliente solo ve un mensaje genérico.
   console.error("Error no controlado:", err?.message);
+  // Diagnóstico del superAdmin: solo método y ruta (sin query ni mensaje original).
+  registrarUltimoError(`${req.method} ${req.path}`);
   res.status(500).json({ error: { codigo: "ERROR_INTERNO", mensaje: "Error interno del servidor" } });
 }

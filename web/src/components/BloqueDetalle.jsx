@@ -15,9 +15,9 @@ const REGEX_PERIODO = /^\d{4}-[1-3]$/;
 export function detalleInicial(categoria) {
   if (categoria === "computo_redes")
     return { tipo_falla: "", direccion_ip: "", vlan: "", puerto_uplink: "", equipos_afectados: "" };
-  if (categoria === "infraestructura")
+  if (categoria === "infraestructura_fisica")
     return { tipo_dano: "", riesgo_seguridad: "", requiere_contratista: false, contratista_externo: "", insumos_requeridos: [] };
-  if (categoria === "academico")
+  if (categoria === "servicios_academicos")
     return { plataforma: "", periodo_escolar: "", estudiantes_impactados: "", codigo_curso: "" };
   return {};
 }
@@ -38,11 +38,11 @@ export function validarDetalle(categoria, d) {
     if (vacio(d.puerto_uplink)) e[p("puerto_uplink")] = "El puerto uplink es obligatorio.";
     if (vacio(d.equipos_afectados)) e[p("equipos_afectados")] = "Indica los equipos afectados.";
     else if (!esEnteroMin(d.equipos_afectados, 1)) e[p("equipos_afectados")] = "Debe ser un entero de al menos 1.";
-  } else if (categoria === "infraestructura") {
+  } else if (categoria === "infraestructura_fisica") {
     if (!d.tipo_dano) e[p("tipo_dano")] = "Selecciona el tipo de daño.";
     if (!d.riesgo_seguridad) e[p("riesgo_seguridad")] = "Selecciona el riesgo de seguridad.";
     if (d.requiere_contratista && vacio(d.contratista_externo)) e[p("contratista_externo")] = "Indica el contratista externo.";
-  } else if (categoria === "academico") {
+  } else if (categoria === "servicios_academicos") {
     if (!d.plataforma) e[p("plataforma")] = "Selecciona la plataforma.";
     if (vacio(d.periodo_escolar)) e[p("periodo_escolar")] = "El periodo escolar es obligatorio.";
     else if (!REGEX_PERIODO.test(d.periodo_escolar.trim())) e[p("periodo_escolar")] = "Usa el formato AAAA-1, AAAA-2 o AAAA-3.";
@@ -63,7 +63,7 @@ export function construirDetalle(categoria, d) {
       puerto_uplink: t(d.puerto_uplink),
       equipos_afectados: Number(d.equipos_afectados),
     };
-  if (categoria === "infraestructura") {
+  if (categoria === "infraestructura_fisica") {
     const o = { tipo_dano: d.tipo_dano, riesgo_seguridad: d.riesgo_seguridad, requiere_contratista: !!d.requiere_contratista };
     if (d.requiere_contratista && t(d.contratista_externo)) o.contratista_externo = t(d.contratista_externo);
     const insumos = d.insumos_requeridos.map(t).filter(Boolean);
@@ -114,7 +114,7 @@ export default function BloqueDetalle({ categoria, valor, onCambio, errores }) {
       </>
     );
 
-  if (categoria === "infraestructura") {
+  if (categoria === "infraestructura_fisica") {
     const agregar = () => {
       const t = nuevoInsumo.trim();
       if (!t) return;
@@ -194,7 +194,7 @@ export default function BloqueDetalle({ categoria, valor, onCambio, errores }) {
     );
   }
 
-  if (categoria === "academico")
+  if (categoria === "servicios_academicos")
     return (
       <>
         <Campo id={id("plataforma")} etiqueta="Plataforma" requerido error={err("plataforma")}>

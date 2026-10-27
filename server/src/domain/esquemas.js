@@ -101,8 +101,8 @@ export const crearIncidenciaSchema = z.discriminatedUnion(
   'categoria',
   [
     z.object({ ...comunes, categoria: z.literal('computo_redes'), detalle_especifico: detalleComputoRedes }).strict(),
-    z.object({ ...comunes, categoria: z.literal('infraestructura'), detalle_especifico: detalleInfraestructura }).strict(),
-    z.object({ ...comunes, categoria: z.literal('academico'), detalle_especifico: detalleAcademico }).strict(),
+    z.object({ ...comunes, categoria: z.literal('infraestructura_fisica'), detalle_especifico: detalleInfraestructura }).strict(),
+    z.object({ ...comunes, categoria: z.literal('servicios_academicos'), detalle_especifico: detalleAcademico }).strict(),
   ],
   { error: `categoria debe ser una de: ${CATEGORIAS.join(', ')}` },
 );

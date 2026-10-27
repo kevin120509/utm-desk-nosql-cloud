@@ -7,16 +7,19 @@ import { rutasIncidencias } from "./rutas/incidencias.js";
 import { rutasEtiquetas } from "./rutas/etiquetas.js";
 import { rutasEvidencias } from "./rutas/evidencias.js";
 import { rutasAnalitica } from "./rutas/analitica.js";
+import { rutasAdmin } from "./rutas/admin.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 import { limiteGeneral, limiteLogin } from "./middlewares/limites.js";
 
 /**
  * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
- *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, editar: Function, eliminar: Function}}} [dependencias]
+ *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, editar: Function, eliminar: Function},
+ *          admin?: object}} [dependencias]
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
- *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
+ *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente);
+ *   `admin` agrupa los casos de uso del módulo superAdmin (ver rutas/admin.js).
  */
-export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, limites = {} } = {}) {
+export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, admin, limites = {} } = {}) {
   const app = express();
 
   // Detrás del proxy de Vercel la IP real del cliente viene en X-Forwarded-For (1 salto de confianza).
@@ -59,6 +62,11 @@ export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, 
   // Analítica (RF-10): solo coordinador y directivo, bajo /api/analitica.
   if (auth && analitica) {
     app.use("/api/analitica", rutasAnalitica({ auth, analitica }));
+  }
+
+  // Módulo administrativo (superAdmin): bajo /api/admin, con permisos por ruta.
+  if (auth && admin) {
+    app.use("/api/admin", rutasAdmin({ auth, admin }));
   }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.
