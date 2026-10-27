@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#073b2b" />
     <title>UTM Desk</title>
+    <!-- Tema: aplica .dark antes del primer pintado para evitar el destello claro. -->
+    <script>
+      try {
+        var t = localStorage.getItem("utm-desk-tema");
+        if (t === "oscuro" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/png" href="/logo-utm.png" />
     <link rel="apple-touch-icon" href="/logo-utm-180.png" />
     <!-- Tipografía: Lexend (títulos, pensada para legibilidad) + Source Sans 3 (texto). -->

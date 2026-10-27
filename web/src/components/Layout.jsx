@@ -75,6 +75,32 @@ export default function Layout() {
   const [confirmando, setConfirmando] = useState(false);
   const [saliendo, setSaliendo] = useState(false);
   const [cargandoRuta, setCargandoRuta] = useState(false);
+  const [oscuro, setOscuro] = useState(() => document.documentElement.classList.contains("dark"));
+
+  // Tema claro/oscuro: la clase .dark en <html> remapea los tokens de color (index.css).
+  function alternarTema() {
+    const nuevo = !oscuro;
+    setOscuro(nuevo);
+    document.documentElement.classList.toggle("dark", nuevo);
+    try {
+      localStorage.setItem("utm-desk-tema", nuevo ? "oscuro" : "claro");
+    } catch { /* almacenamiento no disponible */ }
+  }
+
+  const botonTema = (
+    <button
+      type="button"
+      onClick={alternarTema}
+      aria-pressed={oscuro}
+      title={oscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+      className="btn btn-fantasma text-marca-100! hover:bg-white/10! hover:text-white!"
+    >
+      <span key={oscuro} className="animacion-ojo grid place-items-center">
+        <Icono nombre={oscuro ? "sol" : "luna"} />
+      </span>
+      <span className="sr-only">{oscuro ? "Modo claro" : "Modo oscuro"}</span>
+    </button>
+  );
 
   // Al cambiar de página se cierra el menú móvil y se muestra el rombo de carga un momento.
   useEffect(() => {
@@ -134,14 +160,17 @@ export default function Layout() {
             <p className="text-xs text-marca-200">{NOMBRE_ROL[usuario.rol] || usuario.rol}</p>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={salir}
-          className="btn btn-fantasma mt-3 w-full justify-start text-marca-100! hover:bg-white/10! hover:text-white!"
-        >
-          <Icono nombre="salir" />
-          Cerrar sesión
-        </button>
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={salir}
+            className="btn btn-fantasma flex-1 justify-start text-marca-100! hover:bg-white/10! hover:text-white!"
+          >
+            <Icono nombre="salir" />
+            Cerrar sesión
+          </button>
+          {botonTema}
+        </div>
       </div>
     </div>
   );
@@ -164,16 +193,19 @@ export default function Layout() {
           <Marca tamano={32} />
           <span className="font-display font-semibold text-white">UTM Desk</span>
         </div>
-        <button
-          type="button"
-          onClick={() => setAbierto((v) => !v)}
-          aria-expanded={abierto}
-          aria-controls="menu-movil"
-          className="btn btn-fantasma text-white! hover:bg-white/10!"
-        >
-          <Icono nombre={abierto ? "cerrar" : "menu"} />
-          <span>{abierto ? "Cerrar" : "Menú"}</span>
-        </button>
+        <div className="flex items-center gap-1">
+          {botonTema}
+          <button
+            type="button"
+            onClick={() => setAbierto((v) => !v)}
+            aria-expanded={abierto}
+            aria-controls="menu-movil"
+            className="btn btn-fantasma text-white! hover:bg-white/10!"
+          >
+            <Icono nombre={abierto ? "cerrar" : "menu"} />
+            <span>{abierto ? "Cerrar" : "Menú"}</span>
+          </button>
+        </div>
       </header>
       {/* Menú móvil: cajón lateral izquierdo que desliza; ocupa la mitad de la pantalla. */}
       <div
