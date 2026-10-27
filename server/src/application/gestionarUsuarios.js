@@ -68,6 +68,15 @@ export function gestionarUsuarios({ usuariosRepo, hasher, auditor, reloj = () =>
     }
   }
 
+  // Segunda red contra la carrera de dos peticiones simultáneas: si tras el cambio ya no queda
+  // ningún superAdmin activo, se deshace el cambio y se responde con conflicto.
+  async function revertirSiSinSuperAdmin(doc, id, restaurar) {
+    if (doc.rol !== "superAdmin" || doc.activo === false) return;
+    if ((await usuariosRepo.contarSuperAdminsActivos()) > 0) return;
+    await usuariosRepo.actualizar(id, { $set: restaurar });
+    throw new ErrorApp("CONFLICTO", "No se puede dejar el sistema sin un superAdmin activo");
+  }
+
   return {
     async listar(_sesion, query) {
       const f = consultaSchema.parse(query ?? {});
@@ -154,6 +163,7 @@ export function gestionarUsuarios({ usuariosRepo, hasher, auditor, reloj = () =>
       // Los datos de técnico no tienen sentido en otro rol.
       if (doc.rol === "tecnico") cambios.$unset = { ...(cambios.$unset ?? {}), disponible: "", categorias_atiende: "" };
       await usuariosRepo.actualizar(id, cambios);
+      if (d.rol !== "superAdmin") await revertirSiSinSuperAdmin(doc, id, { rol: "superAdmin" });
       await auditor.registrarAdmin("usuario.cambiar_rol", sesion, { tipo: "usuario", id }, { de: rolAnterior, a: d.rol });
       return { usuario: vista(await cargar(id)) };
     },
@@ -167,6 +177,7 @@ export function gestionarUsuarios({ usuariosRepo, hasher, auditor, reloj = () =>
       if ((doc.activo !== false) === activo) return { usuario: vista(doc) };
       if (!activo) await exigirOtroSuperAdmin(doc);
       await usuariosRepo.actualizar(id, { $set: { activo } });
+      if (!activo) await revertirSiSinSuperAdmin(doc, id, { activo: true });
       await auditor.registrarAdmin(activo ? "usuario.activar" : "usuario.suspender", sesion, { tipo: "usuario", id }, { correo: doc.correo });
       return { usuario: vista(await cargar(id)) };
     },

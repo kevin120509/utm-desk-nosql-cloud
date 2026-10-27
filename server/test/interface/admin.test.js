@@ -249,3 +249,24 @@ describe("bitácora y seguridad", () => {
     expect(auditor).toBeTruthy();
   });
 });
+
+describe("carrera entre dos peticiones simultáneas", () => {
+  it("si tras el cambio no queda superAdmin activo, se deshace y responde 409", async () => {
+    const hash = await bcrypt.hash("x", 4);
+    const a = { _id: new ObjectId(), nombre: "a", correo: "a@utm.mx", rol: "superAdmin", password_hash: hash, activo: true };
+    const otro = new ObjectId();
+    let llamadas = 0;
+    const repo = {
+      buscarPorId: async (id) => (String(id) === String(a._id) ? a : null),
+      actualizar: async (_id, c) => void Object.assign(a, c.$set ?? {}),
+      // La comprobación previa ve 2 superAdmin; la posterior (otra petición ya degradó al segundo) ve 0.
+      contarSuperAdminsActivos: async () => (++llamadas === 1 ? 2 : 0),
+    };
+    const caso = gestionarUsuarios({ usuariosRepo: repo, hasher, auditor: { registrarAdmin: async () => {} } });
+    await expect(caso.cambiarRol({ id: String(otro) }, a._id, { rol: "tecnico" })).rejects.toMatchObject({ codigo: "CONFLICTO" });
+    expect(a.rol).toBe("superAdmin");
+    llamadas = 0;
+    await expect(caso.cambiarEstado({ id: String(otro) }, a._id, { activo: false })).rejects.toMatchObject({ codigo: "CONFLICTO" });
+    expect(a.activo).toBe(true);
+  });
+});
