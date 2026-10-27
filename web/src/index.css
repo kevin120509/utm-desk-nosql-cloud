@@ -103,6 +103,16 @@
     @apply block text-sm font-semibold text-slate-800;
   }
 
+  /* Flecha propia en los <select>: la nativa quedaba pegada al borde derecho. */
+  select.campo {
+    @apply appearance-none bg-no-repeat pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+  }
+  .dark select.campo {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
   /* ----- Insignias (estado y prioridad) ----- */
   .insignia {
     @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold;
@@ -119,6 +129,122 @@
   /* ----- Enlaces dentro del contenido ----- */
   .enlace {
     @apply cursor-pointer font-semibold text-marca-700 underline decoration-marca-300 underline-offset-2 hover:text-marca-900 hover:decoration-marca-700;
+  }
+}
+
+/* ----- Modo oscuro -----
+   Las utilidades de Tailwind v4 referencian var(--color-*): al redefinir los tokens
+   bajo .dark toda la interfaz se invierte sin tocar componentes. */
+.dark {
+  color-scheme: dark;
+  --color-lienzo: #081310;
+  --color-white: #10211a; /* superficie de tarjetas y campos */
+
+  /* neutros: la escala slate se invierte (textos oscuros pasan a claros y viceversa).
+     Los medios (400/500) quedan en grises claros: son texto atenuado y necesitan >= 3:1. */
+  --color-slate-50: #020617;
+  --color-slate-100: #0f172a;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;
+  --color-slate-400: #64748b;
+  --color-slate-500: #94a3b8;
+  --color-slate-600: #cbd5e1;
+  --color-slate-700: #e2e8f0;
+  --color-slate-800: #f1f5f9;
+  --color-slate-900: #f8fafc;
+  --color-slate-950: #ffffff;
+
+  /* tints de marca usados como fondo sutil (chips, hover, seleccionado) */
+  --color-marca-50: #0c2a20;
+  --color-marca-100: #143b2d;
+
+  /* insignias y avisos: el -50 claro pasa a -950 y el texto -800/-900 a claro.
+     Solo se remapean los tonos usados como texto o fondo claro; los tonos medios
+     (500-800) sirven de fondo con texto blanco y se conservan. */
+  --color-red-50: #450a0a;
+  --color-red-100: #7f1d1d;
+  --color-red-200: #991b1b;
+  --color-red-300: #b91c1c;
+  --color-red-600: #f87171; /* borde de campo inválido: debe verse sobre oscuro */
+  --color-red-900: #fee2e2;
+  --color-emerald-50: #022c22;
+  --color-emerald-100: #064e3b;
+  --color-emerald-200: #065f46;
+  --color-emerald-300: #047857;
+  --color-emerald-800: #6ee7b7;
+  --color-emerald-900: #a7f3d0;
+  --color-amber-50: #451a03;
+  --color-amber-100: #78350f;
+  --color-amber-200: #92400e;
+  --color-amber-300: #b45309;
+  --color-amber-900: #fde68a;
+  --color-yellow-50: #422006;
+  --color-yellow-300: #a16207;
+  --color-yellow-900: #fef08a;
+  --color-sky-50: #082f49;
+  --color-sky-300: #0369a1;
+  --color-sky-900: #bae6fd;
+  --color-violet-50: #2e1065;
+  --color-violet-300: #6d28d9;
+  --color-violet-900: #ddd6fe;
+  --color-orange-50: #431407;
+  --color-orange-300: #c2410c;
+  --color-orange-900: #fed7aa;
+  --color-rose-50: #4c0519;
+  --color-rose-900: #fecdd3;
+}
+
+/* Correcciones puntuales del modo oscuro:
+   text-white va sobre verde oscuro (botones, barra lateral) y debe quedar blanco;
+   los textos marca sobre superficies aclarados para no perder contraste.
+   Van en @layer utilities: con !important el orden de capas se invierte y las
+   reglas sin capa pierden contra las utilidades de Tailwind. */
+@layer utilities {
+  .dark .text-white {
+    color: #ffffff;
+  }
+  /* variantes con ! (important) usadas en la barra lateral y cabecera móvil */
+  .dark .text-white\! {
+    color: #ffffff !important;
+  }
+  .dark .hover\:text-white\!:hover {
+    color: #ffffff !important;
+  }
+  .dark .text-marca-100,
+  .dark .text-marca-100\! {
+    color: var(--color-marca-200) !important;
+  }
+  .dark :is(.text-marca-600, .text-marca-700, .text-marca-800, .text-marca-900) {
+    color: var(--color-marca-300);
+  }
+  .dark .hover\:text-marca-900:hover {
+    color: var(--color-marca-200);
+  }
+  /* text-red-700/800 también sirven de fondo (botón Eliminar): solo se aclara el texto */
+  .dark :is(.text-red-700, .text-red-800) {
+    color: var(--color-red-300);
+  }
+  /* hover de quitar etiqueta: fondo claro + texto claro sería ilegible */
+  .dark .hover\:bg-marca-200:hover {
+    background-color: var(--color-marca-800);
+  }
+  /* sobre la barra lateral (verde oscuro) los tintes white/8-12 deben seguir siendo claros */
+  .dark :is(.bg-white\/8, .bg-white\/10, .bg-white\/12) {
+    background-color: rgb(255 255 255 / 0.1);
+  }
+  .dark :is(.hover\:bg-white\/8:hover, .hover\:bg-white\/10:hover) {
+    background-color: rgb(255 255 255 / 0.14);
+  }
+  .dark .hover\:bg-white\/10\!:hover {
+    background-color: rgb(255 255 255 / 0.14) !important;
+  }
+  /* .btn-primario aplica text-white por @apply (no hay clase en el DOM): reponer blanco */
+  .dark .btn-primario {
+    color: #ffffff;
+  }
+  /* el botón "Seleccionar archivo" es un pseudo-elemento, no una clase de texto */
+  .dark .file\:text-marca-800::file-selector-button {
+    color: var(--color-marca-300);
   }
 }
 
