@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { api, ErrorApi } from "../api/cliente.js";
-import { CATEGORIAS, PRIORIDADES, EDIFICIOS, ICONO_CATEGORIA, DESCRIPCION_CATEGORIA, DESCRIPCION_PRIORIDAD } from "../catalogo.js";
+import { CATEGORIAS, PRIORIDADES, ICONO_CATEGORIA, DESCRIPCION_CATEGORIA, DESCRIPCION_PRIORIDAD } from "../catalogo.js";
+import useCatalogos from "../hooks/useCatalogos.js";
 import Campo from "../components/Campo.jsx";
 import GrupoTarjetas from "../components/GrupoTarjetas.jsx";
 import Icono from "../components/Iconos.jsx";
@@ -48,12 +49,16 @@ function mapearDetalles(detalles, rutasConocidas) {
 
 export default function NuevaIncidencia() {
   const navegar = useNavigate();
+  const catalogos = useCatalogos();
   const [f, setF] = useState(INICIAL);
   const [detalle, setDetalle] = useState({});
   const [errores, setErrores] = useState({});
   const [resumen, setResumen] = useState([]); // errores del servidor sin campo
   const [errorApi, setErrorApi] = useState(null); // 401/403/red/otros
   const [enviando, setEnviando] = useState(false);
+
+  // Si el superAdmin definió espacios para el edificio elegido, el espacio se escoge de la lista.
+  const espaciosDelEdificio = catalogos.edificios.find((e) => e.nombre === f.edificio)?.espacios ?? [];
 
   // Nombre del campo del formulario -> clave de su error (igual que en el cuerpo de la petición).
   const CLAVE_ERROR = { edificio: "ubicacion.edificio", piso: "ubicacion.piso", espacio: "ubicacion.espacio" };
@@ -67,7 +72,8 @@ export default function NuevaIncidencia() {
 
   const set = (campo) => (ev) => {
     const valor = ev.target.value;
-    setF((s) => ({ ...s, [campo]: valor }));
+    // Al cambiar de edificio se limpia el espacio: pudo ser de la lista del anterior.
+    setF((s) => ({ ...s, [campo]: valor, ...(campo === "edificio" ? { espacio: "" } : {}) }));
     quitarError(CLAVE_ERROR[campo] || campo);
   };
 
@@ -165,7 +171,7 @@ export default function NuevaIncidencia() {
           valor={f.categoria}
           onChange={cambiarCategoria}
           error={errores.categoria}
-          opciones={Object.entries(CATEGORIAS).map(([v, t]) => ({ valor: v, titulo: t, descripcion: DESCRIPCION_CATEGORIA[v], icono: ICONO_CATEGORIA[v] }))}
+          opciones={catalogos.categorias.map((c) => ({ valor: c.clave, titulo: c.nombre, descripcion: DESCRIPCION_CATEGORIA[c.clave], icono: ICONO_CATEGORIA[c.clave] }))}
         />
 
         <GrupoTarjetas
@@ -192,7 +198,7 @@ export default function NuevaIncidencia() {
             {(p) => (
               <select {...p} value={f.edificio} onChange={set("edificio")}>
                 <option value="">Selecciona…</option>
-                {EDIFICIOS.map((e) => <option key={e} value={e}>{e}</option>)}
+                {catalogos.edificios.map((e) => <option key={e.nombre} value={e.nombre}>{e.nombre}</option>)}
               </select>
             )}
           </Campo>
@@ -201,7 +207,16 @@ export default function NuevaIncidencia() {
               {(p) => <input {...p} type="number" inputMode="numeric" step={1} value={f.piso} onChange={set("piso")} />}
             </Campo>
             <Campo id="ubicacion-espacio" etiqueta="Espacio" requerido error={errores["ubicacion.espacio"]} ayuda="Aula, laboratorio u oficina">
-              {(p) => <input {...p} type="text" value={f.espacio} onChange={set("espacio")} />}
+              {(p) =>
+                espaciosDelEdificio.length > 0 ? (
+                  <select {...p} value={f.espacio} onChange={set("espacio")}>
+                    <option value="">Selecciona…</option>
+                    {espaciosDelEdificio.map((s) => <option key={s.nombre} value={s.nombre}>{s.nombre}</option>)}
+                  </select>
+                ) : (
+                  <input {...p} type="text" value={f.espacio} onChange={set("espacio")} />
+                )
+              }
             </Campo>
           </div>
         </section>

@@ -5,3 +5,5 @@ export * from './esquemas.js';
 export * from './codigo.js';
 export * from './consulta.js';
 export * from './evidencia.js';
+export * from './permisos.js';
+export * from './catalogos.js';

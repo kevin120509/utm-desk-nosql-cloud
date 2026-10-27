@@ -1,6 +1,6 @@
 // Crea/actualiza colecciones, validador e índices. Es idempotente: se puede correr N veces.
 import { validadorIncidencias } from "./validador.js";
-import { indicesIncidencias, indicesUsuarios } from "./indices.js";
+import { indicesIncidencias, indicesUsuarios, indicesBitacora } from "./indices.js";
 
 async function existe(db, nombre) {
   return (await db.listCollections({ name: nombre }, { nameOnly: true }).toArray()).length > 0;
@@ -40,7 +40,7 @@ async function crearIndices(coleccion, indices) {
 
 export async function configurarBaseDeDatos(
   db,
-  { coleccionIncidencias = "incidencias_campus", coleccionUsuarios = "usuarios" } = {},
+  { coleccionIncidencias = "incidencias_campus", coleccionUsuarios = "usuarios", coleccionBitacora = "bitacora" } = {},
 ) {
   const resumen = { colecciones: [], indices: {} };
 
@@ -92,10 +92,20 @@ export async function configurarBaseDeDatos(
     resumen.colecciones.push({ nombre: coleccionUsuarios, accion: "creada" });
   }
 
+  // bitacora: solo se agrega (sin validador); se asegura que exista
+  if (await existe(db, coleccionBitacora)) {
+    resumen.colecciones.push({ nombre: coleccionBitacora, accion: "ya existía" });
+  } else {
+    await db.createCollection(coleccionBitacora);
+    resumen.colecciones.push({ nombre: coleccionBitacora, accion: "creada" });
+  }
+
   await crearIndices(db.collection(coleccionIncidencias), indicesIncidencias);
   resumen.indices[coleccionIncidencias] = indicesIncidencias.map((i) => i.name);
   await crearIndices(db.collection(coleccionUsuarios), indicesUsuarios);
   resumen.indices[coleccionUsuarios] = indicesUsuarios.map((i) => i.name);
+  await crearIndices(db.collection(coleccionBitacora), indicesBitacora);
+  resumen.indices[coleccionBitacora] = indicesBitacora.map((i) => i.name);
 
   return resumen;
 }

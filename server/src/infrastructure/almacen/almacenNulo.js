@@ -7,6 +7,10 @@ export class AlmacenNulo {
     console.warn(`${SIN_CONFIGURAR}: se omiten ${paths.length} archivo(s)`);
   }
 
+  async salud() {
+    return { ok: false, detalle: "No configurado" };
+  }
+
   async subir() {
     throw new Error(SIN_CONFIGURAR);
   }

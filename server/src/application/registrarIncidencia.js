@@ -16,10 +16,13 @@ function anioEnMerida(fecha) {
  *          reloj?: () => Date}} deps
  * @returns {(sesion: {id: string}, entrada: unknown) => Promise<object>}
  */
-export function registrarIncidencia({ incidenciasRepo, contador, usuariosRepo, reloj = () => new Date() }) {
+export function registrarIncidencia({ incidenciasRepo, contador, usuariosRepo, catalogos, reloj = () => new Date() }) {
   return async function registrar(sesion, entrada) {
     // 1. Zod lanza ZodError si algo está mal (la capa HTTP lo vuelve 400 VALIDACION).
     const datos = crearIncidenciaSchema.parse(entrada ?? {});
+
+    // 1b. Categoría y ubicación contra el catálogo que administra el superAdmin (si ya existe).
+    await catalogos?.validarUbicacion(datos);
 
     // 2. El reportante sale SIEMPRE de la sesión, nunca del cuerpo.
     const usuario = await usuariosRepo.buscarPorId(sesion.id);

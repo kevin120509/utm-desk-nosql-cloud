@@ -7,6 +7,8 @@ import { rutasIncidencias } from "./rutas/incidencias.js";
 import { rutasEtiquetas } from "./rutas/etiquetas.js";
 import { rutasEvidencias } from "./rutas/evidencias.js";
 import { rutasAnalitica } from "./rutas/analitica.js";
+import { rutasAdmin } from "./rutas/admin.js";
+import { crearAutenticacion } from "./middlewares/autenticacion.js";
 import { manejadorErrores } from "./middlewares/errores.js";
 import { limiteGeneral, limiteLogin } from "./middlewares/limites.js";
 
@@ -16,8 +18,11 @@ import { limiteGeneral, limiteLogin } from "./middlewares/limites.js";
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */
-export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, limites = {} } = {}) {
+export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, admin, catalogos, registro, auditor, limites = {} } = {}) {
   const app = express();
+
+  // El auditor lo leen los middlewares de autorización para dejar rastro de los accesos denegados.
+  app.locals.auditor = auditor;
 
   // Detrás del proxy de Vercel la IP real del cliente viene en X-Forwarded-For (1 salto de confianza).
   // Sin esto, el límite de peticiones vería la IP del proxy y bloquearía a todos juntos.
@@ -38,7 +43,9 @@ export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, 
   if (auth) {
     // Límite estricto solo para el login: frena la fuerza bruta de contraseñas.
     app.use("/api/auth/login", limiteLogin(limites.login));
-    app.use("/api/auth", rutasAuth(auth));
+    // El registro público también se frena por IP (evita la creación masiva de cuentas).
+    app.use("/api/auth/registro", limiteLogin(limites.registro ?? { max: 5 }));
+    app.use("/api/auth", rutasAuth(auth, { registro, auditor }));
   }
 
   // Las rutas de incidencias necesitan autenticación y los casos de uso inyectados.
@@ -59,6 +66,19 @@ export function crearApp({ auth, incidencias, etiquetas, evidencias, analitica, 
   // Analítica (RF-10): solo coordinador y directivo, bajo /api/analitica.
   if (auth && analitica) {
     app.use("/api/analitica", rutasAnalitica({ auth, analitica }));
+  }
+
+  // Catálogos para los formularios: cualquier usuario con sesión ve solo lo activo.
+  if (auth && catalogos) {
+    const autenticacionCatalogos = crearAutenticacion(auth);
+    app.get("/api/catalogos", autenticacionCatalogos, async (_req, res) => {
+      res.status(200).json(await catalogos.publico());
+    });
+  }
+
+  // Administración (superAdmin): usuarios, roles, bitácora, salud y métricas globales.
+  if (auth && admin) {
+    app.use("/api/admin", rutasAdmin({ auth, usuarios: admin.usuarios, administrar: admin.administrar, catalogos }));
   }
 
   // Cualquier ruta que no exista: mismo formato de error que el resto de la API.

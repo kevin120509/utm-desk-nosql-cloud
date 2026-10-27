@@ -15,6 +15,7 @@ export const USUARIOS_DEMO = [
   { clave: "tec2", nombre: "Marisol Be", correo: "marisol.be@utmetropolitana.edu.mx", rol: "tecnico" },
   { clave: "coo", nombre: "Roberto Mena", correo: "roberto.mena@utmetropolitana.edu.mx", rol: "coordinador" },
   { clave: "dir", nombre: "Dra. Laura Cetina", correo: "laura.cetina@utmetropolitana.edu.mx", rol: "directivo" },
+  { clave: "admin", nombre: "Administrador UTM Desk", correo: "admin@utmetropolitana.edu.mx", rol: "superAdmin" },
 ];
 
 // ---------------------------------------------------------------------------

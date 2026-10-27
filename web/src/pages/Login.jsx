@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSesion } from "../auth/SesionContext.jsx";
 import ErrorMensaje from "../components/ErrorMensaje.jsx";
 import Icono from "../components/Iconos.jsx";
@@ -140,6 +140,13 @@ export default function Login() {
               {enviando ? "Entrando…" : "Entrar"}
             </button>
           </form>
+
+          <p className="mt-6 text-sm text-slate-700">
+            ¿No tienes cuenta?{" "}
+            <Link to="/registro" className="font-semibold text-marca-700 underline underline-offset-2 hover:text-marca-900">
+              Regístrate como reportante
+            </Link>
+          </p>
 
           <p className="mt-8 flex items-start gap-2 text-sm text-slate-600">
             <Icono nombre="escudo" tamano={18} className="mt-0.5 text-marca-600" />

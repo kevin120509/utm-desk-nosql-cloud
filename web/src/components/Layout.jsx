@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSesion } from "../auth/SesionContext.jsx";
-import { ROLES_CREAR, ROLES_ANALITICA, NOMBRE_ROL } from "../auth/permisos.js";
+import { ROLES_CREAR, ROLES_ANALITICA, ROLES_ADMIN, NOMBRE_ROL } from "../auth/permisos.js";
 import Icono from "./Iconos.jsx";
 import Marca from "./Marca.jsx";
 
@@ -96,6 +96,7 @@ export default function Layout() {
   const enlaces = [{ a: "/incidencias", icono: "lista", texto: "Incidencias" }];
   if (ROLES_CREAR.includes(usuario.rol)) enlaces.push({ a: "/incidencias/nueva", icono: "mas", texto: "Nueva incidencia" });
   if (ROLES_ANALITICA.includes(usuario.rol)) enlaces.push({ a: "/analitica", icono: "grafica", texto: "Analítica" });
+  if (ROLES_ADMIN.includes(usuario.rol)) enlaces.push({ a: "/admin", icono: "escudo", texto: "Administración" });
 
   function salir() {
     setConfirmando(true);

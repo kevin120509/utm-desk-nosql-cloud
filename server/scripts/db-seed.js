@@ -1,4 +1,4 @@
-// Carga los datos de demostración (RF-14): 7 usuarios y 24 incidencias con evidencias reales
+// Carga los datos de demostración (RF-14): 8 usuarios y 24 incidencias con evidencias reales
 // en el bucket. Es IDEMPOTENTE: borra lo anterior y vuelve a cargar.
 //
 //   npm run db:seed -- --dry-run   Genera y verifica en memoria; NO toca Atlas ni Supabase.

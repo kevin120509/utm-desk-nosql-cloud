@@ -24,7 +24,7 @@ describe('enumeraciones', () => {
     expect(PRIORIDADES).toEqual(['baja', 'media', 'alta', 'critica']);
     expect(ESTADOS).toEqual(['abierta', 'en proceso', 'en espera', 'resuelta', 'cerrada']);
     expect(CATEGORIAS).toEqual(['computo_redes', 'infraestructura', 'academico']);
-    expect(ROLES).toEqual(['reportante', 'tecnico', 'coordinador', 'directivo']);
+    expect(ROLES).toEqual(['reportante', 'tecnico', 'coordinador', 'directivo', 'superAdmin']);
     expect(TIPOS_REPORTANTE).toEqual(['docente', 'estudiante', 'administrativo']);
   });
 });

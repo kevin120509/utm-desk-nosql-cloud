@@ -20,6 +20,14 @@ import { EtiquetasRepoMongo } from "./infrastructure/mongo/etiquetasRepo.js";
 import { gestionarEtiquetas } from "./application/gestionarEtiquetas.js";
 import { AnaliticaRepoMongo } from "./infrastructure/mongo/analiticaRepo.js";
 import { consultarAnalitica } from "./application/consultarAnalitica.js";
+import { BitacoraRepoMongo } from "./infrastructure/mongo/bitacoraRepo.js";
+import { AdminRepoMongo } from "./infrastructure/mongo/adminRepo.js";
+import { crearAuditor } from "./application/auditoria.js";
+import { CatalogosRepoMongo } from "./infrastructure/mongo/catalogosRepo.js";
+import { gestionarCatalogos } from "./application/gestionarCatalogos.js";
+import { gestionarUsuarios } from "./application/gestionarUsuarios.js";
+import { registrarUsuario } from "./application/registrarUsuario.js";
+import { administrar } from "./application/administrar.js";
 import { ContadorMongo } from "./infrastructure/mongo/contadorMongo.js";
 import { hasherBcrypt } from "./infrastructure/seguridad/bcrypt.js";
 import { crearTokens } from "./infrastructure/seguridad/jwt.js";
@@ -49,12 +57,20 @@ export async function construirApp() {
         })
       : new AlmacenNulo();
 
+  // Bitácora y auditoría: cada acción administrativa y evento de seguridad deja rastro.
+  const bitacoraRepo = new BitacoraRepoMongo(db.collection("bitacora"));
+  const auditor = crearAuditor({ bitacoraRepo });
+
+  // Catálogos administrables (categorías, edificios, espacios). Con la colección vacía no restringen nada.
+  const catalogos = gestionarCatalogos({ catalogosRepo: new CatalogosRepoMongo(db.collection("catalogos")), auditor });
+
   const incidenciasRepo = new IncidenciasRepoMongo(db.collection("incidencias_campus"));
   const incidencias = {
     registrar: registrarIncidencia({
       incidenciasRepo,
       contador: new ContadorMongo(db.collection("contadores")),
       usuariosRepo,
+      catalogos,
     }),
     listar: listarIncidencias({ incidenciasRepo }),
     obtener: obtenerIncidencia({ incidenciasRepo, almacen, ttlSegundos }),
@@ -76,5 +92,17 @@ export async function construirApp() {
     analiticaRepo: new AnaliticaRepoMongo(db.collection("incidencias_campus")),
   });
 
-  return crearApp({ auth, incidencias, etiquetas, evidencias, analitica });
+  // Administración (superAdmin) y registro público.
+  const admin = {
+    usuarios: gestionarUsuarios({ usuariosRepo, hasher: hasherBcrypt, auditor }),
+    administrar: administrar({ bitacoraRepo, adminRepo: new AdminRepoMongo(db), almacen }),
+  };
+  const registro = registrarUsuario({
+    usuariosRepo,
+    hasher: hasherBcrypt,
+    auditor,
+    abierto: process.env.REGISTRO_ABIERTO !== "false",
+  });
+
+  return crearApp({ auth, incidencias, etiquetas, evidencias, analitica, admin, catalogos, registro, auditor });
 }

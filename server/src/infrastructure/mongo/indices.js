@@ -13,3 +13,8 @@ export const indicesIncidencias = [
 ];
 
 export const indicesUsuarios = [{ name: "idx_correo_unico", key: { correo: 1 }, unique: true }];
+
+export const indicesBitacora = [
+  { name: "idx_bitacora_fecha", key: { fecha: -1 } },
+  { name: "idx_bitacora_tipo_fecha", key: { tipo: 1, fecha: -1 } },
+];

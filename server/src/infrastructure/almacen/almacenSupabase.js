@@ -30,6 +30,13 @@ export class AlmacenSupabase {
     return { url: data.signedUrl, expira: new Date(Date.now() + segundos * 1000) };
   }
 
+  /** Comprueba que el bucket responde (para el panel de salud del sistema). */
+  async salud() {
+    const { data, error } = await this.cliente.storage.getBucket(this.bucket);
+    if (error || !data) return { ok: false, detalle: "El bucket no responde" };
+    return { ok: true, detalle: `Bucket ${this.bucket} (${data.public ? "público" : "privado"})` };
+  }
+
   /** Borra objetos por ruta. Lanza si falla. */
   async eliminarArchivos(rutas) {
     if (!rutas?.length) return;

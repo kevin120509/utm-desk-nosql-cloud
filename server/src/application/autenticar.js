@@ -1,6 +1,7 @@
 // Caso de uso: autenticación (login y resolución de usuario desde token).
 // Recibe sus dependencias (puertos) por parámetro: no conoce Express ni Mongo.
 import { ErrorApp } from "./errores.js";
+import { permisosDeRol } from "../domain/permisos.js";
 
 // Mismo mensaje para todo fallo de login: no revela si el correo existe.
 const credencialesInvalidas = () =>
@@ -12,7 +13,7 @@ const HASH_DE_RELLENO = "$2b$10$ANbnKZ2HlgzR0xXMQPUDP.jmP36vvy8LU354NHuu6U0RwEMA
 const noAutenticado = () => new ErrorApp("NO_AUTENTICADO", "Sesión inválida o expirada");
 
 // Vista pública del usuario: nunca incluye password_hash; `tipo` solo si existe.
-function usuarioPublico(doc) {
+export function usuarioPublico(doc) {
   const usuario = {
     id: String(doc._id),
     nombre: doc.nombre,
@@ -20,6 +21,9 @@ function usuarioPublico(doc) {
     rol: doc.rol,
   };
   if (doc.tipo) usuario.tipo = doc.tipo;
+  // Los permisos salen SIEMPRE del rol vigente en la base (no del token): quitar el rol los quita.
+  const permisos = permisosDeRol(doc.rol);
+  if (permisos.length) usuario.permisos = permisos;
   return usuario;
 }
 

@@ -2,9 +2,11 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { SesionProvider } from "./auth/SesionContext.jsx";
 import RutaProtegida from "./auth/RutaProtegida.jsx";
-import { ROLES_CREAR, ROLES_ANALITICA } from "./auth/permisos.js";
+import { ROLES_CREAR, ROLES_ANALITICA, ROLES_ADMIN } from "./auth/permisos.js";
 import Layout from "./components/Layout.jsx";
 import Login from "./pages/Login.jsx";
+import Registro from "./pages/Registro.jsx";
+import Administracion from "./pages/Administracion.jsx";
 import Incidencias from "./pages/Incidencias.jsx";
 import NuevaIncidencia from "./pages/NuevaIncidencia.jsx";
 import Detalle from "./pages/Detalle.jsx";
@@ -20,6 +22,7 @@ export default function App() {
       <SesionProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
           <Route element={<RutaProtegida />}>
             <Route element={<Layout />}>
               <Route path="/" element={<Navigate to="/incidencias" replace />} />
@@ -37,6 +40,9 @@ export default function App() {
                     </Suspense>
                   }
                 />
+              </Route>
+              <Route element={<RutaProtegida roles={ROLES_ADMIN} />}>
+                <Route path="/admin" element={<Administracion />} />
               </Route>
               <Route path="*" element={<Navigate to="/incidencias" replace />} />
             </Route>

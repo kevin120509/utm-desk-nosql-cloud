@@ -8,7 +8,7 @@ export const PRIORIDADES = ['baja', 'media', 'alta', 'critica'];
 
 export const ESTADOS = ['abierta', 'en proceso', 'en espera', 'resuelta', 'cerrada'];
 
-export const ROLES = ['reportante', 'tecnico', 'coordinador', 'directivo'];
+export const ROLES = ['reportante', 'tecnico', 'coordinador', 'directivo', 'superAdmin'];
 
 // Tipo de persona que reporta (solo aplica a usuarios con rol reportante).
 export const TIPOS_REPORTANTE = ['docente', 'estudiante', 'administrativo'];

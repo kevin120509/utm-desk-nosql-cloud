@@ -9,7 +9,7 @@ const hayEntorno = Boolean(process.env.MONGODB_URI && process.env.MONGODB_DB);
 
 describe.skipIf(!hayEntorno)("configurarBaseDeDatos es idempotente (Atlas real)", () => {
   const sufijo = Math.random().toString(36).slice(2, 10);
-  const nombres = { coleccionIncidencias: `incidencias_campus_test_${sufijo}`, coleccionUsuarios: `usuarios_test_${sufijo}` };
+  const nombres = { coleccionIncidencias: `incidencias_campus_test_${sufijo}`, coleccionUsuarios: `usuarios_test_${sufijo}`, coleccionBitacora: `bitacora_test_${sufijo}` };
   let client, db;
 
   beforeAll(async () => {

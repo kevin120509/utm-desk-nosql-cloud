@@ -9,7 +9,7 @@ import { requiereRol } from "../middlewares/roles.js";
 export function rutasAnalitica({ auth, analitica }) {
   const router = Router();
   const autenticacion = crearAutenticacion(auth);
-  const soloGestion = requiereRol("coordinador", "directivo");
+  const soloGestion = requiereRol("coordinador", "directivo", "superAdmin");
 
   router.get("/edificios", autenticacion, soloGestion, async (req, res) => {
     res.status(200).json(await analitica.edificios(req.usuario));

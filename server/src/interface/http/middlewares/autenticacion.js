@@ -10,7 +10,7 @@ export function crearAutenticacion(auth) {
         throw new ErrorApp("NO_AUTENTICADO", "Falta el token de sesión");
       }
       const usuario = await auth.usuarioDesdeToken(token);
-      req.usuario = { id: usuario.id, rol: usuario.rol, nombre: usuario.nombre };
+      req.usuario = { id: usuario.id, rol: usuario.rol, nombre: usuario.nombre, permisos: usuario.permisos ?? [] };
       res.locals.usuarioPublico = usuario; // vista completa, la usa GET /me
       next();
     } catch (err) {
