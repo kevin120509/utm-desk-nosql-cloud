@@ -78,14 +78,26 @@ export default function Layout() {
   const [oscuro, setOscuro] = useState(() => document.documentElement.classList.contains("dark"));
 
   // Tema claro/oscuro: la clase .dark en <html> remapea los tokens de color (index.css).
+  // .transicionando-tema activa una transición suave de colores solo durante el cambio.
   function alternarTema() {
     const nuevo = !oscuro;
     setOscuro(nuevo);
-    document.documentElement.classList.toggle("dark", nuevo);
+    const raiz = document.documentElement;
+    raiz.classList.add("transicionando-tema");
+    raiz.classList.toggle("dark", nuevo);
+    window.setTimeout(() => raiz.classList.remove("transicionando-tema"), 400);
     try {
       localStorage.setItem("utm-desk-tema", nuevo ? "oscuro" : "claro");
     } catch { /* almacenamiento no disponible */ }
   }
+
+  // Acento por rol: <html data-rol> reasigna --color-acento (index.css).
+  useEffect(() => {
+    document.documentElement.dataset.rol = usuario?.rol ?? "";
+    return () => {
+      delete document.documentElement.dataset.rol;
+    };
+  }, [usuario?.rol]);
 
   const botonTema = (
     <button

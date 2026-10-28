@@ -29,6 +29,40 @@
   --shadow-elevada: 0 4px 12px rgb(15 23 42 / 0.08), 0 2px 4px rgb(15 23 42 / 0.05);
 }
 
+/* Acento por rol (Layout pone <html data-rol>): reasigna --color-acento y con
+   él el indicador de pestaña, el avatar y los marcadores de sección. Todos
+   son tonos claros porque se ven sobre la barra marca-900 en ambos temas.
+   Lima #8bc34a queda para reportante (rol por defecto del sistema) y login. */
+html[data-rol="tecnico"] {
+  --color-acento: #38bdf8; /* sky-400 */
+}
+html[data-rol="coordinador"] {
+  --color-acento: #2dd4bf; /* teal-400 */
+}
+html[data-rol="directivo"] {
+  --color-acento: #fbbf24; /* amber-400 */
+}
+html[data-rol="superAdmin"] {
+  --color-acento: #cbd5e1; /* slate-300 */
+}
+
+/* Crossfade de colores solo durante el cambio de tema (Layout la añade ~400 ms). */
+@media (prefers-reduced-motion: no-preference) {
+  .transicionando-tema,
+  .transicionando-tema *,
+  .transicionando-tema *::before,
+  .transicionando-tema *::after {
+    transition:
+      background-color 0.35s ease,
+      border-color 0.35s ease,
+      color 0.35s ease,
+      fill 0.35s ease,
+      stroke 0.35s ease,
+      outline-color 0.35s ease,
+      box-shadow 0.35s ease !important;
+  }
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;

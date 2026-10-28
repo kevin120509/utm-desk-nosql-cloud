@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useSesion } from "../auth/SesionContext.jsx";
 import { ROLES_CREAR } from "../auth/permisos.js";
 import { useListaIncidencias } from "../hooks/useListaIncidencias.js";
 import FiltrosIncidencias from "../components/FiltrosIncidencias.jsx";
+import NovedadesReportante from "../components/NovedadesReportante.jsx";
 import ListaIncidencias from "../components/ListaIncidencias.jsx";
 import Paginacion from "../components/Paginacion.jsx";
 import Cargando from "../components/Cargando.jsx";
@@ -65,6 +66,23 @@ export default function Incidencias() {
 
   const esReportante = usuario.rol === "reportante";
 
+  // Marca de última visita por usuario: al entrar se lee la anterior y se
+  // guarda la nueva; las novedades son lo actualizado desde entonces.
+  const claveVisita = `utm-desk-vistazo-${usuario.id}`;
+  const [ultimaVisita] = useState(() => {
+    try {
+      return localStorage.getItem(claveVisita);
+    } catch {
+      return null;
+    }
+  });
+  useEffect(() => {
+    if (!esReportante) return;
+    try {
+      localStorage.setItem(claveVisita, new Date().toISOString());
+    } catch { /* almacenamiento no disponible */ }
+  }, [esReportante, claveVisita]);
+
   return (
     <section>
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -81,6 +99,8 @@ export default function Incidencias() {
           </Link>
         )}
       </header>
+
+      {esReportante && !enBusqueda && <NovedadesReportante desde={ultimaVisita} />}
 
       {eliminada && (
         <p role="status" className="mt-4 flex items-center gap-2 rounded-xl border border-marca-200 bg-marca-50 p-3 text-marca-900">

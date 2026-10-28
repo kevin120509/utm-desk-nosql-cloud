@@ -149,7 +149,7 @@ export default function NuevaIncidencia() {
         {errorApi && <ErrorMensaje error={errorApi} />}
 
         <section aria-labelledby="sec-general" className="tarjeta space-y-5 p-5 sm:p-6">
-          <h2 id="sec-general" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900"><span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-marca-700 text-sm font-semibold text-white">1</span>¿Qué ocurre?</h2>
+          <h2 id="sec-general" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900"><span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-acento text-sm font-semibold text-marca-950">1</span>¿Qué ocurre?</h2>
         <Campo id="titulo" etiqueta="Título" requerido error={errores.titulo} ayuda="Entre 5 y 120 caracteres">
           {(p) => <input {...p} type="text" maxLength={120} value={f.titulo} onChange={set("titulo")} />}
         </Campo>
@@ -193,7 +193,7 @@ export default function NuevaIncidencia() {
         </section>
 
         <section aria-labelledby="sec-ubicacion" className="tarjeta space-y-5 p-5 sm:p-6">
-          <h2 id="sec-ubicacion" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900"><span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-marca-700 text-sm font-semibold text-white">2</span>¿Dónde?</h2>
+          <h2 id="sec-ubicacion" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900"><span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-acento text-sm font-semibold text-marca-950">2</span>¿Dónde?</h2>
           <Campo id="ubicacion-edificio" etiqueta="Edificio" requerido error={errores["ubicacion.edificio"]}>
             {(p) => (
               <select {...p} value={f.edificio} onChange={set("edificio")}>
@@ -224,7 +224,7 @@ export default function NuevaIncidencia() {
         {f.categoria && (
           <section aria-labelledby="sec-detalle" className="tarjeta space-y-5 p-5 sm:p-6">
             <h2 id="sec-detalle" className="flex items-center gap-3 font-display text-lg font-semibold text-slate-900">
-              <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-marca-700 text-sm font-semibold text-white">3</span>
+              <span aria-hidden="true" className="grid size-8 place-items-center rounded-full bg-acento text-sm font-semibold text-marca-950">3</span>
               Detalle técnico · {CATEGORIAS[f.categoria]}
             </h2>
             <BloqueDetalle
