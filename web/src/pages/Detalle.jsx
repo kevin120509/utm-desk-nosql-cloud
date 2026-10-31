@@ -9,7 +9,6 @@ import DetalleEspecifico from "../components/DetalleEspecifico.jsx";
 import Evidencias from "../components/Evidencias.jsx";
 import Bitacora from "../components/Bitacora.jsx";
 import PanelEstado from "../components/PanelEstado.jsx";
-import PanelAsignacion from "../components/PanelAsignacion.jsx";
 import PanelEtiquetas from "../components/PanelEtiquetas.jsx";
 import PanelAdministrar from "../components/PanelAdministrar.jsx";
 import SubirEvidencia from "../components/SubirEvidencia.jsx";
@@ -156,7 +155,6 @@ export default function Detalle() {
 
         {/* Columna lateral: acciones y datos de contexto */}
         <aside className="space-y-6 lg:sticky lg:top-6" aria-label="Acciones y contexto">
-          <PanelAsignacion codigo={inc.codigo} categoria={inc.categoria} asignado={inc.asignado_a} onAsignado={recargar} />
           {/* F06: panel "Actualizar estado" (solo técnico/coordinador; se oculta solo si no aplica). */}
           <div id="panel-acciones-personal">
             <PanelEstado codigo={inc.codigo} estadoActual={inc.estado} onActualizado={recargar} />
