@@ -58,7 +58,7 @@ describe.skipIf(!hayEntorno)("actualizarEstado (Atlas real)", () => {
     const { codigo } = await registrar(rep, entrada);
     const enProceso = await actualizar(tec, codigo, cuerpo("en proceso", 1.5));
     expect(enProceso).not.toHaveProperty("fecha_resolucion");
-    expect(enProceso.asignado_a.nombre).toBe("Tec Prueba");
+    expect(enProceso).not.toHaveProperty("asignado_a");
 
     const resuelta = await actualizar(tec, codigo, cuerpo("resuelta", 2));
     expect(resuelta.estado).toBe("resuelta");

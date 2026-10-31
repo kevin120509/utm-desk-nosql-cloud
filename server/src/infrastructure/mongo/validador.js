@@ -49,8 +49,11 @@ const entradaHistorial = {
     autor: asignadoA,
     estado_anterior: { enum: ESTADOS },
     estado_nuevo: { enum: ESTADOS },
+    tipo: { enum: ["estado", "asignacion"] },
     comentario: { bsonType: "string", maxLength: 1000 },
     horas: { bsonType: NUMERO, minimum: 0 },
+    tecnico_nuevo: { bsonType: "objectId" },
+    tecnico_anterior: { bsonType: "objectId" },
   },
 };
 

@@ -523,7 +523,41 @@ pm.test("Hay exactamente una evidencia con URL firmada", () => {
 });
 
 carpetas.push({
-  name: "6. Estado y bitácora (CU-03 · RF-07)",
+  name: "6. Asignación por coordinación (RF-07A)",
+  description: "El coordinador consulta técnicos disponibles y asigna o reasigna el técnico de la incidencia.",
+  item: [
+    peticion({
+      nombre: "GET /incidencias/tecnicos/disponibles — coordinador (200)",
+      descripcion: "Lista técnicos activos y disponibles para la categoría de la incidencia.",
+      metodo: "GET",
+      ruta: "/incidencias/tecnicos/disponibles?categoria=computo_redes",
+      token: TOKENS.coordinador,
+      pruebas: `${t.estado(200, "Lista de técnicos disponibles")}
+${t.json}
+pm.test("Guarda un técnico para la asignación", () => {
+  pm.expect(cuerpo.datos).to.be.an("array").and.not.empty;
+  pm.collectionVariables.set("tecnico_id", cuerpo.datos[0].id);
+});`,
+    }),
+    peticion({
+      nombre: "PATCH /incidencias/:codigo/asignacion — coordinador (200)",
+      descripcion: "Asigna explícitamente el técnico elegido y registra la acción en la bitácora.",
+      metodo: "PATCH",
+      ruta: "/incidencias/{{codigo}}/asignacion",
+      token: TOKENS.coordinador,
+      cuerpo: { tecnico_id: "{{tecnico_id}}", comentario: "Asignación realizada desde Postman." },
+      pruebas: `${t.estado(200, "Asignación aplicada")}
+${t.json}
+pm.test("La incidencia conserva el técnico asignado y la bitácora", () => {
+  pm.expect(String(cuerpo.asignado_a.usuario_id)).to.eql(pm.collectionVariables.get("tecnico_id"));
+  pm.expect(cuerpo.historial_seguimiento.at(-1).tipo).to.eql("asignacion");
+});`,
+    }),
+  ],
+});
+
+carpetas.push({
+  name: "7. Estado y bitácora (CU-03 · RF-07)",
   description: "Cambio de estado atómico ($set + $push + $inc), transiciones y concurrencia.",
   item: [
     peticion({

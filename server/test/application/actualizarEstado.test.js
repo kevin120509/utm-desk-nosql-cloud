@@ -95,18 +95,14 @@ describe("actualizarEstado", () => {
     expect(llamadas[0].cambios.$set).not.toHaveProperty("fecha_resolucion");
   });
 
-  it("asignado_a: lo agrega un técnico la primera vez, no un coordinador ni si ya existe", async () => {
+  it("no asigna automáticamente: la asignación corresponde al coordinador", async () => {
     const a = crear();
     await a.actualizar(tec, CODIGO, entrada("en proceso"));
-    expect(a.llamadas[0].cambios.$set.asignado_a).toEqual({ usuario_id: idTec, nombre: "Tec Uno" });
+    expect(a.llamadas[0].cambios.$set).not.toHaveProperty("asignado_a");
 
     const b = crear();
     await b.actualizar(coord, CODIGO, entrada("en proceso"));
     expect(b.llamadas[0].cambios.$set).not.toHaveProperty("asignado_a");
-
-    const c = crear({ asignado_a: { usuario_id: new ObjectId(), nombre: "Otro" } });
-    await c.actualizar(tec, CODIGO, entrada("en proceso"));
-    expect(c.llamadas[0].cambios.$set).not.toHaveProperty("asignado_a");
   });
 
   it("409 CONFLICTO cuando el repo no aplica el cambio", async () => {

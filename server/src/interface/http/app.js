@@ -14,7 +14,7 @@ import { limiteGeneral, limiteLogin } from "./middlewares/limites.js";
 
 /**
  * @param {{auth?: {login: Function, usuarioDesdeToken: Function},
- *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, editar: Function, eliminar: Function}}} [dependencias]
+ *          incidencias?: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, asignarTecnico: Function, listarTecnicosDisponibles: Function, editar: Function, eliminar: Function}}} [dependencias]
  *   Casos de uso inyectados. Sin `auth` no se montan las rutas de autenticación;
  *   `incidencias` agrupa los casos de uso de incidencias (alta, lista y expediente).
  */

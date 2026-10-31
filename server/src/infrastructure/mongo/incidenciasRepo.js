@@ -93,6 +93,18 @@ export class IncidenciasRepoMongo {
     return matchedCount === 1;
   }
 
+  /** Asignación explícita del coordinador: un update atómico con bitácora. */
+  async asignarTecnico({ codigo, asignado, movimiento, ahora }) {
+    const { matchedCount } = await this.coleccion.updateOne(
+      { codigo },
+      {
+        $set: { asignado_a: asignado, fecha_actualizacion: ahora },
+        $push: { historial_seguimiento: movimiento },
+      },
+    );
+    return matchedCount === 1;
+  }
+
   /**
    * Edición de campos universales (RF-12): UN solo updateOne por código.
    * @param {{codigo: string, cambios: {$set: object}}} datos

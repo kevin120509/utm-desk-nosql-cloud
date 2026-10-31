@@ -17,6 +17,18 @@ export class UsuariosRepoMongo {
     return this.coleccion.findOne({ _id: new ObjectId(id) });
   }
 
+  async listarTecnicosDisponibles(categoria) {
+    const filtro = { rol: "tecnico", activo: { $ne: false }, disponible: { $ne: false } };
+    if (categoria) {
+      filtro.$or = [
+        { categorias_atiende: { $exists: false } },
+        { categorias_atiende: { $size: 0 } },
+        { categorias_atiende: categoria },
+      ];
+    }
+    return this.coleccion.find(filtro, { projection: { password_hash: 0 } }).sort({ nombre: 1 }).toArray();
+  }
+
   /** Lista paginada para el panel de administración (sin password_hash). */
   async listar({ q, rol, activo, pagina = 1, limite = 20 }) {
     const filtro = {};

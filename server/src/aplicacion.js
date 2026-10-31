@@ -6,6 +6,7 @@ import { autenticar } from "./application/autenticar.js";
 import { UsuariosRepoMongo } from "./infrastructure/mongo/usuariosRepo.js";
 import { registrarIncidencia } from "./application/registrarIncidencia.js";
 import { actualizarEstado } from "./application/actualizarEstado.js";
+import { asignarTecnico, listarTecnicosDisponibles } from "./application/asignarTecnico.js";
 import { listarIncidencias, obtenerIncidencia } from "./application/consultarIncidencias.js";
 import { buscarIncidencias } from "./application/buscarIncidencias.js";
 import { editarIncidencia } from "./application/editarIncidencia.js";
@@ -80,6 +81,8 @@ export async function construirApp() {
     obtener: obtenerIncidencia({ incidenciasRepo, almacen, ttlSegundos }),
     buscar: buscarIncidencias({ incidenciasRepo }),
     actualizarEstado: actualizarEstado({ incidenciasRepo, usuariosRepo }),
+    asignarTecnico: asignarTecnico({ incidenciasRepo, usuariosRepo }),
+    listarTecnicosDisponibles: listarTecnicosDisponibles({ usuariosRepo }),
     editar: editarIncidencia({ incidenciasRepo }),
     eliminar: eliminarIncidencia({ incidenciasRepo, almacen }),
   };

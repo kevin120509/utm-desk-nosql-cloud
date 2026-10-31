@@ -44,8 +44,6 @@ export function actualizarEstado({ incidenciasRepo, usuariosRepo, reloj = () => 
         estado: estado_nuevo,
         fecha_actualizacion: ahora,
         ...(estado_nuevo === "resuelta" ? { fecha_resolucion: ahora } : {}),
-        // La primera vez que un técnico actúa se le asigna (nunca null; el coordinador no se asigna).
-        ...(!doc.asignado_a && sesion.rol === "tecnico" ? { asignado_a: autor } : {}),
       },
       $push: {
         historial_seguimiento: {

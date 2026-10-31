@@ -1535,7 +1535,89 @@
       ]
     },
     {
-      "name": "6. Estado y bitácora (CU-03 · RF-07)",
+      "name": "6. Asignación por coordinación (RF-07A)",
+      "description": "El coordinador consulta técnicos disponibles y asigna o reasigna el técnico de la incidencia.",
+      "item": [
+        {
+          "name": "GET /incidencias/tecnicos/disponibles — coordinador (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Lista de técnicos disponibles\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"Guarda un técnico para la asignación\", () => {",
+                  "  pm.expect(cuerpo.datos).to.be.an(\"array\").and.not.empty;",
+                  "  pm.collectionVariables.set(\"tecnico_id\", cuerpo.datos[0].id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/tecnicos/disponibles?categoria=computo_redes",
+            "description": "Lista técnicos activos y disponibles para la categoría de la incidencia."
+          }
+        },
+        {
+          "name": "PATCH /incidencias/:codigo/asignacion — coordinador (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Asignación aplicada\", () => pm.response.to.have.status(200));",
+                  "const cuerpo = pm.response.json();",
+                  "pm.test(\"La incidencia conserva el técnico asignado y la bitácora\", () => {",
+                  "  pm.expect(String(cuerpo.asignado_a.usuario_id)).to.eql(pm.collectionVariables.get(\"tecnico_id\"));",
+                  "  pm.expect(cuerpo.historial_seguimiento.at(-1).tipo).to.eql(\"asignacion\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_coordinador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/incidencias/{{codigo}}/asignacion",
+            "description": "Asigna explícitamente el técnico elegido y registra la acción en la bitácora.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tecnico_id\": \"{{tecnico_id}}\",\n  \"comentario\": \"Asignación realizada desde Postman.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Estado y bitácora (CU-03 · RF-07)",
       "description": "Cambio de estado atómico ($set + $push + $inc), transiciones y concurrencia.",
       "item": [
         {
@@ -2309,7 +2391,7 @@
             "description": "La categoría no se puede cambiar.",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoria\": \"academico\"\n}",
+              "raw": "{\n  \"categoria\": \"servicios_academicos\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

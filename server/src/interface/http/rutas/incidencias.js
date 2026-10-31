@@ -5,7 +5,7 @@ import { requiereRol } from "../middlewares/roles.js";
 
 /**
  * @param {{auth: object,
- *          incidencias: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, editar: Function, eliminar: Function}}} deps
+ *          incidencias: {registrar: Function, listar: Function, obtener: Function, buscar: Function, actualizarEstado: Function, asignarTecnico: Function, listarTecnicosDisponibles: Function, editar: Function, eliminar: Function}}} deps
  *   Casos de uso inyectados (la capa HTTP no conoce Mongo).
  */
 export function rutasIncidencias({ auth, incidencias }) {
@@ -24,6 +24,11 @@ export function rutasIncidencias({ auth, incidencias }) {
     res.status(200).json(await incidencias.listar(req.usuario, req.query));
   });
 
+  // El coordinador consulta técnicos activos y disponibles antes de asignar.
+  router.get("/tecnicos/disponibles", autenticacion, requiereRol("coordinador"), async (req, res) => {
+    res.status(200).json({ datos: await incidencias.listarTecnicosDisponibles(req.query.categoria) });
+  });
+
   // B10 (búsqueda): `GET /buscar` DEBE registrarse AQUÍ, antes de `/:codigo`,
   // o Express tomaría la palabra "buscar" como si fuera un código.
   // Búsqueda textual (RF-09): cualquier rol autenticado; el reportante solo ve las suyas.
@@ -40,6 +45,11 @@ export function rutasIncidencias({ auth, incidencias }) {
   // Es PATCH con sufijo /estado: no choca con GET /:codigo ni con GET /buscar.
   router.patch("/:codigo/estado", autenticacion, requiereRol("tecnico", "coordinador"), async (req, res) => {
     res.status(200).json(await incidencias.actualizarEstado(req.usuario, req.params.codigo, req.body ?? {}));
+  });
+
+  // Asignación y reasignación explícita: solo coordinación.
+  router.patch("/:codigo/asignacion", autenticacion, requiereRol("coordinador"), async (req, res) => {
+    res.status(200).json(await incidencias.asignarTecnico(req.usuario, req.params.codigo, req.body ?? {}));
   });
 
   // RF-12: editar y borrar, solo coordinador. PATCH/DELETE /:codigo no chocan con
